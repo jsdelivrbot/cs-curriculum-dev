@@ -1,0 +1,69 @@
+/*
+Color scheme: 
+https://coolors.co/fef0e5-f4e4d7-fffaf6-f5f1e3-ffffff
+*/
+
+html, body {
+  background-color: #F4E4D7;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+header {
+  border: 3px solid black;   
+  text-align: center;
+  background-image: url("img/background.png");
+  background-position: center;
+  background-size: cover;
+}
+
+header h1 {
+  text-transform: uppercase;
+  font-family: 'Bellefair', serif;
+  color: #050505;
+}
+
+header h2 {
+  font-style: italic;
+}
+
+nav, main {
+  color: #050505;
+}
+  
+nav ul li {
+  list-style: none;
+}
+
+#tupac-poem, #rosario-poem {
+  background-color: #FEF0E5; /* lenin */
+}
+
+#shel-poem {
+  background-color: #FFFAF6; /* snow */
+}
+
+#tupac-poem img {
+  width: 150px;
+  height: 200px;
+}
+ 
+#shel-poem img {
+  width: 130px;
+  height: 180px;
+}
+
+#rosario-poem img {
+  width: 10%;
+  height: auto;
+}
+
+.poem-text {
+  font-family: 'Just Another Hand', cursive;
+  font-size: 1.2em;
+}
+
+.poem-text .first-line {
+  color: red;
+}

@@ -1,0 +1,56 @@
+:root {
+  --page-bg-color: #f9fafc;
+  --page-text-color: #32719C;
+}
+
+html, body {
+  background-color: var(--page-bg-color);
+  color: var(--page-text-color);
+  box-sizing: border-box;
+  height: 100%;
+  margin: 10px 0 0;
+  font-size: 100%;
+}
+
+.container > * {
+  display: flex;
+  background-color: lightblue;
+  border: 1px solid black;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+}
+
+/* Tutorial begins below this line! */
+
+.container {
+  
+}
+
+nav {
+  
+}
+
+#banner {
+  
+}
+
+#about {
+  
+}
+
+#experience {
+  
+}
+
+#projects {
+  
+}
+
+#contact {
+  
+}
+
+footer {
+  
+}

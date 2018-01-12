@@ -1,0 +1,225 @@
+/* 
+Color scheme: https://coolors.co/32719c-4a929c-4887cb-2d6f5a-688283
+
+TEAL BLUE
+#32719C
+
+CADET BLUE
+#4A929C
+
+CYAN-BLUE AZURE
+#4887CB
+
+AMAZON
+#2D6F5A
+
+AUROMETALSAURUS
+#688283
+
+*/
+
+:root {
+  --page-bg-color: #f9fafc;
+  --main-bg-img: url("../img/background.jpg");
+  --page-text-color: #32719C;
+  
+  --banner-bg-color: #32719C;
+  --banner-bg-img: url("../img/banner2.jpg");
+  --banner-shadow: 0 0 15px #000;
+  --header-font-family: 'Philosopher', sans-serif;
+  --header-text-color: #eee;
+  --header-text-shadow: 0 0 20px #555;
+  
+  --nav-text-color: #41454c;
+  --nav-font-family: 'Lato', sans-serif;
+}
+
+
+html, body {
+  box-sizing: border-box;
+  height: 100%;
+  margin: 10px 0 0;
+  background-color: var(--page-bg-color);
+  color: var(--page-text-color);
+  font-family: var(--nav-font-family);
+  font-size: 100%;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto 200px auto auto auto auto 50px;
+  grid-template-areas: 
+   "n"
+   "b"
+   "a"
+   "e"
+   "p"
+   "c"
+   "f";
+}
+
+.container > * {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.container > * h2 {
+  text-align: center;
+}
+
+.container > * p, ul, ol {
+  margin: 5px 10px 5px;
+}
+
+nav {
+  grid-area: n;
+  justify-content: center;
+  text-align: right;
+  font-family: var(--nav-font-family);
+  color: var(--nav-text-color);
+}
+
+nav ul {  
+  list-style-type: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  padding: 0 2px;
+  font-size: 1em;
+}
+
+#banner {
+  grid-area: b;
+  flex-direction: column;
+  text-align: center;
+  background-color: var(--banner-bg-color);
+  background-image: var(--banner-bg-img);
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: cover;
+  font-family: var(--header-font-family);
+  text-shadow: var(--header-text-shadow);
+  color: var(--header-text-color);
+  box-shadow: var(--banner-shadow);
+}
+
+#banner h1 {
+  font-size: 3.5em;
+  margin: auto;
+}
+
+#banner p {
+  font-size: 1.5em;
+  margin: auto;
+}
+
+#about {
+  grid-area: a;
+}
+
+#about img {
+  display: block;
+  margin: 0 auto;
+  box-shadow: var(--banner-shadow);
+  width: 50%;
+  max-width: 200px;
+}
+
+#experience {
+  grid-area: e;
+}
+
+#projects {
+  grid-area: p;
+}
+
+#projects a {
+  display: block;
+  margin: 0 auto;
+  width: 50%;
+  max-width: 200px;
+}
+
+#projects a img {
+  box-shadow: var(--banner-shadow);
+  width: 100%;
+}
+
+
+#projects a img:hover {
+  opacity: 0.50;
+}
+
+#contact {
+  grid-area: c;
+}
+
+footer {
+  grid-area: f;
+  background-color: var(--banner-bg-color);
+  color: var(--header-text-color);
+  text-align: center;
+  justify-content: center;
+}
+
+/* 
+Scroll to top button, courtesy of: https://www.w3schools.com/howto/howto_js_scroll_to_top.asp
+*/
+#myBtn {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed/sticky position */
+    bottom: 20px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    background-color: #4887CB; /* Set a background color */
+    color: white; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 15px; /* Some padding */
+    border-radius: 10px; /* Rounded corners */
+}
+
+#myBtn:hover {
+    background-color: #32719C; /* Add a dark-grey background on hover */
+}
+
+/* Desktop styles */
+@media only screen and (min-width: 768px) {
+   .container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 250px auto auto auto 100px;
+    grid-template-areas: 
+      "n n"
+      "b b"
+      "a e"
+      "p p"
+      "c c"
+      "f f";
+    font-size: 1.5em;
+  }
+  
+  .container > * p, ul, ol {
+    margin: 5px 30px 5px;
+  }
+  
+  nav ul li {
+    padding: 0 5px;
+    font-size: 1.2em;
+  }
+ 
+  #banner h1 {
+    font-size: 4em;
+  }
+  
+  #banner p {
+    font-size: 2em;
+  }
+}   
