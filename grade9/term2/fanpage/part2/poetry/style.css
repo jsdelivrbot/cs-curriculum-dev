@@ -1,0 +1,12 @@
+body {
+  background-color: #F4E4D7;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+header {
+  border: 3px solid #ffffff;   
+  background-image: url("img/background.png");
+  background-position: center;
+  background-size: cover;
+}
