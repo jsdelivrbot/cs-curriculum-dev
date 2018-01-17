@@ -1,27 +1,19 @@
-/*
-Color scheme: 
-https://coolors.co/fef0e5-f4e4d7-fffaf6-f5f1e3-ffffff
-*/
-
-html, body {
+body {
   background-color: #F4E4D7;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.2em;
+  font-size: 1.5em;
   text-align: center;
 }
 
 header {
-  border: 3px solid black;   
-  text-align: center;
+  border: 3px solid #000000;
   background-image: url("img/background.png");
   background-position: center;
   background-size: cover;
 }
 
-header h1 {
+#top {
   text-transform: uppercase;
   font-family: 'Bellefair', serif;
-  color: #050505;
 }
 
 header h2 {
@@ -29,19 +21,11 @@ header h2 {
 }
 
 nav, main {
-  color: #050505;
+  color: #D08986;
 }
-  
+
 nav ul li {
   list-style: none;
-}
-
-#tupac-poem, #rosario-poem {
-  background-color: #FEF0E5; /* lenin */
-}
-
-#shel-poem {
-  background-color: #FFFAF6; /* snow */
 }
 
 #tupac-poem img {
@@ -64,6 +48,14 @@ nav ul li {
   font-size: 1.2em;
 }
 
-.poem-text .first-line {
-  color: red;
+.first-line {
+  color: #ff0000;
+}
+ 
+#tupac-poem, #rosario-poem {
+  background-color: #FEF0E5; /* lenin */
+}
+
+#shel-poem {
+  background-color: #FFFAF6; /* snow */
 }
