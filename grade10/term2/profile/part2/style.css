@@ -1,4 +1,4 @@
-/* 
+/*
 Color scheme: https://coolors.co/32719c-4a929c-4887cb-2d6f5a-688283
 
 TEAL BLUE
@@ -22,14 +22,14 @@ AUROMETALSAURUS
   --page-bg-color: #f9fafc;
   --main-bg-img: url("../img/background.jpg");
   --page-text-color: #32719C;
-  
+
   --banner-bg-color: #32719C;
   --banner-bg-img: url("../img/banner2.jpg");
   --banner-shadow: 0 0 15px #000;
   --header-font-family: 'Philosopher', sans-serif;
   --header-text-color: #eee;
   --header-text-shadow: 0 0 20px #555;
-  
+
   --nav-text-color: #41454c;
   --nav-font-family: 'Lato', sans-serif;
 }
@@ -49,7 +49,7 @@ html, body {
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: auto 200px auto auto auto auto 50px;
-  grid-template-areas: 
+  grid-template-areas:
    "n"
    "b"
    "a"
@@ -82,7 +82,7 @@ nav {
   color: var(--nav-text-color);
 }
 
-nav ul {  
+nav ul {
   list-style-type: none;
   width: 100%;
   margin: 0;
@@ -169,7 +169,7 @@ footer {
   justify-content: center;
 }
 
-/* 
+/*
 Scroll to top button, courtesy of: https://www.w3schools.com/howto/howto_js_scroll_to_top.asp
 */
 #myBtn {
@@ -196,7 +196,7 @@ Scroll to top button, courtesy of: https://www.w3schools.com/howto/howto_js_scro
    .container {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto 250px auto auto auto 100px;
-    grid-template-areas: 
+    grid-template-areas:
       "n n"
       "b b"
       "a e"
@@ -205,21 +205,26 @@ Scroll to top button, courtesy of: https://www.w3schools.com/howto/howto_js_scro
       "f f";
     font-size: 1.5em;
   }
-  
+
   .container > * p, ul, ol {
     margin: 5px 30px 5px;
   }
-  
+
   nav ul li {
     padding: 0 5px;
     font-size: 1.2em;
   }
- 
+
   #banner h1 {
     font-size: 4em;
+    transition: transform 3s;
   }
-  
+
+  #banner h1:hover {
+    transform: rotate(360deg);
+  }
+
   #banner p {
     font-size: 2em;
   }
-}   
+}
