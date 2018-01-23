@@ -1,0 +1,23 @@
+What is your favorite pizza topping?
+  pepperoni (+1)
+  mushroom (+0)
+  green peppers (+2)
+  pineapple (+0)
+
+What is your favorite ninja weapon?
+  katana (+0)
+  bo staff (+1)
+  sai daggers (+1)
+  nunchucks (+2)
+
+What is your favorite ninja color?
+  blue (+2)
+  purple (+1)
+  red (+0)
+  orange (+3)
+
+Possible Results, based on total score:
+  6 to 7 = “You are Leonardo!”
+  4 to 5 = “You are Donatello!”
+  2 to 3 = “You are Raphael!”
+  0 to 1 = “You are Michelangelo!”

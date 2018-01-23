@@ -10,7 +10,7 @@ header, main {
   font-size; 1.2em;
 }
 
-#play-again {
+#try-again {
   display: none;
   margin: 10px auto;
   width: 50%;
@@ -28,7 +28,7 @@ header, main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 150px 150px;
-  grid-template-areas: 
+  grid-template-areas:
     "c1 c2"
     "c3 c4";
   margin: 0 auto 10px;
@@ -94,12 +94,12 @@ header, main {
     grid-gap: 10px;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto auto;
-    grid-template-areas: 
+    grid-template-areas:
       "q1 q2 q3"
       "fs fs fs";
     font-size: 1.5em;
   }
-  
+
   #q-1 {
     grid-area: q1;
   }
@@ -111,7 +111,7 @@ header, main {
   #q-3 {
     grid-area: q3;
   }
-  
+
   .choice {
     font-size: 1.2em;
   }
