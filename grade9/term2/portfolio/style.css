@@ -1,0 +1,47 @@
+nav{
+	text-align: left;
+
+}
+nav ul{
+	list-style-type: none;
+	margin:20px 10px;
+	padding: 0;
+}
+nav ul li{
+	display: inline;
+	font-size: 1.5em;
+	margin: 0 10px;
+
+}
+header{
+	height: 200px;
+	background-color: #ffded1;
+	text-align: center;
+}
+h1{
+	padding:0;
+}
+h2{
+	font-size: 1.8em;
+}
+a{
+	color:inherit;
+	text-decoration: none;
+}
+li:hover{
+	background-color: #eeedfd;
+}
+p{
+	font-size: 1.5em;
+	background-color: #BCF4F0;
+	padding: 50px;
+}
+
+span{
+	float: right;
+
+}
+
+.icon{
+	width: 30px;
+}
