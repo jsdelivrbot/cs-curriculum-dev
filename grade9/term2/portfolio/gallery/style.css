@@ -1,0 +1,28 @@
+h1 {
+  transition: color 1s;
+}
+
+h1:hover, h1:focus {
+  color: #ff0000;
+}
+
+div {
+  width: 85%;
+  margin: 0 auto;
+  padding: 10px 0;
+  text-align: center;
+  background-color: #b1d0db;
+}
+
+img {
+  margin: 0 10px;
+  width: 200px;
+  height: 200px;
+  opacity: 0.75;
+  transition: box-shadow 0.5s, opacity 0.5s;
+}
+
+img:hover {
+  box-shadow: 0 0 5px 5px #555555;
+  opacity: 1.0;
+}
