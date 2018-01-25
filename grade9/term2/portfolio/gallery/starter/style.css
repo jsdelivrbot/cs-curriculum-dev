@@ -1,0 +1,13 @@
+div {
+  width: 85%;
+  margin: 0 auto;
+  padding: 10px 0;
+  text-align: center;
+  background-color: #b1d0db;
+}
+
+img {
+  margin: 0 10px;
+  width: 200px;
+  height: 200px;
+}
