@@ -28,13 +28,15 @@ function createZombies(num) {
 }
 
 function animatePlayer() {
-  var dx = mouseX - playerX;
-  if(abs(dx) > 1 && mouseX < width && mouseX > 0) {
-    playerX += dx;
-  }
-  var dy = mouseY - playerY;
-  if(abs(dy) > 1 && mouseY < height && mouseY > 0) {
-    playerY += dy;
+  // Make player sprite follow the player's mouse/touch
+  var distance = dist(mouseX, mouseY, playerX, playerY);
+  if(distance > 1) {
+    if(mouseX < width && mouseX > 0) {
+      playerX += mouseX - playerX;
+    }
+    if(mouseY < height && mouseY > 0) {
+      playerY += mouseY - playerY;
+    }
   }
   fill("#0000ff");
   ellipse(playerX, playerY, playerRadius, playerRadius);
@@ -66,6 +68,7 @@ function animateZombie(zombie) {
   ellipse(zombie.xPos, zombie.yPos, zombie.radius, zombie.radius);
 }
 
-function drawPowerups() {
+// TODO: This function creates "survivors" that the player has to save from zombies.
+function createSurvivors() {
 
 }
