@@ -1,11 +1,12 @@
 var playerX;
 var playerY;
 var playerRadius;
-var zombies;
-var survivors;
-var maxZombies;
-var maxSurvivors;
+var playerColors;
 var playerHealth;
+var zombies;
+var maxZombies;
+var survivors;
+var maxSurvivors;
 var totalSaved;
 var healthDisplay = document.getElementById("player-health");
 var survivorsDisplay = document.getElementById("survivors");
@@ -14,11 +15,12 @@ function setup() {
   playerX = 0;
   playerY = 0;
   playerRadius = 50;
+  playerColors = {"#ff9900", "#aeff00", "#60c194", "#d900ed", "#0000ff"};
+  playerHealth = playerColors.length;
   zombies = [];
-  survivors = [];
   maxZombies = 20;
+  survivors = [];
   maxSurvivors = 5;
-  playerHealth = 5;
   totalSaved = 0;
   healthDisplay.innerHTML = playerHealth;
   survivorsDisplay.innerHTML = maxSurvivors - totalSaved;
@@ -96,7 +98,7 @@ function animatePlayer() {
       }
     }
   }
-  fill("#0000ff");
+  fill(playerColors[playerHealth - 1]);
   ellipse(playerX, playerY, playerRadius, playerRadius);
 }
 
