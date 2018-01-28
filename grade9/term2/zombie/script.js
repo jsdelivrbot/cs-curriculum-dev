@@ -1,18 +1,27 @@
-var playerX = 0;
-var playerY = 0;
-var playerRadius = 50;
-var zombies = [];
-var survivors = [];
-var maxZombies = 20;
-var maxSurvivors = 5;
-var playerHealth = 5;
-var totalSaved = 0;
+var playerX;
+var playerY;
+var playerRadius;
+var zombies;
+var survivors;
+var maxZombies;
+var maxSurvivors;
+var playerHealth;
+var totalSaved;
 var healthDisplay = document.getElementById("player-health");
 var survivorsDisplay = document.getElementById("survivors");
-healthDisplay.innerHTML = playerHealth;
-survivorsDisplay.innerHTML = maxSurvivors - totalSaved;
 
 function setup() {
+  playerX = 0;
+  playerY = 0;
+  playerRadius = 50;
+  zombies = [];
+  survivors = [];
+  maxZombies = 20;
+  maxSurvivors = 5;
+  playerHealth = 5;
+  totalSaved = 0;
+  healthDisplay.innerHTML = playerHealth;
+  survivorsDisplay.innerHTML = maxSurvivors - totalSaved;
   createCanvas(800, 500);
   createZombies(maxZombies);
   createSurvivors(maxSurvivors);
@@ -82,6 +91,7 @@ function animatePlayer() {
       survivorsDisplay.innerHTML = maxSurvivors - totalSaved;
       if(totalSaved === maxSurvivors) {
         alert("YOU WIN!");
+        setup();
       }
     }
   }
@@ -109,6 +119,7 @@ function animateZombie(zombie) {
       healthDisplay.innerHTML = playerHealth;
       if(playerHealth === 0) {
         alert("You Lose!");
+        setup();
       }
     }
   }
