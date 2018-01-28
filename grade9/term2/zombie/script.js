@@ -83,6 +83,7 @@ function animatePlayer() {
       playerY += mouseY - playerY;
     }
   }
+  // Collect survivors. Collect them all and you win!
   for(var i = 0; i < survivors.length; i++) {
     var distance = dist(survivors[i].x, survivors[i].y, playerX, playerY);
     if(distance <= (survivors[i].radius + playerRadius) / 2 && !survivors[i].saved) {
@@ -100,11 +101,10 @@ function animatePlayer() {
 }
 
 function animateZombie(zombie) {
-  fill(zombie.color);
   // Get distance between this zombie and the player
   var distance = dist(zombie.x, zombie.y, playerX, playerY);
   // If the player is far away, just get jiggy with it like Will Smiff.
-  if(distance > 75) {
+  if(distance > 100) {
     zombie.x += random(-10, 10);
     zombie.y += random(-10, 10);
   }
@@ -112,7 +112,7 @@ function animateZombie(zombie) {
   else {
     zombie.x += (playerX - zombie.x) * zombie.speed;
     zombie.y += (playerY - zombie.y) * zombie.speed;
-    //If you hit the player, turn green.
+    //If you hit the player, player loses health and you self-destruct!
     if(distance <= (zombie.radius + playerRadius) / 2) {
       zombie.dead = true;
       playerHealth--;
@@ -128,12 +128,12 @@ function animateZombie(zombie) {
       zombie.x = random(width);
       zombie.y = random(height);
     }
+  fill(zombie.color);
   ellipse(zombie.x, zombie.y, zombie.radius, zombie.radius);
 }
 
 // Survivors run away from zombies!
 function animateSurvivor(survivor) {
-  fill(survivor.color);
   for(var i = 0; i < zombies.length; i++) {
     var distance = dist(survivor.x, survivor.y, zombies[i].x, zombies[i].y);
     if(distance < 50) {
@@ -145,6 +145,7 @@ function animateSurvivor(survivor) {
         survivor.x = random(width);
         survivor.y = random(height);
     }
+    fill(survivor.color);
     ellipse(survivor.x, survivor.y, survivor.radius, survivor.radius);
   }
 }
