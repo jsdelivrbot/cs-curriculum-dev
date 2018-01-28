@@ -2,28 +2,64 @@ var playerX = 0;
 var playerY = 0;
 var playerRadius = 50;
 var zombies = [];
+var survivors = [];
 var maxZombies = 20;
+var maxSurvivors = 5;
+var playerHealth = 5;
+var totalSaved = 0;
+var healthDisplay = document.getElementById("player-health");
+var survivorsDisplay = document.getElementById("survivors");
+healthDisplay.innerHTML = playerHealth;
+survivorsDisplay.innerHTML = maxSurvivors - totalSaved;
 
 function setup() {
-  createCanvas(600, 400);
+  createCanvas(800, 500);
   createZombies(maxZombies);
+  createSurvivors(maxSurvivors);
 }
 
 function draw() {
   background(51);
   animatePlayer();
+  // animate each individual zombie
   for(var i = 0; i < zombies.length; i++) {
-    animateZombie(zombies[i]);
+    if(!zombies[i].dead) {
+      animateZombie(zombies[i]);
+    }
   }
-  //drawPowerups();
+  // animate each individual survivor
+  for(var i = 0; i < survivors.length; i++) {
+    if(!survivors[i].saved) {
+      animateSurvivor(survivors[i]);
+    }
+  }
 }
 
 function createZombies(num) {
   for(var i = 0; i < num; i++) {
-    var zombieRadius = random(20, 40);
-    var zombieSpeed = random(10) / 100;
-    var zombie = {xPos:random(width), yPos:random(height), radius:zombieRadius, speed:zombieSpeed};
+    var zombie = {
+      x:random(width),
+      y:random(height),
+      radius:random(20, 40),
+      speed:random(10) / 100,
+      color:"#ff0000",
+      dead:false
+    };
     zombies.push(zombie);
+  }
+}
+
+function createSurvivors(num) {
+  for(var i = 0; i < num; i++) {
+    var survivor = {
+      x:random(width),
+      y:random(height),
+      radius:random(10, 20),
+      speed:0.1,
+      color:"#00ffff",
+      saved:false
+    };
+    survivors.push(survivor);
   }
 }
 
@@ -38,37 +74,66 @@ function animatePlayer() {
       playerY += mouseY - playerY;
     }
   }
+  for(var i = 0; i < survivors.length; i++) {
+    var distance = dist(survivors[i].x, survivors[i].y, playerX, playerY);
+    if(distance <= (survivors[i].radius + playerRadius) / 2 && !survivors[i].saved) {
+      survivors[i].saved = true;
+      totalSaved++;
+      survivorsDisplay.innerHTML = maxSurvivors - totalSaved;
+      if(totalSaved === maxSurvivors) {
+        alert("YOU WIN!");
+      }
+    }
+  }
   fill("#0000ff");
   ellipse(playerX, playerY, playerRadius, playerRadius);
 }
 
 function animateZombie(zombie) {
-  fill("#ff0000");
+  fill(zombie.color);
   // Get distance between this zombie and the player
-  var distance = dist(zombie.xPos, zombie.yPos, playerX, playerY);
+  var distance = dist(zombie.x, zombie.y, playerX, playerY);
   // If the player is far away, just get jiggy with it like Will Smiff.
   if(distance > 75) {
-    zombie.xPos += random(-10, 10);
-    zombie.yPos += random(-10, 10);
+    zombie.x += random(-10, 10);
+    zombie.y += random(-10, 10);
   }
   // If you see the player, chase them!
   else {
-    zombie.xPos += (playerX - zombie.xPos) * zombie.speed;
-    zombie.yPos += (playerY - zombie.yPos) * zombie.speed;
+    zombie.x += (playerX - zombie.x) * zombie.speed;
+    zombie.y += (playerY - zombie.y) * zombie.speed;
     //If you hit the player, turn green.
     if(distance <= (zombie.radius + playerRadius) / 2) {
-      fill("#00ff00");
+      zombie.dead = true;
+      playerHealth--;
+      healthDisplay.innerHTML = playerHealth;
+      if(playerHealth === 0) {
+        alert("You Lose!");
+      }
     }
   }
-  if(zombie.xPos < 0 || zombie.xPos > width ||
-    zombie.yPos < 0 || zombie.yPos > height){
-      zombie.xPos = random(width);
-      zombie.yPos = random(height);
+  if(zombie.x < 0 || zombie.x > width ||
+    zombie.y < 0 || zombie.y > height){
+      zombie.x = random(width);
+      zombie.y = random(height);
     }
-  ellipse(zombie.xPos, zombie.yPos, zombie.radius, zombie.radius);
+  ellipse(zombie.x, zombie.y, zombie.radius, zombie.radius);
 }
 
-// TODO: This function creates "survivors" that the player has to save from zombies.
-function createSurvivors() {
-
+// Survivors run away from zombies!
+function animateSurvivor(survivor) {
+  fill(survivor.color);
+  for(var i = 0; i < zombies.length; i++) {
+    var distance = dist(survivor.x, survivor.y, zombies[i].x, zombies[i].y);
+    if(distance < 50) {
+      survivor.x -= (zombies[i].x - survivor.x) * survivor.speed;
+      survivor.y -= (zombies[i].y - survivor.y) * survivor.speed;
+    }
+    if(survivor.x < 0 || survivor.x > width ||
+      survivor.y < 0 || survivor.y > height){
+        survivor.x = random(width);
+        survivor.y = random(height);
+    }
+    ellipse(survivor.x, survivor.y, survivor.radius, survivor.radius);
+  }
 }
