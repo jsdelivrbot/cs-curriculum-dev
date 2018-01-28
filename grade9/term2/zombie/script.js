@@ -15,7 +15,7 @@ function setup() {
   playerX = 0;
   playerY = 0;
   playerRadius = 50;
-  playerColors = {"#ff9900", "#aeff00", "#60c194", "#d900ed", "#0000ff"};
+  playerColors = ["#ff9900", "#aeff00", "#60c194", "#d900ed", "#0000ff"];
   playerHealth = playerColors.length;
   zombies = [];
   maxZombies = 20;
