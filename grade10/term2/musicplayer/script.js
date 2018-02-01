@@ -1,23 +1,19 @@
 (function() {
 
+  var trackTable = document.getElementById("table");
   var playButton = document.getElementById("play-button");
-
   var volumeSlider = document.getElementById("volume-slider");
-
-  var trackButtons = document.getElementsByClassName("track-select");
-  var tracks = document.getElementsByClassName("track");
-
-  var currentTrackID = 0;
-  var currentTrack = tracks[currentTrackID];
+  var audioFiles = document.getElementById("audio-files");
   var currentTrackDisplay = document.getElementById("current-track-display");
-
   var artistImage = document.getElementById("artist-image");
-
-  var trackDurations = document.getElementsByClassName("track-duration");
+  var currentTrackTimeDisplay = document.getElementById("current-time");
+  var maxTrackTimeDisplay = document.getElementById("max-time");
   var trackSeeker = document.getElementById("seek-slider");
-  var trackTime = currentTrack.currentTime;
-
   var loopAudio = document.getElementById("loop-button");
+  var trackData;
+  var currentTrack;
+  var currentTrackIndex = 0;
+  var trackTime;
   var loopState = 0;
 
   playButton.addEventListener("click", togglePlayPause);
@@ -42,42 +38,74 @@
     }
   });
 
-  setupTracks();
-  activateButtons();
-  changeVolume();
-  updateCurrentTrackDisplay();
+  loadData();
+
+  function loadData() {
+    fetch("https://ahob85.github.io/testing/playing/database.json")
+    .then(function(response) {
+      response.json()
+      .then(function(jsonObj) {
+        trackData = jsonObj.tracks;
+        console.log(trackData);
+      }).then(setupTracks)
+    });
+  }
 
   function setupTracks() {
-    for(var i = 0; i < tracks.length; i++) {
-      tracks[i].addEventListener("durationchange", setTrackDuration(i));
-      tracks[i].addEventListener("timeupdate", updateTrackSeeker);
+    for(var i = 0; i < trackData.length; i++) {
+      createAudioElement(i);
+      createTableElement(i);
     }
+    currentTrack = audioFiles.childNodes[0];
+    updateCurrentTrackDisplay();
+    changeVolume();
   }
 
-  function setTrackDuration(trackID) {
-    return function() {
-      var seconds = tracks[trackID].duration;
-      var minutes = Math.floor(seconds / 60);
-      seconds = Math.floor(seconds % 60);
-      if(seconds < 10) {
-        seconds = "0" + seconds;
-      }
-      trackDurations[trackID].innerHTML = minutes + ":" + seconds;
-    }
+  function createAudioElement(trackIndex) {
+    var audio = document.createElement("audio");
+    audio.src = trackData[trackIndex].mp3Location;
+    audio.type = "audio/mpeg";
+    audio.addEventListener("timeupdate", updateTrackSeeker);
+    audioFiles.appendChild(audio);
   }
 
-  function activateButtons() {
-    for(var i = 0; i < trackButtons.length; i++) {
-      trackButtons[i].addEventListener("click", setCurrentTrack(i));
-    }
+  function createTableElement(trackIndex) {
+    var row = document.createElement("div");
+    row.className = "row";
+    var titleDiv = document.createElement("div");
+    titleDiv.className = "td";
+    var titleButton = document.createElement("button");
+    titleButton.className = "track-select";
+    titleButton.innerHTML = trackData[trackIndex].title;
+    titleButton.addEventListener("click", setCurrentTrack(trackIndex));
+    var durationDiv = document.createElement("div");
+    durationDiv.className = "td";
+    var durationSpan = document.createElement("span");
+    durationSpan.className = "track-duration";
+    durationSpan.innerHTML = trackData[trackIndex].duration;
+    var artistDiv = document.createElement("div");
+    artistDiv.className = "td";
+    var artistSpan = document.createElement("span");
+    artistSpan.className = "track-artist";
+    artistSpan.innerHTML = trackData[trackIndex].artist;
+
+    titleDiv.appendChild(titleButton);
+    durationDiv.appendChild(durationSpan);
+    artistDiv.appendChild(artistSpan);
+
+    row.appendChild(titleDiv);
+    row.appendChild(durationDiv);
+    row.appendChild(artistDiv);
+
+    trackTable.appendChild(row);
   }
 
-  function setCurrentTrack(trackID) {
+  function setCurrentTrack(trackIndex) {
     return function() {
       pauseTrack();
-      currentTrackID = trackID;
-      currentTrack = tracks[currentTrackID];
-      console.log("current trackID is " + currentTrackID);
+      currentTrack = audioFiles.childNodes[trackIndex];
+      currentTrackIndex = trackIndex;
+      console.log("current trackID is " + currentTrack.title);
       currentTrack.load();
       updateCurrentTrackDisplay();
       togglePlayPause();
@@ -91,7 +119,8 @@
     currentTrack.loop = loopState === 1;
     playButton.id = "pause-button";
     playButton.title = "Pause";
-    artistImage.style.backgroundImage = "url(\"img/" + currentTrack.dataset.artistImage + "\")";
+    var artURL = trackData[currentTrackIndex].artLocation;
+    artistImage.style.backgroundImage = "url(" + artURL + ")";
   }
 
   function pauseTrack() {
@@ -118,7 +147,9 @@
   }
 
   function updateCurrentTrackDisplay() {
-    currentTrackDisplay.innerHTML = trackButtons[currentTrackID].textContent;
+    currentTrackDisplay.innerHTML = trackData[currentTrackIndex].title;
+    currentTrackTimeDisplay.innerHTML = "0:00";
+    maxTrackTimeDisplay.innerHTML = trackData[currentTrackIndex].duration;
   }
 
   function updateTrackSeeker() {
@@ -133,13 +164,8 @@
     if(seconds < 10) {
       seconds = "0" + seconds;
     }
-    var durationSeconds = currentTrack.duration;
-    var durationMinutes = Math.floor(durationSeconds / 60);
-    durationSeconds = Math.floor(durationSeconds % 60);
-    if(durationSeconds < 10) {
-      durationSeconds = "0" + durationSeconds;
-    } 
-    trackSeeker.title = "Seek: " + minutes + ":" + seconds + " / " + durationMinutes + ":" + durationSeconds;
+    trackSeeker.title = "Seek: " + minutes + ":" + seconds + " / " + trackData[currentTrackIndex].duration;
+    currentTrackTimeDisplay.innerHTML = minutes + ":" + seconds;
     if(currentTrack.currentTime >= currentTrack.duration) {
       if(loopState === 0) {  // reset position to beginning of track
         trackSeeker.value = 0;
@@ -150,8 +176,8 @@
         playTrack();
       }
       else { //play next track
-        if(currentTrackID < tracks.length - 1) {
-          setCurrentTrack(currentTrackID + 1)();
+        if(currentTrackIndex < audioFiles.childNodes.length - 1) {
+          setCurrentTrack(currentTrackIndex + 1)();
         }
         else {
           setCurrentTrack(0)();

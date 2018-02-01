@@ -1,0 +1,46 @@
+{
+  "tracks": [
+    {
+      "artist":"Breezewax",
+      "title":"Missing You",
+      "duration":"4:14",
+      "mp3Location":"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term2/musicplayer/music/breezewax.mp3",
+      "artLocation":"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term2/musicplayer/img/breezewax.jpg"
+    },
+    {
+      "artist":"Curumin",
+      "title":"Vem Menina",
+      "duration":"4:19",
+      "mp3Location":"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term2/musicplayer/music/curumin.mp3",
+      "artLocation":"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term2/musicplayer/img/curumin.jpg"
+    },
+    {
+      "artist":"Fat Jon",
+      "title":"Intellect Bombs",
+      "duration":"3:39",
+      "mp3Location":"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term2/musicplayer/music/fatjon.mp3",
+      "artLocation":"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term2/musicplayer/img/fatjon.jpg"
+    },
+    {
+      "artist":"Nujabes",
+      "title":"Luv[Sic] Pt.3",
+      "duration":"5:36",
+      "mp3Location":"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term2/musicplayer/music/nujabes.mp3",
+      "artLocation":"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term2/musicplayer/img/nujabes.jpg"
+    },
+    {
+      "artist":"Thievery Corporation",
+      "title":"A Gentle Dissolve",
+      "duration":"2:49",
+      "mp3Location":"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term2/musicplayer/music/thievery.mp3",
+      "artLocation":"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term2/musicplayer/img/thievery.jpg"
+    },
+    {
+      "artist":"Tosca",
+      "title":"Suzuki",
+      "duration":"6:06",
+      "mp3Location":"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term2/musicplayer/music/tosca.mp3",
+      "artLocation":"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term2/musicplayer/img/tosca.jpg"
+    }
+  ]
+}
