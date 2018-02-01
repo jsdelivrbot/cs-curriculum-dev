@@ -65,7 +65,7 @@
         message.innerHTML = "I am Axela, of course.";
         break;
       case "president":
-        message.innerHTML = "Unfortunately, it is <a href=\"https://en.wikipedia.org/wiki/Donald_TrumpDonald\">this creature</a>.";
+        message.innerHTML = "Unfortunately, it is <a href=\"https://en.wikipedia.org/wiki/Donald_Trump\">this creature</a>.";
         break;
       case "me":
         message.innerHTML = "You are you. Or are you... someone else?";

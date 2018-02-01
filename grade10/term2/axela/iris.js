@@ -17,8 +17,8 @@
         "What do you call a swindler going down some stairs? <br>Condescending. Ha!"];
 
   // Add event listeners to text input and submit button below
-  input.addEventListener("keypress", checkKey);
   submit.addEventListener("click", processInput);
+  input.addEventListener("keypress", checkKey);
 
   // This function checks if the user has pressed "ENTER" on their keyboard.
   function checkKey(event) {
@@ -34,13 +34,13 @@
    * -Set a new variable, "currentInput", to the text in the text area.
    * -Clear the text area.
    * -If currentInput is NOT contained in the array of validInputs, set
-   *  the innerHTML of the message element to something like "Sorry, I don't
-   *  understand you."
+      the innerHTML of the message element to something like "Sorry, I don't
+      understand you."
    * -Otherwise, set the innerHTML of the message element to the valid
-   *  response. Hint: Each response has the same index as its valid input.
-   *  So if the user enters "What is the meaning of life" (index 3 in the
-   *  validInputs array), the response would be "42. Duh" (index 3 in the
-   *  responses array).
+      response. Hint: Each response has the same index as its valid input.
+      So if the user enters "What is the meaning of life" (index 3 in the
+      validInputs array), the response would be "42. Duh" (index 3 in the
+      responses array).
    */
   function processInput() {
     var currentInput = input.value;
