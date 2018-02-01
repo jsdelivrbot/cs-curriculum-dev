@@ -169,6 +169,7 @@
     if(currentTrack.currentTime >= currentTrack.duration) {
       if(loopState === 0) {  // reset position to beginning of track
         trackSeeker.value = 0;
+        currentTrackTimeDisplay.innerHTML = "0:00";
         pauseTrack();
       }
       else if(loopState === 1) { //loop current track
