@@ -3,7 +3,7 @@ function addTwoNums(a, b) {
   return a + b;
 }
 
-function subractTwoNums(a, b) {
+function subtractTwoNums(a, b) {
   return a - b;
 }
 
@@ -18,7 +18,6 @@ function divideTwoNums(a, b) {
 function goodbye(name) {
   return "Goodbye " + name + "!";
 }
-
 
 var z = addTwoNums(10, 2);
 console.log(z); // 12
