@@ -57,26 +57,25 @@
     else if(weapon.id === "nunchucks") {
       score += 2;
     }
-    if(color.id === "blue") {
-      score += 2;
+    switch (color.id) {
+      case "blue":
+        score += 2;
+        break;
+      case "purple":
+        score += 1;
+        break;
+      case "orange":
+        score += 3;
     }
-    else if(color.id === "purple") {
-      score += 1;
-    }
-    else if(color.id === "orange") {
-      score += 3;
-    }
-    if(score === 4 || score == 5) {
-      return 0; // Leonardo
-    }
-    else if(score === 2 || score === 3) {
-      return 1; // Donatello
-    }
-    else if (score === 1 || score === 2) {
-      return 2; // Raphael
-    }
-    else {
-      return 3; //Michelangelo
+    switch (score) {
+      case 4 || 5:
+        return 0; //Leonardo
+      case 2 || 3:
+        return 1; //Donatello
+      case 1 || 2:
+        return 2; //Raphael
+      default:
+        return 3; //Michelangelo
     }
   }
 
