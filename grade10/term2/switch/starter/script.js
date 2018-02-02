@@ -1,7 +1,7 @@
-// Write a function that prints a random number between 0 and 4.
-
-
-// firstWay() uses a whole bunch of if-else statements.
-
-
-// secondWay() uses a single switch statement
+/*
+ * Write a function that prompts the user to enter a digit between 0 and 4.
+ * The function should create an alert containing that number in word form.
+ * For example, if the user enters 0, the function alerts "zero".
+ * If the user doesn't enter a digit between 0 and 4, tell them they have
+ * disobeyed your command!
+ */

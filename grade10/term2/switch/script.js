@@ -1,47 +1,51 @@
-// Write a function that prints a random number between 0 and 4.
+/*
+ * Write a function that prompts the user to enter a digit between 0 and 4.
+ * The function should create an alert containing that number in word form.
+ * For example, if the user enters 0, the function alerts "zero".
+ * If the user doesn't enter a digit between 0 and 4, tell them they have
+ * disobeyed your command!
+ */
 
-
-// firstWay() uses a whole bunch of if-else statements.
 function firstWay() {
-  var num = random(5);
-  if(num === 0) {
-    console.log("It's 0");
-  } else if(num === 1) {
-      console.log("It's 1");
-  } else if(num === 2) {
-      console.log("It's 2");
-  } else if(num === 3) {
-      console.log("It's 3");
-  } else if(num === 4) {
-      console.log("It's 4");
+  var num = prompt("Please enter a digit between 0 and 4!");
+  if(num == 0) {
+    alert("zero");
+  } else if(num == 1) {
+      alert("one");
+  } else if(num == 2) {
+      alert("two");
+  } else if(num == 3) {
+      alert("three");
+  } else if(num == 4) {
+      alert("four");
   } else {
-      console.log("Something broke...");
-  }
-}
-
-// secondWay() uses a single switch statement
-function secondWay() {
-  var num = random(5);
-  switch (num) {
-    case 0:
-      console.log("It's 0");
-      break;
-    case 1:
-      console.log("It's 1");
-      break;
-    case 2:
-      console.log("It's 2");
-      break;
-    case 3:
-      console.log("It's 3");
-      break;
-    case 4:
-      console.log("It's 4");
-      break;
-    default:
-      console.log("Something broke");
+      alert("You have disobeyed my command!");
   }
 }
 
 firstWay();
+
+function secondWay() {
+  var num = prompt("Please enter a digit between 0 and 4!");
+  switch (Number(num)) {
+    case 0:
+      alert("zero");
+      break;
+    case 1:
+      alert("one");
+      break;
+    case 2:
+      alert("two");
+      break;
+    case 3:
+      alert("three");
+      break;
+    case 4:
+      alert("four");
+      break;
+    default:
+      alert("You have disobeyed my command!");
+  }
+}
+
 secondWay();
