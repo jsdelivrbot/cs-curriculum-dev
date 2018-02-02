@@ -15,8 +15,17 @@ function divideTwoNums(a, b) {
   return a / b;
 }
 
-function goodbye(name) {
-  return "Goodbye " + name + "!";
+function goodbye(str) {
+  return "Goodbye " + str + "!";
+}
+
+function isEven(num) {
+  if(num % 2 === 0) {
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
 var z = addTwoNums(10, 2);
@@ -31,4 +40,6 @@ z = addTwoNums(addTwoNums(1, 1), z);
 console.log(z); // 4
 z = multiplyTwoNums(addTwoNums(100, z), subtractTwoNums(4, z));
 console.log(z); // 0
-console.log(goodbye("Linus"));
+console.log("10 is an even number: " + isEven(10));
+console.log("11 is an even number: " + isEven(11));
+console.log(goodbye("Code Next"));
