@@ -1,47 +1,35 @@
-// Write a function called "powerOfZero(num)" that takes a number and
-// returns the zero power of that number (i.e., 1)
-function powerOfZero(num) {
-  return 1;
+// Write your JavaScript below!
+function addTwoNums(a, b) {
+  return a + b;
 }
 
-// Write a function called "powerOfOne(num)" that takes a number and
-// returns the first power of that number. You MUST use powerOfZero(num)
-// as part of the calculation!
-function powerOfOne(num) {
-  return powerOfZero(num) * num;
+function subractTwoNums(a, b) {
+  return a - b;
 }
 
-// Write a function called "powerOfTwo(num)" that takes a number and
-// returns the second power of that number. You MUST use powerOfOne(num)
-// as part of the calculation!
-function powerOfTwo(num) {
-  return powerOfOne(num) * num;
+function multiplyTwoNums(a, b) {
+  return a * b;
 }
 
-// Write a function called "powerOfThree(num)" that takes a number and returns
-// the third power of that number. You MUST use powerOfTwo(num) as part of the
-// calculation!
-function powerOfThree(num) {
-  return powerOfTwo(num) * num;
+function divideTwoNums(a, b) {
+  return a / b;
 }
 
-// Write a function called "powerOfFour(num)" that takes a number and returns
-// the fourth power of that number. You MUST use powerOfThree(num) as part of
-// the calculation!
-function powerOfFour(num) {
-  return powerOfThree(num) * num;
+function goodbye(name) {
+  return "Goodbye " + name + "!";
 }
 
-// Write a function called "calculate" that prompts the user for a number and
-// alerts all powers of that number from 0 to 4. Use the functions above!
-function calculate() {
-  var num = Number(prompt("Please enter a number."));
-  alert(num + " to the power of 0 is " + powerOfZero(num));
-  alert(num + " to the power of 1 is " + powerOfOne(num));
-  alert(num + " to the power of 2 is " + powerOfTwo(num));
-  alert(num + " to the power of 3 is " + powerOfThree(num));
-  alert(num + " to the power of 4 is " + powerOfFour(num));
-}
 
-// Call calculate() below and test in your browser.
-calculate();
+var z = addTwoNums(10, 2);
+console.log(z); // 12
+z = subtractTwoNums(z, 2);
+console.log(z); // 10
+z = multiplyTwoNums(z, z);
+console.log(z); // 100
+z = divideTwoNums(z, 50);
+console.log(z); // 2
+z = addTwoNums(addTwoNums(1, 1), z);
+console.log(z); // 4
+z = multiplyTwoNums(addTwoNums(100, z), subtractTwoNums(4, z));
+console.log(z); // 0
+console.log(goodbye("Linus"));
