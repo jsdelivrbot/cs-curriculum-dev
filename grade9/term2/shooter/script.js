@@ -10,6 +10,7 @@ var scoreDisplay;
 // Game Variables
 var ready;
 var shooting;
+var alienShooting;
 var score;
 
 // Ship Attributes
@@ -30,6 +31,11 @@ var alienX;
 var alienY;
 var alienSize;
 var alienVelocity;
+
+// Alien Bullet Attributes
+var alienBulletSize;
+var alienBulletX;
+var alienBulletY;
 
 function setup() {
   canvas = createCanvas(500, 400);
@@ -80,6 +86,7 @@ function setup() {
     canvasArea.show();
   });
   alienSize = 40;
+  alienBulletSize = 15;
   initGame();
 }
 
@@ -91,6 +98,7 @@ function initGame() {
   alienVelocity = 10;
   ready = false;
   shooting = false;
+  alienShooting = false;
   score = 0;
   scoreDisplay.html(score);
 }
@@ -101,6 +109,9 @@ function draw() {
     drawShip();
     if(shooting) {
       drawBullet();
+    }
+    if(alienShooting) {
+      drawAlienBullet();
     }
     drawAlien();
   }
@@ -155,6 +166,11 @@ function drawAlien() {
     }
     fill("#ff00ff");
     ellipse(alienX, alienY, alienSize, alienSize);
+    if(int(random(100)) < 25 && !alienShooting) {
+      alienBulletY = alienY + alienSize / 2;
+      alienBulletX = alienX;
+      alienShooting = true;
+    }
   }
   else if(hitShip) {
     alert("Game Over!");
@@ -169,6 +185,23 @@ function resetAlien() {
   alienX = alienSize / 2;
   alienY = alienSize / 2;
   alienVelocity = abs(alienVelocity);
+}
+
+function drawAlienBullet() {
+  var hitShip = checkCollision(shipX, shipY, shipSize, alienBulletX, alienBulletY, alienBulletSize);
+  if(alienBulletY < height && !hitShip) {
+    fill("#00ffff");
+    noStroke();
+    ellipse(alienBulletX, alienBulletY, alienBulletSize, alienBulletSize);
+    alienBulletY += 10;
+  }
+  else if(hitShip) {
+    alert("Game Over!");
+    initGame();
+  }
+  else {
+    alienShooting = false;
+  }
 }
 
 function checkCollision(targetX, targetY, targetSize, myX, myY, mySize) {
