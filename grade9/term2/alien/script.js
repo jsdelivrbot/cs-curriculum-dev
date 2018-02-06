@@ -119,8 +119,8 @@ function drawShip() {
 
 function keyPressed() {
   if(keyCode === 32 && shooting === false) {
-    bulletY = shipY;
-    bulletX = shipX + shipSize / 2;
+    bulletY = shipY - shipSize / 2;
+    bulletX = shipX;
     shooting = true;
   }
 }
