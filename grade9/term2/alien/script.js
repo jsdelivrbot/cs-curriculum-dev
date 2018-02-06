@@ -147,7 +147,7 @@ function drawBullet() {
 
 function drawAlien() {
   var hitShip = checkCollision(shipX, shipY, shipSize, alienX, alienY, alienSize);
-  if((alienX < width && alienY < height) && !hitShip) {
+  if((alienX - alienSize / 2 < width && alienY - alienSize / 2 < height) && !hitShip) {
     alienX += alienVelocity;
     if(alienX + alienSize / 2 >= width || alienX <= alienSize / 2) {
       alienVelocity *= -1;
