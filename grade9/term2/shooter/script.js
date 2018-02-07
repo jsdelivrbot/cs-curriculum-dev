@@ -102,7 +102,6 @@ function setup() {
   gameRunning = false;
   resetVariables();
   updateScoreDisplays();
-  shipSelectScreen.show();
 }
 
 /*
