@@ -101,7 +101,8 @@ function setup() {
   // Initialize other variables
   gameRunning = false;
   resetVariables();
-  resetGame();
+  updateScoreDisplays();
+  shipSelectScreen.show();
 }
 
 /*
