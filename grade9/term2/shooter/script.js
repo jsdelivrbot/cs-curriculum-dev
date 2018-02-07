@@ -43,8 +43,7 @@ var alienBulletDiameter;
  * setup()
  * This function is called once. Sets up the canvas, access HTML elements with
  * select(), and adds event listeners to those elements. Sets initial values of
- * non-resettable "permanent" variables (like alienDiameter) and calls
- * resetGame() to setup "resettable" variables (like alienX and alienY).
+ * variables.
  */
 function setup() {
   // Setup the canvas
