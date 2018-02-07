@@ -9,13 +9,19 @@
     <h1>Alien Defense</h1>
     <div id="ship-select-screen">
       <h2>Select Ship</h2>
-      <button id="corvette-button" class="ship-type">Corvette</button>
-      <button id="destroyer-button" class="ship-type">Destroyer</button>
-      <button id="dreadnought-button" class="ship-type">Dreadnought</button>
+      <button id="corvette-button">Corvette</button>
+      <button id="destroyer-button">Destroyer</button>
+      <button id="dreadnought-button">Dreadnought</button>
       <p>Left and Right arrows to move, space to shoot</p>
     </div>
-    <div id="canvas-area"><h2>Score: <span id="score-display"></span></h2></div>
-    <!-- Place scripts below -->
+    <div id="game-screen">
+      <h2>Score: <span class="score-display"></span></h2>
+    </div>
+    <div id="game-over-screen">
+      <h2>Game Over!</h2>
+      <h3>Your Score: <span class="score-display"></span></h3>
+      <button id="play-again-button">PLAY AGAIN</button>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js"></script>
     <script src="script.js"></script>

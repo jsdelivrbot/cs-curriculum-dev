@@ -1,4 +1,4 @@
-// declare and initialize global variables
+// declare global variables
 
 /*
  * setup()

@@ -1,209 +1,308 @@
 // UI Variables
 var canvas;
-var canvasArea;
+var gameScreen;
+var gameOverScreen;
 var shipSelectScreen;
 var corvetteButton;
 var destroyerButton;
 var dreadnoughtButton;
-var scoreDisplay;
+var playAgainButton;
+var scoreDisplays;
 
 // Game Variables
-var ready;
-var shooting;
+var gameRunning;
+var shipShooting;
 var alienShooting;
 var score;
 
-// Ship Attributes
+// Ship Variables
 var shipName;
 var shipColor;
 var shipX;
 var shipY;
-var shipSize;
+var shipDiameter;
 var shipSpeed;
 
-// Bullet Attributes
-var bulletSize;
+// Bullet Variables
 var bulletX;
 var bulletY;
+var bulletDiameter;
 
-// Alien Attributes
+// Alien Variables
 var alienX;
 var alienY;
-var alienSize;
+var alienDiameter;
 var alienVelocity;
 
-// Alien Bullet Attributes
-var alienBulletSize;
+// Alien Bullet Variables
 var alienBulletX;
 var alienBulletY;
+var alienBulletDiameter;
 
+/*
+ * setup()
+ * This function is called once. Sets up the canvas, access HTML elements with
+ * select(), and adds event listeners to those elements. Sets initial values of
+ * non-resettable "permanent" variables (like alienDiameter) and calls
+ * resetGame() to setup "resettable" variables (like alienX and alienY).
+ */
 function setup() {
+  // Setup the canvas
   canvas = createCanvas(500, 400);
   background(20, 30, 40);
-  canvasArea = select("#canvas-area");
-  canvas.parent(canvasArea);
+  gameScreen = select("#game-screen");
+  canvas.parent(gameScreen);
   // Access HTML elements with select()
   shipSelectScreen = select("#ship-select-screen");
+  gameOverScreen = select("#game-over-screen");
   corvetteButton = select("#corvette-button");
   destroyerButton = select("#destroyer-button");
   dreadnoughtButton = select("#dreadnought-button");
-  scoreDisplay = select("#score-display");
+  playAgainButton = select("#play-again-button");
+  scoreDisplays = selectAll(".score-display");
   // Add event listeners to HTML elements
   corvetteButton.mousePressed(function() {
     shipName = "Corvette";
     shipColor = "#ff0000";
-    shipSize = 60;
+    shipDiameter = 60;
     shipX = width / 2;
-    shipY = height - shipSize  / 2;
+    shipY = height - shipDiameter  / 2;
     shipSpeed = 10;
-    bulletSize = 20;
-    ready = true;
+    bulletDiameter = 20;
+    gameRunning = true;
     shipSelectScreen.hide();
-    canvasArea.show();
+    gameScreen.show();
   });
   destroyerButton.mousePressed(function() {
     shipName = "Destroyer";
     shipColor = "#00ff00";
-    shipSize = 80;
+    shipDiameter = 80;
     shipX = width / 2;
-    shipY = height - shipSize  / 2;
+    shipY = height - shipDiameter  / 2;
     shipSpeed = 6;
-    bulletSize = 30;
-    ready = true;
+    bulletDiameter = 30;
+    gameRunning = true;
     shipSelectScreen.hide();
-    canvasArea.show();
+    gameScreen.show();
   });
   dreadnoughtButton.mousePressed(function() {
     shipName = "Dreadnought";
     shipColor = "#0000ff";
-    shipSize = 100;
+    shipDiameter = 100;
     shipX = width / 2;
-    shipY = height - shipSize  / 2;
+    shipY = height - shipDiameter  / 2;
     shipSpeed = 2;
-    bulletSize = 40;
-    ready = true;
+    bulletDiameter = 40;
+    gameRunning = true;
     shipSelectScreen.hide();
-    canvasArea.show();
+    gameScreen.show();
   });
-  alienSize = 40;
-  alienBulletSize = 15;
-  initGame();
+  playAgainButton.mousePressed(resetGame);
+  // Initialize other variables
+  gameRunning = false;
+  resetVariables();
+  resetGame();
 }
 
-function initGame() {
-  canvasArea.hide();
+/*
+ * gameOver()
+ * This function stops the game from running, hides the game screen, and shows
+ * the game over screen.
+ */
+function gameOver() {
+  gameRunning = false;
+  gameScreen.hide();
+  gameOverScreen.show();
+}
+
+/*
+ * resetGame()
+ * This function "resets the game". Hides the game over screen, calls
+ * resetVariables() and updateScoreDisplays(), and shows the ship selection
+ * screen.
+ */
+function resetGame() {
+  gameOverScreen.hide();
+  resetVariables();
+  updateScoreDisplays();
   shipSelectScreen.show();
-  alienX = alienSize / 2;
-  alienY = alienSize / 2;
+}
+
+/*
+ * resetVariables()
+ * This function sets most non-ship variables to their original values.
+ * These include all alien variables, the score, and the two "shooting"
+ * variables.
+ */
+function resetVariables() {
+  alienDiameter = 40;
+  alienBulletDiameter = 15;
+  alienX = alienDiameter / 2;
+  alienY = alienDiameter / 2;
   alienVelocity = 10;
-  ready = false;
-  shooting = false;
+  shipShooting = false;
   alienShooting = false;
   score = 0;
-  scoreDisplay.html(score);
 }
 
+/*
+ * updateScoreDisplays()
+ * This function simply updates all of the HTML elements that display the score.
+ */
+function updateScoreDisplays() {
+  for(var i = 0; i < scoreDisplays.length; i++) {
+    scoreDisplays[i].html(score);
+  }
+}
+
+/*
+ * draw()
+ * This function animates the ship, alien, and bullets.
+ */
 function draw() {
-  if(ready) {
+  if(gameRunning) {
     background(20, 30, 40);
     drawShip();
-    if(shooting) {
+    drawAlien();
+    if(shipShooting) {
       drawBullet();
     }
     if(alienShooting) {
       drawAlienBullet();
     }
-    drawAlien();
   }
 }
 
+/*
+ * drawShip()
+ * This function draws the player's ship. It also controls the ship's
+ * x value by checking if the player is holding down the left or right keys.
+ */
 function drawShip() {
-  if(keyIsDown(LEFT_ARROW) && shipX > shipSize / 2) {
+  if(keyIsDown(LEFT_ARROW) && shipX > shipDiameter / 2) {
     shipX -= shipSpeed;
   }
-  else if(keyIsDown(RIGHT_ARROW) && shipX + shipSize / 2 < width) {
+  else if(keyIsDown(RIGHT_ARROW) && shipX + shipDiameter / 2 < width) {
     shipX += shipSpeed;
   }
   fill(shipColor);
-  ellipse(shipX, shipY, shipSize, shipSize);
+  ellipse(shipX, shipY, shipDiameter, shipDiameter);
 }
 
+/*
+ * keyPressed()
+ * This function runs automatically when the player presses the spacebar
+ * (keyCode === 32). If they do, and a bullet is not currently being fired
+ * ("shooting" variable is false), it positions the bullet relative to the
+ * ship. Then it sets the "shipShooting" variable to "true", indicating a ship
+ * bullet is currently being fired.
+ */
 function keyPressed() {
-  if(keyCode === 32 && shooting === false) {
-    bulletY = shipY - shipSize / 2;
+  if(keyCode === 32 && shipShooting === false) {
+    bulletY = shipY - shipDiameter / 2;
     bulletX = shipX;
-    shooting = true;
+    shipShooting = true;
   }
 }
 
+/*
+ * drawBullet()
+ * This function draws a bullet. It also checks to see if the bullet has hit
+ * the alien. If it has, the alien is reset to the top-left of the screen
+ * and the player earns a point. The alien aslo becomes faster (i.e., harder
+ * to hit) each time it is hit by a bullet.
+ */
 function drawBullet() {
-  var hitAlien = checkCollision(alienX, alienY, alienSize, bulletX, bulletY, bulletSize);
+  var hitAlien = checkCollision(alienX, alienY, alienDiameter, bulletX, bulletY, bulletDiameter);
   if(bulletY > 0 && !hitAlien) {
     fill("#ffff00");
     noStroke();
-    ellipse(bulletX, bulletY, bulletSize, bulletSize);
+    ellipse(bulletX, bulletY, bulletDiameter, bulletDiameter);
     bulletY -= 10;
   }
   else if(hitAlien) {
     resetAlien();
     alienVelocity++;
     score++;
-    scoreDisplay.html(score);
-    shooting = false;
+    updateScoreDisplays();
+    shipShooting = false;
   }
   else {
-    shooting = false;
+    shipShooting = false;
   }
 }
 
+/*
+ * drawAlien()
+ * This function draws an alien. It also checks to see if the alien has touched
+ * the player's ship. If it has, it triggers a game over, then resets the game.
+ */
 function drawAlien() {
-  var hitShip = checkCollision(shipX, shipY, shipSize, alienX, alienY, alienSize);
-  if((alienX - alienSize / 2 < width && alienY - alienSize / 2 < height) && !hitShip) {
+  var hitShip = checkCollision(shipX, shipY, shipDiameter, alienX, alienY, alienDiameter);
+  if((alienX - alienDiameter / 2 < width && alienY - alienDiameter / 2 < height) && !hitShip) {
     alienX += alienVelocity;
-    if(alienX + alienSize / 2 >= width || alienX <= alienSize / 2) {
+    if(alienX + alienDiameter / 2 >= width || alienX <= alienDiameter / 2) {
       alienVelocity *= -1;
-      alienY += alienSize / 2;
+      alienY += alienDiameter / 2;
     }
     fill("#ff00ff");
-    ellipse(alienX, alienY, alienSize, alienSize);
+    ellipse(alienX, alienY, alienDiameter, alienDiameter);
     if(int(random(100)) < 25 && !alienShooting) {
-      alienBulletY = alienY + alienSize / 2;
+      alienBulletY = alienY + alienDiameter / 2;
       alienBulletX = alienX;
       alienShooting = true;
     }
   }
   else if(hitShip) {
-    alert("Game Over!");
-    initGame();
+    gameOver();
   }
   else { //this should never happen since you can't dodge the alien!
     resetAlien();
   }
 }
 
+/*
+ * resetAlien()
+ * This function sets the alien to its original position at the top-left of
+ * the screen. It also sets its velocity to its absolute value (so, if the
+ * velocity was negative when it died, it becomes positive upon reset, making
+ * it always start by moving to the right).
+ */
 function resetAlien() {
-  alienX = alienSize / 2;
-  alienY = alienSize / 2;
+  alienX = alienDiameter / 2;
+  alienY = alienDiameter / 2;
   alienVelocity = abs(alienVelocity);
 }
 
+/*
+ * drawAlienBullet()
+ * This function behaves much like drawBullet(), only it fires from the alien
+ * and not the player's ship. If the bullet hits the player, it's game over.
+ */
 function drawAlienBullet() {
-  var hitShip = checkCollision(shipX, shipY, shipSize, alienBulletX, alienBulletY, alienBulletSize);
+  var hitShip = checkCollision(shipX, shipY, shipDiameter, alienBulletX, alienBulletY, alienBulletDiameter);
   if(alienBulletY < height && !hitShip) {
     fill("#00ffff");
     noStroke();
-    ellipse(alienBulletX, alienBulletY, alienBulletSize, alienBulletSize);
+    ellipse(alienBulletX, alienBulletY, alienBulletDiameter, alienBulletDiameter);
     alienBulletY += 10;
   }
   else if(hitShip) {
-    alert("Game Over!");
-    initGame();
+    gameOver();
   }
   else {
     alienShooting = false;
   }
 }
 
+/*
+ * checkCollision()
+ * This function calculates the distance between two circles. If the circles
+ * are touching, the function returns "true", meaning there is a collision.
+ * Otherwise, if the circles are not touching, the function returns false.
+ * Circles are considered touching if:
+ * (distance <= (circleOneDiameter + circleTwoDiameter) / 2)
+ */
 function checkCollision(targetX, targetY, targetSize, myX, myY, mySize) {
   distance = dist(targetX, targetY, myX, myY);
   if(distance <= (targetSize + mySize) / 2) {
