@@ -192,7 +192,7 @@ function drawShip() {
  * keyPressed()
  * This function runs automatically when the player presses the spacebar
  * (keyCode === 32). If they do, and a bullet is not currently being fired
- * ("shooting" variable is false), it positions the bullet relative to the
+ * ("shipShooting" variable is false), it positions the bullet relative to the
  * ship. Then it sets the "shipShooting" variable to "true", indicating a ship
  * bullet is currently being fired.
  */
@@ -234,7 +234,7 @@ function drawBullet() {
 /*
  * drawAlien()
  * This function draws an alien. It also checks to see if the alien has touched
- * the player's ship. If it has, it triggers a game over, then resets the game.
+ * the player's ship. If it has, the function calls gameOver().
  */
 function drawAlien() {
   var hitShip = checkCollision(shipX, shipY, shipDiameter, alienX, alienY, alienDiameter);
