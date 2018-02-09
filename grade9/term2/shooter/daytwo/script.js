@@ -34,7 +34,6 @@ var alienBulletDiameter;
 var alienBulletX;
 var alienBulletY;
 
-
 /*
  * setup()
  * This function is called once. Sets up the canvas, access HTML elements with
@@ -46,6 +45,10 @@ var alienBulletY;
    background(20, 30, 40);
    gameScreen = select("#game-screen");
    canvas.parent(gameScreen);
+   scoreDisplays = selectAll(".score-display");
+   gameOverScreen = select("#game-over-screen");
+   playAgainButton = select("#play-again-button");
+   playAgainButton.mousePressed(setup);
    shipColor = "#00ff00";
    shipDiameter = 80;
    shipX = width / 2;
@@ -59,6 +62,11 @@ var alienBulletY;
    alienVelocity = 10;
    alienBulletDiameter = 15;
    alienShooting = false;
+   score = 0;
+   updateScoreDisplays();
+   gameRunning = true;
+   gameOverScreen.hide();
+   gameScreen.show();
  }
 
 /*
@@ -66,30 +74,39 @@ var alienBulletY;
  * This function stops the game from running, hides the game screen, and shows
  * the game over screen.
  */
-
+ function gameOver() {
+   gameRunning = false;
+   gameScreen.hide();
+   gameOverScreen.show();
+ }
 
 /*
  * updateScoreDisplays()
  * This function simply updates all of the HTML elements that display the score.
  */
-
+ function updateScoreDisplays() {
+   for(var i = 0; i < scoreDisplays.length; i++) {
+     scoreDisplays[i].html(score);
+   }
+ }
 
 /*
  * draw()
  * This function animates the ship, alien, and both kinds of bullets.
  */
  function draw() {
-   background(20, 30, 40);
-   drawShip();
-   drawAlien();
-   if(shipShooting) {
-     drawBullet();
-   }
-   if(alienShooting) {
-     drawAlienBullet();
+   if(gameRunning) {
+     background(20, 30, 40);
+     drawShip();
+     drawAlien();
+     if(shipShooting) {
+       drawBullet();
+     }
+     if(alienShooting) {
+       drawAlienBullet();
+     }
    }
  }
-
 
 /*
  * drawShip()
@@ -107,7 +124,6 @@ var alienBulletY;
    ellipse(shipX, shipY, shipDiameter, shipDiameter);
  }
 
-
 /*
  * keyPressed()
  * This function runs automatically when the player presses the spacebar
@@ -117,7 +133,7 @@ var alienBulletY;
  * bullet is currently being fired.
  */
  function keyPressed() {
-  if(keyCode === 32 && !shipShooting) {
+  if(keyCode === 32 && !shipShooting && gameRunning) {
     bulletX = shipX;
     bulletY = shipY;
     shipShooting = true;
@@ -132,17 +148,24 @@ var alienBulletY;
  * to hit) each time it is hit by a bullet.
  */
  function drawBullet() {
-   if(bulletY > 0) {
+   var hitAlien = checkCollision(alienX, alienY, alienDiameter, bulletX, bulletY, bulletDiameter);
+   if(bulletY > 0 && !hitAlien) {
      fill("#ffff00");
      noStroke();
      ellipse(bulletX, bulletY, bulletDiameter, bulletDiameter);
      bulletY -= 10;
    }
+   else if(hitAlien) {
+     resetAlien();
+     alienVelocity++;
+     score++;
+     updateScoreDisplays();
+     shipShooting = false;
+   }
    else {
      shipShooting = false;
    }
  }
-
 
 /*
  * drawAlien()
@@ -169,11 +192,15 @@ var alienBulletY;
  * and not the player's ship. If the bullet hits the player, it's game over.
  */
  function drawAlienBullet() {
-   if(alienBulletY < height) {
+   var hitShip = checkCollision(shipX, shipY, shipDiameter, alienBulletX, alienBulletY, alienBulletDiameter);
+   if(alienBulletY < height && !hitShip) {
      fill("#00ffff");
      noStroke();
      ellipse(alienBulletX, alienBulletY, alienBulletDiameter, alienBulletDiameter);
      alienBulletY += 10;
+   }
+   else if(hitShip) {
+     gameOver();
    }
    else {
      alienShooting = false;
@@ -187,7 +214,11 @@ var alienBulletY;
  * velocity was negative when it died, it becomes positive upon reset, making
  * it always start by moving to the right).
  */
-
+ function resetAlien() {
+   alienX = alienDiameter / 2;
+   alienY = alienDiameter / 2;
+   alienVelocity = abs(alienVelocity);
+ }
 
 /*
  * checkCollision(aX, aY, aD, bX, bY, bD)
@@ -197,3 +228,12 @@ var alienBulletY;
  * Circles are considered touching if
  * (distance <= (circle1Diameter + circle2Diameter) / 2)
  */
+ function checkCollision(aX, aY, aD, bX, bY, bD) {
+   distance = dist(aX, aY, bX, bY);
+   if(distance <= (aD + bD) / 2) {
+     return true;
+   }
+   else {
+     return false;
+   }
+ }

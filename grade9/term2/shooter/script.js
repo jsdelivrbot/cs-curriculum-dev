@@ -292,16 +292,16 @@ function drawAlienBullet() {
 }
 
 /*
- * checkCollision()
- * This function calculates the distance between two circles. If the circles
- * are touching, the function returns "true", meaning there is a collision.
- * Otherwise, if the circles are not touching, the function returns false.
- * Circles are considered touching if:
- * (distance <= (circleOneDiameter + circleTwoDiameter) / 2)
+ * checkCollision(aX, aY, aD, bX, bY, bD)
+ * This function first calculates the distance between two circles based on
+ * their X and Y values. Based on the distance value, the function returns
+ * "true" if the circles are touching, and false otherwise.
+ * Circles are considered touching if
+ * (distance <= (circle1Diameter + circle2Diameter) / 2)
  */
-function checkCollision(targetX, targetY, targetSize, myX, myY, mySize) {
-  distance = dist(targetX, targetY, myX, myY);
-  if(distance <= (targetSize + mySize) / 2) {
+function checkCollision(aX, aY, aD, bX, bY, bD) {
+  distance = dist(aX, aY, bX, bY);
+  if(distance <= (aD + bD) / 2) {
     return true;
   }
   else {

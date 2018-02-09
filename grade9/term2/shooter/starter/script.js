@@ -2,10 +2,6 @@
 var canvas;
 var gameScreen;
 var gameOverScreen;
-var shipSelectScreen;
-var corvetteButton;
-var destroyerButton;
-var dreadnoughtButton;
 var playAgainButton;
 var scoreDisplays;
 
@@ -51,22 +47,6 @@ var alienBulletY;
  * gameOver()
  * This function stops the game from running, hides the game screen, and shows
  * the game over screen.
- */
-
-
-/*
- * resetGame()
- * This function "resets the game". Hides the game over screen, calls
- * resetVariables() and updateScoreDisplays(), and shows the ship selection
- * screen.
- */
-
-
-/*
- * resetVariables()
- * This function sets most non-ship variables to their original values.
- * These include all alien variables, the score, and the two "shooting"
- * variables.
  */
 
 
@@ -132,10 +112,10 @@ var alienBulletY;
 
 
 /*
- * checkCollision()
- * This function calculates the distance between two circles. If the circles
- * are touching, the function returns "true", meaning there is a collision.
- * Otherwise, if the circles are not touching, the function returns false.
- * Circles are considered touching if:
- * (distance <= (circleOneDiameter + circleTwoDiameter) / 2)
+ * checkCollision(aX, aY, aD, bX, bY, bD)
+ * This function first calculates the distance between two circles based on
+ * their X and Y values. Based on the distance value, the function returns
+ * "true" if the circles are touching, and false otherwise.
+ * Circles are considered touching if
+ * (distance <= (circle1Diameter + circle2Diameter) / 2)
  */
