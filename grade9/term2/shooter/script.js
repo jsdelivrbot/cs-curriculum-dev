@@ -113,9 +113,8 @@ function gameOver() {
 
 /*
  * resetGame()
- * This function "resets the game". Hides the game over screen, calls
- * resetVariables() and updateScoreDisplays(), and shows the ship selection
- * screen.
+ * This function "resets the game" by initializing ship, alien, and game
+ * variables, hiding gameOverScreen, and showing the gameScreen.
  */
 function resetGame() {
   gameOverScreen.hide();

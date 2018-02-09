@@ -68,6 +68,13 @@ var alienBulletY;
  */
 
 
+ /*
+  * resetGame()
+  * This function "resets the game" by initializing ship, alien, and game
+  * variables, hiding gameOverScreen, and showing the gameScreen.
+  */
+
+
 /*
  * updateScoreDisplays()
  * This function simply updates all of the HTML elements that display the score.

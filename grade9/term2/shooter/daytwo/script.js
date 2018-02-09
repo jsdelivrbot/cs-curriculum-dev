@@ -48,25 +48,8 @@ var alienBulletY;
    scoreDisplays = selectAll(".score-display");
    gameOverScreen = select("#game-over-screen");
    playAgainButton = select("#play-again-button");
-   playAgainButton.mousePressed(setup);
-   shipColor = "#00ff00";
-   shipDiameter = 80;
-   shipX = width / 2;
-   shipY = height - (shipDiameter / 2);
-   shipSpeed = 6;
-   bulletDiameter = 30;
-   shipShooting = false;
-   alienDiameter = 40;
-   alienX = alienDiameter / 2;
-   alienY = alienDiameter / 2;
-   alienVelocity = 10;
-   alienBulletDiameter = 15;
-   alienShooting = false;
-   score = 0;
-   updateScoreDisplays();
-   gameRunning = true;
-   gameOverScreen.hide();
-   gameScreen.show();
+   playAgainButton.mousePressed(resetGame);
+   resetGame();
  }
 
 /*
@@ -79,6 +62,32 @@ var alienBulletY;
    gameScreen.hide();
    gameOverScreen.show();
  }
+
+ /*
+  * resetGame()
+  * This function "resets the game" by initializing ship, alien, and game
+  * variables, hiding gameOverScreen, and showing the gameScreen.
+  */
+  function resetGame() {
+    shipColor = "#00ff00";
+    shipDiameter = 80;
+    shipX = width / 2;
+    shipY = height - (shipDiameter / 2);
+    shipSpeed = 6;
+    bulletDiameter = 30;
+    shipShooting = false;
+    alienDiameter = 40;
+    alienX = alienDiameter / 2;
+    alienY = alienDiameter / 2;
+    alienVelocity = 10;
+    alienBulletDiameter = 15;
+    alienShooting = false;
+    score = 0;
+    updateScoreDisplays();
+    gameRunning = true;
+    gameOverScreen.hide();
+    gameScreen.show();
+  }
 
 /*
  * updateScoreDisplays()
