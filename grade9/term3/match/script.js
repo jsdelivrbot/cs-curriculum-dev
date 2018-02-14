@@ -1,7 +1,7 @@
 var card;
 
 function preload() {
-  card = loadAnimation("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/card/0.png","https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/card/4.png");
+  card = loadAnimation("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/card/0000.png","https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/card/0004.png");
 }
 
 function setup() {
