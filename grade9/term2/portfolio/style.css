@@ -10,7 +10,7 @@ nav ul{
 nav ul li{
 	display: inline;
 	font-size: 1.5em;
-	margin: 0 10px;	
+	margin: 0 10px;
 	background-color: white;
 	transition: background-color 0.5s;
 
@@ -33,6 +33,7 @@ a{
 li:hover{
 	background-color: #eeedfd;
 }
+
 p{
 	font-size: 1.5em;
 	background-color: #BCF4F0;
@@ -44,7 +45,6 @@ span{
 	float: right;
 
 }
-
 
 header img{
 	width: 20%;
@@ -61,4 +61,17 @@ header img{
 
 .icon:hover{
 	opacity: 1.0;
+}
+
+.project-image {
+  margin: 0 10px;
+  width: 200px;
+  height: 200px;
+  opacity: 0.75;
+  transition: box-shadow 0.5s, opacity 0.5s;
+}
+
+.project-image:hover {
+  box-shadow: 0 0 5px 5px #555555;
+  opacity: 1.0;
 }
