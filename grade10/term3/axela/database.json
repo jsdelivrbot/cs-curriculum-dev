@@ -1,0 +1,11 @@
+{
+  "greetings" : [
+    {
+      "hi":["What's good?", "Yeah what up?"],
+      "sup":["Supwichu?", ""],
+      "hello":"Hello to you too!",
+      "hola":"Hola, como estas?"
+    }
+  ],
+  ""
+}
