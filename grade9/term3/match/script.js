@@ -82,7 +82,6 @@ function setup() {
     cards[i].animation.playing = false;
     cards[i].onMousePressed = function() {
       if(cardsActive && attempts > 0) {
-        //console.log("Index " + matchedCards.indexOf(this));
         if(matchedCards.indexOf(this) === -1) {
           if(currentCard === undefined) {
             flipSound.play();
@@ -93,17 +92,15 @@ function setup() {
           else if(currentCard != this) {
             var currentCardLastImage = currentCard.animation.getImageAt(currentCard.animation.getLastFrame());
             var thisCardLastImage = this.animation.getImageAt(this.animation.getLastFrame());
-            //console.log("currentLastCardImage: " + currentCardLastImage);
-            //console.log("thisLastCardImage: " + thisCardLastImage);
             flipSound.play();
             this.animation.playing = true;
             this.animation.goToFrame(this.animation.getLastFrame());
             if(currentCardLastImage == thisCardLastImage) {
-              //console.log("Match!");
-              //alert("Match!");
-              matchSound.play();
               matchedCards.push(this);
               matchedCards.push(currentCard);
+              if(matchedCards.length < cards.length) {
+                matchSound.play();
+              }
               currentCard = undefined;
               if(matchedCards.length === cards.length) {
                 winSound.play();
@@ -114,7 +111,6 @@ function setup() {
               }
             }
             else {
-              //console.log("Nope!");
               attempts--;
               attemptsDisplay.html(attempts);
               if(attempts === 0) {
