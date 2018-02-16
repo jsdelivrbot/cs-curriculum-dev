@@ -3,7 +3,7 @@ var flipSound, matchSound, nopeSound, winSound, loseSound, bgMusic;
 var cardWidth, cardHeight;
 var attempts, currentCard;
 var cardsActive, matchedCards;
-var triesDisplay, attemptsDisplay, resetButton;
+var triesDisplay, attemptsDisplay, resetButton, musicButton;
 
 function preload() {
   question = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/question.png");
@@ -26,7 +26,7 @@ function preload() {
 }
 
 function setup() {
-  bgMusic.setVolume(0.5);
+  bgMusic.setVolume(0.1);
   bgMusic.loop();
   matchedCards = [];
   cardsActive = true;
@@ -37,11 +37,21 @@ function setup() {
   attemptsDisplay = select("#attempts-display");
   triesDisplay = select("#tries");
   resetButton = select("#reset");
+  musicButton = select("#music");
   attemptsDisplay.html(attempts);
   resetButton.mousePressed(function () {
     window.location.reload();
   });
+  musicButton.mousePressed(function() {
+    if(bgMusic.isPlaying()) {
+      bgMusic.pause();
+    }
+    else {
+      bgMusic.loop();
+    }
+  })
   resetButton.hide();
+  musicButton.show();
   images = [];
   images.push(question, bolt, cloud, sun, moon, smiley, heart, anim1, anim2, anim3);
   for(var i = 0; i < images.length; i++) {
@@ -100,6 +110,7 @@ function setup() {
                 triesDisplay.html("YOU WIN!!! YOU ARE A BEAST!!!");
                 cardsActive = false;
                 resetButton.show();
+                musicButton.hide();
               }
             }
             else {
@@ -113,6 +124,7 @@ function setup() {
                   triesDisplay.html("YOU LOSE!!! DANG!!!");
                   flipAllCards();
                   resetButton.show();
+                  musicButton.hide();
                 }, 2000);
               }
               else {
