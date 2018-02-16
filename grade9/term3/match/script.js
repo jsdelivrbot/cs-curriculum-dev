@@ -59,7 +59,6 @@ function setup() {
     cards[i].animation.frameDelay = 10;
     cards[i].animation.looping = false;
     cards[i].animation.playing = false;
-    //cards[i].mouseActive = cardsActive;
     cards[i].onMousePressed = function() {
       if(cardsActive && attempts > 0) {
         //console.log("Index " + matchedCards.indexOf(this));
@@ -78,7 +77,7 @@ function setup() {
             this.animation.goToFrame(this.animation.getLastFrame());
             if(currentCardLastImage == thisCardLastImage) {
               //console.log("Match!");
-              alert("Match!");
+              //alert("Match!");
               matchedCards.push(this);
               matchedCards.push(currentCard);
               currentCard = undefined;
