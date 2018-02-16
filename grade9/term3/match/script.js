@@ -1,5 +1,5 @@
 var cards, cardBacks, question, bolt, cloud, sun, moon, smiley, heart, anim1, anim2, anim3;
-var flipSound, matchSound, nopeSound, winSound, moveSound, bgMusic;
+var flipSound, matchSound, nopeSound, winSound, loseSound, bgMusic;
 var cardWidth, cardHeight;
 var attempts, currentCard;
 var cardsActive, matchedCards;
@@ -21,11 +21,12 @@ function preload() {
   matchSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/match.wav");
   nopeSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/nope.wav");
   winSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/win.wav");
-  moveSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/lose.wav");
+  loseSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/lose.wav");
   bgMusic = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/bgm.mp3");
 }
 
 function setup() {
+  bgMusic.setVolume(0.5);
   bgMusic.loop();
   matchedCards = [];
   cardsActive = true;
@@ -74,6 +75,7 @@ function setup() {
         //console.log("Index " + matchedCards.indexOf(this));
         if(matchedCards.indexOf(this) === -1) {
           if(currentCard === undefined) {
+            flipSound.play();
             this.animation.playing = true;
             this.animation.goToFrame(this.animation.getLastFrame());
             currentCard = this;
@@ -83,15 +85,18 @@ function setup() {
             var thisCardLastImage = this.animation.getImageAt(this.animation.getLastFrame());
             //console.log("currentLastCardImage: " + currentCardLastImage);
             //console.log("thisLastCardImage: " + thisCardLastImage);
+            flipSound.play();
             this.animation.playing = true;
             this.animation.goToFrame(this.animation.getLastFrame());
             if(currentCardLastImage == thisCardLastImage) {
               //console.log("Match!");
               //alert("Match!");
+              matchSound.play();
               matchedCards.push(this);
               matchedCards.push(currentCard);
               currentCard = undefined;
               if(matchedCards.length === cards.length) {
+                winSound.play();
                 triesDisplay.html("YOU WIN!!! YOU ARE A BEAST!!!");
                 cardsActive = false;
                 resetButton.show();
@@ -104,6 +109,7 @@ function setup() {
               if(attempts === 0) {
                 cardsActive = false;
                 setTimeout(function() {
+                  loseSound.play();
                   triesDisplay.html("YOU LOSE!!! DANG!!!");
                   flipAllCards();
                   resetButton.show();
@@ -115,6 +121,7 @@ function setup() {
                 cardsActive = false;
                 console.log("cards active: " + cardsActive);
                 setTimeout(function() {
+                  nopeSound.play();
                   self.animation.goToFrame(0);
                   storedCard.animation.goToFrame(0);
                   currentCard = undefined;
