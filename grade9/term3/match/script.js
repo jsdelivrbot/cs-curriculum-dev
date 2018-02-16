@@ -14,9 +14,11 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(800, 300);
-  var xOffset = 0;
-  var yOffset = 0;
+  createCanvas(598, 360);
+  var xOffset = 75;
+  var yOffset = 100;
+  cards = [];
+  cardBacks = [];
   cardBacks.push(bolt, bolt, cloud, cloud, sun, sun, moon, moon, smiley, smiley, heart, heart);
   for(var i = 0; i < 12; i++) {
     var card = createSprite(xOffset, yOffset, 171, 158);
@@ -24,9 +26,13 @@ function setup() {
     card.addAnimation("flipping", question, anim1, anim2, anim3, cardBacks[randBackIndex]);
     cards.push(card);
     cardBacks.splice(randBackIndex, 1);
-    xOffSet += card.width + 10;
-    if(i === 5) {
-      yOffSet += card.height + 10;
+    console.log(cardBacks.length + " " + cards.length);
+    if(cards.length % 3 === 0) {
+      yOffset += card.height + 5;
+      xOffset = 75;
+    }
+    else {
+      xOffset += card.width + 5;
     }
   }
   for(var i = 0; i < cards.length; i++) {
@@ -47,6 +53,6 @@ function setup() {
 }
 
 function draw() {
-  background(255,255,255);
+  background(20, 40, 60);
   drawSprites();
 }
