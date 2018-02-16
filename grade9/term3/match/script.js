@@ -1,4 +1,5 @@
 var cards, cardBacks, question, bolt, cloud, sun, moon, smiley, heart, anim1, anim2, anim3;
+var flipSound, matchSound, nopeSound, winSound, moveSound, bgMusic;
 var cardWidth, cardHeight;
 var attempts, currentCard;
 var cardsActive, matchedCards;
@@ -15,9 +16,17 @@ function preload() {
   anim1 = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/anim1.png");
   anim2 = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/anim2.png");
   anim3 = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/anim3.png");
+  soundFormats("mp3", "wav");
+  flipSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/flip.wav");
+  matchSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/match.wav");
+  nopeSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/nope.wav");
+  winSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/win.wav");
+  moveSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/lose.wav");
+  bgMusic = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/bgm.mp3");
 }
 
 function setup() {
+  bgMusic.loop();
   matchedCards = [];
   cardsActive = true;
   attempts = 5;
