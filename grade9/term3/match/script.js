@@ -2,7 +2,7 @@ var cards, cardBacks, question, bolt, cloud, sun, moon, smiley, heart, anim1, an
 var cardWidth, cardHeight;
 var attempts, currentCard;
 var cardsActive, matchedCards;
-var attemptsDisplay, resetButton;
+var triesDisplay, attemptsDisplay, resetButton;
 
 function preload() {
   question = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/question.png");
@@ -25,6 +25,7 @@ function setup() {
   cardHeight = 168;
   createCanvas(790, 370);
   attemptsDisplay = select("#attempts-display");
+  triesDisplay = select("#tries");
   resetButton = select("#reset");
   attemptsDisplay.html(attempts);
   resetButton.mousePressed(function () {
@@ -82,7 +83,7 @@ function setup() {
               matchedCards.push(currentCard);
               currentCard = undefined;
               if(matchedCards.length === cards.length) {
-                alert("You win!");
+                triesDisplay.html("YOU WIN!!!");
                 cardsActive = false;
                 resetButton.show();
               }
@@ -92,10 +93,12 @@ function setup() {
               attempts--;
               attemptsDisplay.html(attempts);
               if(attempts === 0) {
-                alert("Game Over!");
-                flipAllCards();
                 cardsActive = false;
-                resetButton.show();
+                setTimeout(function() {
+                  triesDisplay.html("YOU LOSE!!!");
+                  flipAllCards();
+                  resetButton.show();
+                }, 2000);
               }
               else {
                 var self = this;
