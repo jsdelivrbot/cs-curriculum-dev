@@ -10,4 +10,10 @@ body {
   text-align: center;
 }
 
+#reset {
+  margin: 0 auto;
+  width: 80px;
+  height: 50px;
+}
+
 /* Create your styles below */

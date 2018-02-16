@@ -1,4 +1,8 @@
 var cards, cardBacks, question, bolt, cloud, sun, moon, smiley, heart, anim1, anim2, anim3;
+var cardWidth, cardHeight;
+var attempts, currentCard;
+var cardsActive, matchedCards;
+var attemptsDisplay, resetButton;
 
 function preload() {
   question = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/question.png");
@@ -14,41 +18,117 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(598, 360);
-  var xOffset = 75;
-  var yOffset = 100;
+  matchedCards = [];
+  cardsActive = true;
+  attempts = 5;
+  cardWidth = 120;
+  cardHeight = 168;
+  createCanvas(790, 370);
+  attemptsDisplay = select("#attempts-display");
+  resetButton = select("#reset");
+  attemptsDisplay.html(attempts);
+  resetButton.mousePressed(function () {
+    window.location.reload();
+  });
+  resetButton.hide();
+  images = [];
+  images.push(question, bolt, cloud, sun, moon, smiley, heart, anim1, anim2, anim3);
+  for(var i = 0; i < images.length; i++) {
+    images[i].resize(cardWidth, cardHeight);
+  }
   cards = [];
   cardBacks = [];
   cardBacks.push(bolt, bolt, cloud, cloud, sun, sun, moon, moon, smiley, smiley, heart, heart);
+  var xOffset = 70;
+  var yOffset = 95;
   for(var i = 0; i < 12; i++) {
-    var card = createSprite(xOffset, yOffset, 240, 336);
+    var card = createSprite(xOffset, yOffset, cardWidth, cardHeight);
     var randBackIndex = int(random(cardBacks.length));
     card.addAnimation("flipping", question, anim1, anim2, anim3, cardBacks[randBackIndex]);
     cards.push(card);
     cardBacks.splice(randBackIndex, 1);
-    console.log(cardBacks.length + " " + cards.length);
-    if(cards.length % 3 === 0) {
-      yOffset += card.height + 5;
-      xOffset = 75;
+    if(cards.length % 6 === 0) {
+      yOffset += card.height + 10;
+      xOffset = 70;
     }
     else {
-      xOffset += card.width + 5;
+      xOffset += card.width + 10;
     }
   }
   for(var i = 0; i < cards.length; i++) {
     cards[i].animation.frameDelay = 10;
     cards[i].animation.looping = false;
     cards[i].animation.playing = false;
-    cards[i].animation.mouseActive = true;
+    //cards[i].mouseActive = cardsActive;
     cards[i].onMousePressed = function() {
-      this.animation.playing = true;
-      if(this.animation.getFrame() === this.animation.getLastFrame()) {
-        this.animation.goToFrame(0);
+      if(cardsActive && attempts > 0) {
+        //console.log("Index " + matchedCards.indexOf(this));
+        if(matchedCards.indexOf(this) === -1) {
+          if(currentCard === undefined) {
+            this.animation.playing = true;
+            this.animation.goToFrame(this.animation.getLastFrame());
+            currentCard = this;
+          }
+          else if(currentCard != this) {
+            var currentCardLastImage = currentCard.animation.getImageAt(currentCard.animation.getLastFrame());
+            var thisCardLastImage = this.animation.getImageAt(this.animation.getLastFrame());
+            //console.log("currentLastCardImage: " + currentCardLastImage);
+            //console.log("thisLastCardImage: " + thisCardLastImage);
+            this.animation.playing = true;
+            this.animation.goToFrame(this.animation.getLastFrame());
+            if(currentCardLastImage == thisCardLastImage) {
+              //console.log("Match!");
+              alert("Match!");
+              matchedCards.push(this);
+              matchedCards.push(currentCard);
+              currentCard = undefined;
+              if(matchedCards.length === cards.length) {
+                alert("You win!");
+                cardsActive = false;
+                resetButton.show();
+              }
+            }
+            else {
+              //console.log("Nope!");
+              attempts--;
+              attemptsDisplay.html(attempts);
+              if(attempts === 0) {
+                alert("Game Over!");
+                flipAllCards();
+                cardsActive = false;
+                resetButton.show();
+              }
+              else {
+                var self = this;
+                var storedCard = currentCard;
+                cardsActive = false;
+                console.log("cards active: " + cardsActive);
+                setTimeout(function() {
+                  self.animation.goToFrame(0);
+                  storedCard.animation.goToFrame(0);
+                  currentCard = undefined;
+                  cardsActive = true;
+                  console.log("cards active: " + cardsActive);
+                }, 2000);
+              }
+            }
+          }
+        }
+        else {
+          console.log("Already matched!");
+        }
       }
-      else if(this.animation.getFrame() === 0) {
-        this.animation.goToFrame(this.animation.getLastFrame());
+      else{
+        console.log("Cards inactive! Attempts: " + attempts);
       }
     };
+  }
+}
+
+function flipAllCards() {
+  for(var i = 0; i < cards.length; i++) {
+    cards[i].animation.playing = true;
+    cards[i].animation.goToFrame(cards[i].animation.getLastFrame());
   }
 }
 
