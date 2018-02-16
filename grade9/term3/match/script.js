@@ -20,7 +20,7 @@ function preload() {
 function setup() {
   matchedCards = [];
   cardsActive = true;
-  attempts = 5;
+  attempts = 7;
   cardWidth = 120;
   cardHeight = 168;
   createCanvas(790, 370);
