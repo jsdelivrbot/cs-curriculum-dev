@@ -83,7 +83,7 @@ function setup() {
               matchedCards.push(currentCard);
               currentCard = undefined;
               if(matchedCards.length === cards.length) {
-                triesDisplay.html("YOU WIN!!!");
+                triesDisplay.html("YOU WIN!!! YOU ARE A BEAST!!!");
                 cardsActive = false;
                 resetButton.show();
               }
@@ -95,7 +95,7 @@ function setup() {
               if(attempts === 0) {
                 cardsActive = false;
                 setTimeout(function() {
-                  triesDisplay.html("YOU LOSE!!!");
+                  triesDisplay.html("YOU LOSE!!! DANG!!!");
                   flipAllCards();
                   resetButton.show();
                 }, 2000);
