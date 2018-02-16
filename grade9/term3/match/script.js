@@ -21,7 +21,7 @@ function setup() {
   cardBacks = [];
   cardBacks.push(bolt, bolt, cloud, cloud, sun, sun, moon, moon, smiley, smiley, heart, heart);
   for(var i = 0; i < 12; i++) {
-    var card = createSprite(xOffset, yOffset, 171, 158);
+    var card = createSprite(xOffset, yOffset, 240, 336);
     var randBackIndex = int(random(cardBacks.length));
     card.addAnimation("flipping", question, anim1, anim2, anim3, cardBacks[randBackIndex]);
     cards.push(card);
