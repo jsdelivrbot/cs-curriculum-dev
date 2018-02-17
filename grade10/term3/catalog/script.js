@@ -34,7 +34,7 @@ var database = [
     born:"August 10, 1957",
     died:"April 12, 2014",
     nationality:"American",
-    picture:"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term3/catalog/img/dolores_huerta.png",
+    picture:"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term3/catalog/img/fred_ho.png",
     bio:"Fred Ho (Chinese: 侯维翰; pinyin: Hóu Wéihàn; born Fred Wei-han Houn; " +
       "August 10, 1957 – April 12, 2014) was an American jazz baritone " +
       "saxophonist, composer, bandleader, playwright, writer and Marxist " +
@@ -60,9 +60,6 @@ function checkKey(event) {
   var keyCode = event.which || event.keyCode;
   if(keyCode == "13") {
     processInput();
-  }
-  else if(keyCode == "8") {
-    getHelpText();
   }
   else {
     getHelpText();
