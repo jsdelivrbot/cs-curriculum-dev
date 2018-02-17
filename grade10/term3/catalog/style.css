@@ -1,0 +1,21 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  text-align: center;
+}
+
+#window {
+  border: 1px solid black;
+}
+
+#search-help {
+  border: 1px solid grey;
+  margin: 0 auto;
+  max-width: 25%;
+}
