@@ -4,8 +4,7 @@ var database = [
     tags:["African American", "Peace", "Activist", "Civil Rights"],
     born:"January 15, 1929",
     died:"April 4, 1968",
-    nationality:"American",
-    picture:"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term3/catalog/img/mlk.png",
+    picture:"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term3/catalog/img/martin_luther_king_jr.png",
     bio:"<b>Martin Luther King Jr.</b> (January 15, 1929 – April 4, 1968) " +
     "was an American Baptist minister and activist who became the most visible " +
     "spokesperson and leader in the civil rights movement from 1954 through " +
@@ -19,7 +18,6 @@ var database = [
     tags:["Labor", "Civil Rights", "Latin American", "Activist"],
     born:"April 10, 1930",
     died:null,
-    nationality:"American",
     picture:"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term3/catalog/img/dolores_huerta.png",
     bio:"<b>Dolores Clara Fernández Huerta</b> (born April 10, 1930) is an " +
     "American labor leader and civil rights activist who was the co-founder " +
@@ -33,12 +31,33 @@ var database = [
     tags:["Musician", "Philosopher", "Artist", "Asian American", "Activist"],
     born:"August 10, 1957",
     died:"April 12, 2014",
-    nationality:"American",
     picture:"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term3/catalog/img/fred_ho.png",
-    bio:"Fred Ho (Chinese: 侯维翰; pinyin: Hóu Wéihàn; born Fred Wei-han Houn; " +
+    bio:"<b>Fred Ho</b> (Chinese: 侯维翰; pinyin: Hóu Wéihàn; born Fred Wei-han Houn; " +
       "August 10, 1957 – April 12, 2014) was an American jazz baritone " +
       "saxophonist, composer, bandleader, playwright, writer and Marxist " +
       "social activist. In 1988, he changed his surname to \"Ho\"."
+  },
+  {
+    name:"Joan Baez",
+    tags:["Musician", "Latin American", "Activist"],
+    born:"January 9, 1941",
+    died:null,
+    picture:"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term3/catalog/img/joan_baez.png",
+    bio:"<b>Joan Chandos Baez</b> (born January 9, 1941) is an American folk singer, " +
+    "songwriter, musician, and activist whose contemporary folk music often " +
+    "includes songs of protest or social justice, Baez has performed publicly " +
+    "for over 59 years, releasing over 30 albums. Fluent in Spanish and English, " +
+    "she has also recorded songs in at least six other languages. She is regarded " +
+    "as a folk singer, although her music has diversified since the counterculture " +
+    "days of the 1960s and now encompasses everything from folk rock and pop to " +
+    "country and gospel music. Although a songwriter herself, Baez generally " +
+    "interprets other composers' work, having recorded songs by Bob Dylan, " +
+    "the Allman Brothers Band, the Beatles, Jackson Browne, Leonard Cohen, Woody " +
+    "Guthrie, Violeta Parra, The Rolling Stones, Pete Seeger, Paul Simon, Stevie " +
+    "Wonder and many others. In recent years, she has found success interpreting " +
+    "songs of modern songwriters such as Ryan Adams, Josh Ritter, Steve Earle and " +
+    "Natalie Merchant. Her recordings include many topical songs and material " +
+    "dealing with social issues."
   }
 ];
 
