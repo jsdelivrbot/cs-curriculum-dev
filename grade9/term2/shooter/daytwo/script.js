@@ -1,9 +1,7 @@
 // UI Variables
 var canvas;
 var gameScreen;
-var gameOverScreen;
-var playAgainButton;
-var scoreDisplays;
+var scoreDisplay;
 
 // Game Variables
 var gameRunning;
@@ -38,35 +36,33 @@ var alienBulletY;
  * setup()
  * This function is called once. Sets up the canvas, access HTML elements with
  * select(), and adds event listeners to those elements. Sets initial values of
- * variables.
+ * variables by calling resetGame().
  */
  function setup() {
    canvas = createCanvas(500, 400);
    background(20, 30, 40);
    gameScreen = select("#game-screen");
    canvas.parent(gameScreen);
-   scoreDisplays = selectAll(".score-display");
-   gameOverScreen = select("#game-over-screen");
-   playAgainButton = select("#play-again-button");
-   playAgainButton.mousePressed(resetGame);
+   scoreDisplay = select("#score-display");
    resetGame();
  }
 
 /*
  * gameOver()
- * This function stops the game from running, hides the game screen, and shows
- * the game over screen.
+ * This function stops the game from running and shows an alert telling the
+ * player what their final score is. Finally it resets the game by calling
+ * resetGame()
  */
  function gameOver() {
    gameRunning = false;
-   gameScreen.hide();
-   gameOverScreen.show();
+   alert("Game Over! Your score: " + score);
+   resetGame();
  }
 
  /*
   * resetGame()
   * This function "resets the game" by initializing ship, alien, and game
-  * variables, hiding gameOverScreen, and showing the gameScreen.
+  * variables.
   */
   function resetGame() {
     shipColor = "#00ff00";
@@ -83,25 +79,14 @@ var alienBulletY;
     alienBulletDiameter = 15;
     alienShooting = false;
     score = 0;
-    updateScoreDisplays();
+    scoreDisplay.html(score);
     gameRunning = true;
-    gameOverScreen.hide();
-    gameScreen.show();
   }
 
 /*
- * updateScoreDisplays()
- * This function simply updates all of the HTML elements that display the score.
- */
- function updateScoreDisplays() {
-   for(var i = 0; i < scoreDisplays.length; i++) {
-     scoreDisplays[i].html(score);
-   }
- }
-
-/*
  * draw()
- * This function animates the ship, alien, and both kinds of bullets.
+ * This function animates the ship, alien, and both kinds of bullets, but only
+ * if the game is running.
  */
  function draw() {
    if(gameRunning) {
@@ -168,7 +153,7 @@ var alienBulletY;
      resetAlien();
      alienVelocity++;
      score++;
-     updateScoreDisplays();
+     scoreDisplay.html(score);
      shipShooting = false;
    }
    else {

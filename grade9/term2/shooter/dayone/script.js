@@ -1,9 +1,7 @@
 // UI Variables
 var canvas;
 var gameScreen;
-var gameOverScreen;
-var playAgainButton;
-var scoreDisplays;
+var scoreDisplay;
 
 // Game Variables
 var gameRunning;
@@ -39,7 +37,7 @@ var alienBulletY;
  * setup()
  * This function is called once. Sets up the canvas, access HTML elements with
  * select(), and adds event listeners to those elements. Sets initial values of
- * variables.
+ * variables by calling resetGame().
  */
  function setup() {
    canvas = createCanvas(500, 400);
@@ -63,27 +61,23 @@ var alienBulletY;
 
 /*
  * gameOver()
- * This function stops the game from running, hides the game screen, and shows
- * the game over screen.
+ * This function stops the game from running and shows an alert telling the
+ * player what their final score is. Finally it resets the game by calling
+ * resetGame()
  */
 
 
- /*
-  * resetGame()
-  * This function "resets the game" by initializing ship, alien, and game
-  * variables, hiding gameOverScreen, and showing the gameScreen.
-  */
-
-
 /*
- * updateScoreDisplays()
- * This function simply updates all of the HTML elements that display the score.
+ * resetGame()
+ * This function "resets the game" by initializing ship, alien, and game
+ * variables.
  */
 
 
 /*
  * draw()
- * This function animates the ship, alien, and both kinds of bullets.
+ * This function animates the ship, alien, and both kinds of bullets, but only
+ * if the game is running.
  */
  function draw() {
    background(20, 30, 40);
