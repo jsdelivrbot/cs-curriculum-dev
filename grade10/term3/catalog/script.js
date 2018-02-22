@@ -73,7 +73,7 @@ searchHelp.addEventListener("click", function() {
   alert("You clicked");
 });
 
-init();
+loadData();
 
 function checkKey(event) {
   var keyCode = event.which || event.keyCode;
@@ -113,7 +113,7 @@ function processInput() {
   var words = searchBar.value.toLowerCase().trim().split(" ");
 }
 
-function init() {
+function loadData() {
   for(var i = 0; i < database.length; i++) {
     for(var j = 0; j < database[i].tags.length; j++) {
       var tag = database[i].tags[j];

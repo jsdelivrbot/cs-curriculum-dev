@@ -242,7 +242,7 @@ function drawAlien() {
     }
     fill("#ff00ff");
     ellipse(alienX, alienY, alienDiameter, alienDiameter);
-    if(int(random(4)) === 0 && !alienShooting) {
+    if(random(4) < 1 && !alienShooting) {
       alienBulletY = alienY + alienDiameter / 2;
       alienBulletX = alienX;
       alienShooting = true;
