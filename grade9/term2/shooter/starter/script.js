@@ -35,7 +35,7 @@ var alienBulletY;
 
 /*
  * setup()
- * This function is called once. Sets up the canvas, access HTML elements with
+ * This function is called once. Sets up the canvas, accesses HTML elements with
  * select(), and adds event listeners to those elements. Sets initial values of
  * variables by calling resetGame().
  */
