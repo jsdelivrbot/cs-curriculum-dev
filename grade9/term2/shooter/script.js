@@ -204,7 +204,7 @@ function keyPressed() {
  * drawBullet()
  * This function draws a bullet. It also checks to see if the bullet has hit
  * the alien. If it has, the alien is reset to the top-left of the screen
- * and the player earns a point. The alien aslo becomes faster (i.e., harder
+ * and the player earns a point. The alien also becomes faster (i.e., harder
  * to hit) each time it is hit by a bullet.
  */
 function drawBullet() {
@@ -292,11 +292,11 @@ function drawAlienBullet() {
 
 /*
  * checkCollision(aX, aY, aD, bX, bY, bD)
- * This function first calculates the distance between two circles based on
- * their X and Y values. Based on the distance value, the function returns
- * "true" if the circles are touching, and false otherwise.
+ * This function first calculates the distance between two circles (a and b)
+ * based on their X and Y values. Based on the distance value, the function
+ * returns "true" if the circles are touching, and false otherwise.
  * Circles are considered touching if
- * (distance <= (circle1Diameter + circle2Diameter) / 2)
+ * (distance <= (circle a diameter + circle b diameter) / 2)
  */
 function checkCollision(aX, aY, aD, bX, bY, bD) {
   distance = dist(aX, aY, bX, bY);
