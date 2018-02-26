@@ -11,7 +11,7 @@ var database = [
     "1968.He is best known for his role in the advancement of civil rights " +
     "using the tactics of nonviolence and civil disobedience based on his " +
     "Christian beliefs and inspired by the nonviolent activism of Mahatma " +
-    "Gandhi.",
+    "Gandhi."
   },
   {
     name:"Dolores Huerta",
@@ -69,9 +69,6 @@ var searchTerms = [];
 
 searchBar.addEventListener("keyup", checkKey);
 searchButton.addEventListener("click", processInput);
-searchHelp.addEventListener("click", function() {
-  alert("You clicked");
-});
 
 loadData();
 
@@ -94,7 +91,12 @@ function getHelpText() {
       var matching = database[i].name.substring(0, searchBar.value.length);
       var remaining = database[i].name.substring(searchBar.value.length);
       var result = matching + "<b>" + remaining + "</b><br>";
-      searchHelp.innerHTML += result;
+      var button = document.createElement("button");
+      button.innerHTML = result;
+      button.addEventListener("click", function() {
+        alert(this.textContent);
+      });
+      searchHelp.appendChild(button);
     }
   }
   for(var i = 0; i < searchTerms.length; i++) {
@@ -103,7 +105,12 @@ function getHelpText() {
       var matching = searchTerms[i].substring(0, searchBar.value.length);
       var remaining = searchTerms[i].substring(searchBar.value.length);
       var result = matching + "<b>" + remaining + "</b><br>";
-      searchHelp.innerHTML += result;
+      var button = document.createElement("button");
+      button.innerHTML = result;
+      button.addEventListener("click", function() {
+        alert(this.textContent);
+      });
+      searchHelp.appendChild(button);
     }
   }
 }
