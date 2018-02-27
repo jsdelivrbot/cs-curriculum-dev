@@ -1,5 +1,4 @@
 var database = [];
-
 var display = document.getElementById("display");
 var searchBar = document.getElementById("search-bar");
 var searchButton = document.getElementById("search-button");
@@ -15,7 +14,7 @@ function loadData() {
   .then(function(response) {
     response.json()
     .then(function(jsonObj) {
-      database = jsonObj;
+      database = jsonObj.data;
       console.log("Database Loaded Successfully");
     }).then(function() {
       searchBar.style.display = "block";
