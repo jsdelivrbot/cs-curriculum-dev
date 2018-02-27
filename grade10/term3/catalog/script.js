@@ -1,49 +1,44 @@
 var database = [
   {
     name:"Martin Luther King Jr.",
-    tags:["African American", "Peace", "Activist", "Civil Rights"],
     born:"January 15, 1929",
     died:"April 4, 1968",
     picture:"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term3/catalog/img/martin_luther_king_jr.png",
-    bio:"<b>Martin Luther King Jr.</b> (January 15, 1929 – April 4, 1968) " +
-    "was an American Baptist minister and activist who became the most visible " +
-    "spokesperson and leader in the civil rights movement from 1954 through " +
-    "1968.He is best known for his role in the advancement of civil rights " +
-    "using the tactics of nonviolence and civil disobedience based on his " +
-    "Christian beliefs and inspired by the nonviolent activism of Mahatma " +
-    "Gandhi."
+    bio:"<b>Martin Luther King Jr.</b> was an American Baptist minister and " +
+    "activist who became the most visible spokesperson and leader in the " +
+    "civil rights movement from 1954 through 1968. He is best known for his " +
+    "role in the advancement of civil rights using the tactics of nonviolence " +
+    "and civil disobedience based on his Christian beliefs and inspired by the " +
+    "nonviolent activism of Mahatma Gandhi."
   },
   {
     name:"Dolores Huerta",
-    tags:["Labor", "Civil Rights", "Latin American", "Activist"],
     born:"April 10, 1930",
     died:null,
     picture:"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term3/catalog/img/dolores_huerta.png",
-    bio:"<b>Dolores Clara Fernández Huerta</b> (born April 10, 1930) is an " +
-    "American labor leader and civil rights activist who was the co-founder " +
-    "of the National Farmworkers Association, which later became the United " +
-    "Farm Workers (UFW). Huerta helped organize the Delano grape strike in " +
-    "1965 in California and was the lead negotiator in the workers’ contract " +
-    "that was created after the strike."
+    bio:"<b>Dolores Clara Fernández Huerta</b> is an American labor leader " +
+    "and civil rights activist who was the co-founder of the National " +
+    "Farmworkers Association, which later became the United Farm Workers " +
+    "(UFW). Huerta helped organize the Delano grape strike in 1965 in " +
+    "California and was the lead negotiator in the workers’ contract that was " +
+    "created after the strike."
   },
   {
     name:"Fred Ho",
-    tags:["Musician", "Philosopher", "Artist", "Asian American", "Activist"],
     born:"August 10, 1957",
     died:"April 12, 2014",
     picture:"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term3/catalog/img/fred_ho.png",
-    bio:"<b>Fred Ho</b> (Chinese: 侯维翰; pinyin: Hóu Wéihàn; born Fred Wei-han Houn; " +
-      "August 10, 1957 – April 12, 2014) was an American jazz baritone " +
-      "saxophonist, composer, bandleader, playwright, writer and Marxist " +
-      "social activist. In 1988, he changed his surname to \"Ho\"."
+    bio:"<b>Fred Ho</b> (Chinese: 侯维翰; pinyin: Hóu Wéihàn; born Fred Wei-han " +
+      " Houn) was an American jazz baritone saxophonist, composer, bandleader, " +
+      "playwright, writer and Marxist social activist. In 1988, he changed his " +
+      "surname to \"Ho\"."
   },
   {
     name:"Joan Baez",
-    tags:["Musician", "Latin American", "Activist"],
     born:"January 9, 1941",
     died:null,
     picture:"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term3/catalog/img/joan_baez.png",
-    bio:"<b>Joan Chandos Baez</b> (born January 9, 1941) is an American folk singer, " +
+    bio:"<b>Joan Chandos Baez</b> is an American folk singer, " +
     "songwriter, musician, and activist whose contemporary folk music often " +
     "includes songs of protest or social justice, Baez has performed publicly " +
     "for over 59 years, releasing over 30 albums. Fluent in Spanish and English, " +
@@ -65,12 +60,9 @@ var display = document.getElementById("display");
 var searchBar = document.getElementById("search-bar");
 var searchButton = document.getElementById("search-button");
 var searchHelp = document.getElementById("search-help");
-var searchTerms = [];
 
 searchBar.addEventListener("keyup", checkKey);
 searchButton.addEventListener("click", processInput);
-
-loadData();
 
 function checkKey(event) {
   var keyCode = event.which || event.keyCode;
@@ -93,40 +85,105 @@ function getHelpText() {
       var result = matching + "<b>" + remaining + "</b><br>";
       var button = document.createElement("button");
       button.innerHTML = result;
+      button.style.display = "block";
+      button.className = "suggestion";
+      var tempEntry = database[i];
       button.addEventListener("click", function() {
-        alert(this.textContent);
+        showEntry(tempEntry);
+        searchHelp.innerHTML = "";
+        searchHelp.style.display = "none";
+        searchBar.value = "";
       });
       searchHelp.appendChild(button);
     }
   }
-  for(var i = 0; i < searchTerms.length; i++) {
-    var parsedSearchTerm = searchTerms[i].toLowerCase().trim();
-    if(parsedSearchTerm.startsWith(parsedInput) && parsedInput.length > 0){
-      var matching = searchTerms[i].substring(0, searchBar.value.length);
-      var remaining = searchTerms[i].substring(searchBar.value.length);
-      var result = matching + "<b>" + remaining + "</b><br>";
-      var button = document.createElement("button");
-      button.innerHTML = result;
-      button.addEventListener("click", function() {
-        alert(this.textContent);
-      });
-      searchHelp.appendChild(button);
+  if(searchHelp.hasChildNodes()) {
+    searchHelp.style.display = "block";
+  }
+  else {
+    searchHelp.style.display = "none";
+  }
+}
+
+function getDatabaseEntry(parsedInput) {
+  for(var i = 0; i < database.length; i++) {
+    var parsedName = database[i].name.toLowerCase().trim();
+    if(parsedName == parsedInput) {
+      return database[i];
     }
   }
+  return null;
+}
+
+function getSuggestions(parsedInput) {
+  var suggestions = [];
+  for(var i = 0; i < database.length; i++) {
+    var parsedName = database[i].name.toLowerCase().trim();
+    if(parsedName.startsWith(parsedInput)) {
+      suggestions.push(database[i]);
+    }
+  }
+  return suggestions;
 }
 
 function processInput() {
+  var parsedInput = searchBar.value.toLowerCase().trim();
+  searchHelp.innerHTML = "";
+  searchHelp.style.display = "none";
   display.innerHTML = "";
-  var words = searchBar.value.toLowerCase().trim().split(" ");
+  searchBar.value = "";
+  var databaseEntry = getDatabaseEntry(parsedInput);
+  if(databaseEntry != null) {
+    showEntry(databaseEntry);
+  }
+  else {
+    showSuggestions(getSuggestions(parsedInput));
+  }
 }
 
-function loadData() {
-  for(var i = 0; i < database.length; i++) {
-    for(var j = 0; j < database[i].tags.length; j++) {
-      var tag = database[i].tags[j];
-      if(searchTerms.indexOf(tag) === -1) {
-        searchTerms.push(tag);
-      }
+function showSuggestions(suggestions) {
+  var paragraph = document.createElement("p");
+  if(suggestions.length > 0) {
+    paragraph.innerHTML = "Did you mean:";
+    display.appendChild(paragraph);
+    for(var i = 0; i < suggestions.length; i++) {
+      var button = document.createElement("button");
+      button.innerHTML = suggestions[i].name;
+      button.style.display = "block";
+      button.className = "suggestion";
+      var tempEntry = suggestions[i];
+      button.addEventListener("click", function() {
+        showEntry(tempEntry);
+      });
+      display.appendChild(button);
     }
   }
+  else {
+    paragraph.innerHTML = "No results!";
+    display.appendChild(paragraph);
+  }
+}
+
+function showEntry(databaseEntry) {
+  display.innerHTML = "";
+  var entryName = document.createElement("h2");
+  entryName.innerHTML = databaseEntry.name;
+  var entryPicture = document.createElement("img");
+  entryPicture.src = databaseEntry.picture;
+  var entryBorn = document.createElement("p");
+  entryBorn.innerHTML = "<b>Born:</b> " + databaseEntry.born;
+  var entryDied = document.createElement("p");
+  if(databaseEntry.died != null) {
+    entryDied.innerHTML = "<b>Died:</b> " + databaseEntry.died;
+  }
+  else {
+    entryDied.innerHTML = "<b>Died:</b> N/A";
+  }
+  var entryBio = document.createElement("p");
+  entryBio.innerHTML = databaseEntry.bio;
+  display.appendChild(entryName);
+  display.appendChild(entryPicture);
+  display.appendChild(entryBorn);
+  display.appendChild(entryDied);
+  display.appendChild(entryBio);
 }

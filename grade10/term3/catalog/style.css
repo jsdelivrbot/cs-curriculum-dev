@@ -10,12 +10,40 @@ body {
   text-align: center;
 }
 
-#window {
-  border: 1px solid black;
+#display {
+  /* border: 1px solid black; */
+  margin: 0 auto;
+  max-width: 500px;
+  text-align: left;
+}
+
+#display img {
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+  height: 300px;
+}
+
+#display h2 {
+  text-align: center;
 }
 
 #search-help {
+  display: none;
   border: 1px solid grey;
   margin: 0 auto;
   max-width: 25%;
+}
+
+.suggestion {
+  background-color: transparent;
+  border: none;
+}
+
+.suggestion:focus {
+  outline: none;
+}
+
+.suggestion:hover {
+  color: #ff0000;
 }
