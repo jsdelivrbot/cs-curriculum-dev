@@ -92,7 +92,7 @@ function getSuggestions(parsedInput) {
   var suggestions = [];
   for(var i = 0; i < database.length; i++) {
     var parsedName = database[i].name.toLowerCase().trim();
-    if(parsedName.startsWith(parsedInput)) {
+    if(parsedName.startsWith(parsedInput) && parsedInput.length > 0) {
       suggestions.push(database[i]);
     }
   }
