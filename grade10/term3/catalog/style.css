@@ -10,6 +10,10 @@ body {
   text-align: center;
 }
 
+#search-bar, #search-button {
+  display: none;
+}
+
 #display {
   /* border: 1px solid black; */
   margin: 0 auto;
