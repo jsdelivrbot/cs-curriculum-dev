@@ -11,7 +11,7 @@ body {
 }
 
 #search-bar, #search-button {
-  display: none;
+  margin: 0 auto;
 }
 
 #display {
