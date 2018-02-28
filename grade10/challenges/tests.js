@@ -1,11 +1,13 @@
 (function() {
 
   var testResults = document.getElementById("test-results");
+
   runTests();
 
   function runTests() {
     testSleepIn();
     testSumDouble();
+    testFirstLast6();
   }
 
   function testSleepIn() {
@@ -89,6 +91,70 @@
     for(var i = 0; i < tests.length; i++) {
       var run = sumDouble(tests[i].one, tests[i].two); //edit this line
       displayResult("sumDouble", [tests[i].one, tests[i].two], run, tests[i].expected, i);
+    }
+  }
+
+  function testFirstLast6() {
+    var tests = [
+      {
+        one:[1, 2, 6],
+        expected:true
+      },
+      {
+        one: [6, 1, 2, 3],
+        expected:true
+      },
+      {
+        one: [13, 6, 1, 2, 3],
+        expected:false
+      },
+      {
+        one: [13, 6, 1, 2, 6],
+        expected:true
+      },
+      {
+        one: [3, 2, 1],
+        expected:false
+      },
+      {
+        one: [3, 6, 1],
+        expected:false
+      },
+      {
+        one: [3, 6],
+        expected:true
+      },
+      {
+        one: [6],
+        expected:true
+      },
+      {
+        one: [3],
+        expected:false
+      },
+      {
+        one: [5, 6],
+        expected:true
+      },
+      {
+        one: [5, 5],
+        expected:false
+      },
+      {
+        one: [1, 2, 3, 4, 6],
+        expected:true
+      },
+      {
+        one: [1, 2, 3, 4],
+        expected:false
+      }
+    ];
+    var problemName = document.createElement("h2");
+    problemName.innerHTML = "firstLast6()";
+    testResults.appendChild(problemName);
+    for(var i = 0; i < tests.length; i++) {
+      var run = firstLast6(tests[i].one); //edit this line
+      displayResult("firstLast6", [tests[i].one], run, tests[i].expected, i);
     }
   }
 

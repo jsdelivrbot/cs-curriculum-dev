@@ -28,3 +28,32 @@ function sumDouble(a, b) {
   }
   return a + b;
 }
+
+/*
+Given two int values, return their sum. Unless the two values are the same,
+then return double their sum.
+
+sumDouble(1, 2) → 3
+sumDouble(3, 2) → 5
+sumDouble(2, 2) → 8
+*/
+
+function sumDouble(a, b) {
+  if(a === b) {
+    return (a + b) * 2;
+  }
+  return a + b;
+}
+
+/*
+Given an array of numbers, return true if 6 appears as either the first or last
+element in the array. The array will be length 1 or more.
+
+firstLast6([1, 2, 6]) → true
+firstLast6([6, 1, 2, 3]) → true
+firstLast6([13, 6, 1, 2, 3]) → false
+*/
+
+function firstLast6(nums) {
+  return nums[0] === 6 || nums[nums.length - 1] === 6;
+}
