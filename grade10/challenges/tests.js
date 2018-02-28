@@ -8,6 +8,7 @@
     testSleepIn();
     testSumDouble();
     testFirstLast6();
+    testSum3();
   }
 
   function testSleepIn() {
