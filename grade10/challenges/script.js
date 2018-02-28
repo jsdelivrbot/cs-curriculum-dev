@@ -9,9 +9,7 @@ sleepIn(false, true) → true
 */
 
 function sleepIn(weekday, vacation) {
-  if(!weekday || vacation) {
-    return true;
-  }
+  // Testing
   return false;
 }
 
