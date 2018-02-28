@@ -58,3 +58,15 @@ function firstLast6(nums) {
   //return nums[0] === 6 || nums[nums.length - 1] === 6;
   return false; //test
 }
+
+/*
+Given an array of numbers length 3, return the sum of all the elements.
+
+sum3([1, 2, 3]) → 6
+sum3([5, 11, 2]) → 18
+sum3([7, 0, 0]) → 7
+*/
+
+function sum3(nums) {
+  return nums[0] + nums[1] + nums[2];
+}
