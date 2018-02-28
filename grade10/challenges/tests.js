@@ -218,9 +218,10 @@ function testSum3() {
         test += ", ";
       }
     }
-    test += ") -> " + run + " (Expected: <b>" + expected + "</b>)";
+    test += ") &rarr; " + run + " (Expected: <b>" + expected + "</b>)";
     var display = document.createElement("p");
     display.innerHTML = test;
     testResults.appendChild(display);
   }
+
 })();
