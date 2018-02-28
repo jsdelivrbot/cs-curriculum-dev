@@ -9,8 +9,8 @@ sleepIn(false, true) → true
 */
 
 function sleepIn(weekday, vacation) {
-  // Testing
-  return false;
+  //return !weekday || vacation;
+  return false; //test
 }
 
 /*
@@ -55,5 +55,6 @@ firstLast6([13, 6, 1, 2, 3]) → false
 */
 
 function firstLast6(nums) {
-  return nums[0] === 6 || nums[nums.length - 1] === 6;
+  //return nums[0] === 6 || nums[nums.length - 1] === 6;
+  return false; //test
 }

@@ -158,6 +158,42 @@
     }
   }
 
+function testSum3() {
+  var tests = [
+    {
+      one:[1, 2, 3],
+      expected:6
+    },
+    {
+      one: [5, 11, 2],
+      expected:18
+    },
+    {
+      one: [7, 0, 0],
+      expected:7
+    },
+    {
+      one: [1, 2, 1],
+      expected:4
+    },
+    {
+      one: [1, 1, 1],
+      expected:3
+    },
+    {
+      one: [2, 7, 2],
+      expected:11
+    }
+  ];
+  var problemName = document.createElement("h2");
+  problemName.innerHTML = "sum3()";
+  testResults.appendChild(problemName);
+  for(var i = 0; i < tests.length; i++) {
+    var run = sum3(tests[i].one); //edit this line
+    displayResult("sum3", [tests[i].one], run, tests[i].expected, i);
+  }
+}
+
   function displayResult(functionName, inputs, run, expected, testNumber) {
     var status = run === expected;
     if(status) {
