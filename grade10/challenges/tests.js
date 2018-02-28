@@ -168,7 +168,12 @@
     }
     var test = "<b>Test " + (testNumber + 1) + ":</b> " + functionName + "(";
     for(var i = 0; i < inputs.length; i++) {
-      test += inputs[i];
+      if(Array.isArray(inputs[i])) {
+        test += "[" + inputs[i] + "]";
+      }
+      else if(typeof inputs[i] === "string") {
+        test += "\"" + inputs[i] + "\"";
+      }
       if(i < inputs.length - 1) {
         test += ", ";
       }
