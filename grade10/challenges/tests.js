@@ -174,6 +174,9 @@
       else if(typeof inputs[i] === "string") {
         test += "\"" + inputs[i] + "\"";
       }
+      else {
+        test += inputs[i];
+      }
       if(i < inputs.length - 1) {
         test += ", ";
       }
