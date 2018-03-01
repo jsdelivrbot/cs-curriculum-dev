@@ -49,3 +49,30 @@ sum3([7, 0, 0]) → 7
 function sum3(nums) {
 
 }
+
+/*
+Given an array of numbers, return true if the array contains no 1's and no 3's.
+
+lucky13([0, 2, 4]) → true
+lucky13([1, 2, 3]) → false
+lucky13([1, 2, 4]) → false
+*/
+
+function lucky13(nums) {
+
+}
+
+/*
+The squirrels in Palo Alto spend most of the day playing. In particular,
+they play if the temperature is between 60 and 90 (inclusive). Unless it is
+summer, then the upper limit is 100 instead of 90. Given a number "temperature"
+and a boolean "isSummer", return true if the squirrels play and false otherwise.
+
+squirrelPlay(70, false) → true
+squirrelPlay(95, false) → false
+squirrelPlay(95, true) → true
+*/
+
+function squirrelPlay(temperature, isSummer) {
+
+}
