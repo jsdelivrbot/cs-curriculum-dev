@@ -79,6 +79,14 @@ function setup() {
   musicButton = select("#music");
   resetButton.mousePressed(resetGame);
   musicButton.mousePressed(toggleMusic);
+  messageDisplay.html("Lives: ");
+  lives = 5;
+  livesDisplay.html(lives);
+  matches = 0;
+  cardOne = undefined;
+  cardTwo = undefined;
+  cardXOffset = 70;
+  cardYOffset = 95;
   cardWidth = 120;
   cardHeight = 168;
   imageArray = [backImage, boltImage, cloudImage, sunImage, moonImage,
@@ -90,7 +98,11 @@ function setup() {
                sunCard1, sunCard2, moonCard1, moonCard2,
                smileyCard1, smileyCard2, heartCard1, heartCard2];
   addAnimations();
-  resetGame();
+  shuffle(cardSpriteArray, true);
+  placeCards();
+  cardsActive = true;
+  resetButton.hide();
+  musicButton.show();
 }
 
 function draw() {
@@ -99,6 +111,8 @@ function draw() {
 }
 
 function resetGame() {
+  resetButton.hide();
+  musicButton.show();
   messageDisplay.html("Lives: ");
   lives = 5;
   livesDisplay.html(lives);
@@ -107,12 +121,12 @@ function resetGame() {
   cardTwo = undefined;
   cardXOffset = 70;
   cardYOffset = 95;
-  resetAllCards();
-  shuffle(cardSpriteArray, true);
-  placeCards();
-  cardsActive = true;
-  resetButton.hide();
-  musicButton.show();
+  resetAllCards(); // wait 1 second while cards are resetting
+  setTimeout(function() {
+    shuffle(cardSpriteArray, true);
+    placeCards();
+    cardsActive = true;
+  }, 1000);
 }
 
 function toggleMusic() {
