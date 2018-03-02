@@ -105,12 +105,12 @@ function resetGame() {
   matches = 0;
   cardOne = undefined;
   cardTwo = undefined;
-  cardsActive = true;
   cardXOffset = 70;
   cardYOffset = 95;
+  resetAllCards();
   shuffle(cardSpriteArray, true);
   placeCards();
-  resetAllCards();
+  cardsActive = true;
   resetButton.hide();
   musicButton.show();
 }
@@ -175,14 +175,15 @@ function addAnimations() {
 function activateCard(card) {
   card.onMousePressed = function() {
     if(cardsActive && card.animation.getFrame() !== card.animation.getLastFrame()) {
-      flipSound.play();
       if(cardOne === undefined) {
+        flipSound.play();
         card.animation.playing = true;
         card.animation.goToFrame(card.animation.getLastFrame());
         cardOne = card;
         cardTwo = undefined;
       }
       else if(card !== cardOne) {
+        flipSound.play();
         card.animation.playing = true;
         card.animation.goToFrame(card.animation.getLastFrame());
         cardTwo = card;
@@ -250,7 +251,6 @@ function checkMatch() {
 
 function flipAllCards() {
   for(var i = 0; i < cardSpriteArray.length; i++) {
-    cardSpriteArray[i].animation.playing = true;
     cardSpriteArray[i].animation.goToFrame(cardSpriteArray[i].animation.getLastFrame());
   }
 }
