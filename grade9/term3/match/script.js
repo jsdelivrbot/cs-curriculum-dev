@@ -50,6 +50,15 @@ function loadImages() {
   transitionImage3 = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/anim3.png");
 }
 
+function loadAnimations() {
+  boltAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, boltImage);
+  cloudAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, cloudImage);
+  sunAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, sunImage);
+  moonAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, moonImage);
+  smileyAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, smileyImage);
+  heartAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, heartImage);
+}
+
 function loadSounds() {
   soundFormats("mp3", "wav");
   flipSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/flip.wav");
@@ -58,15 +67,6 @@ function loadSounds() {
   winSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/win.wav");
   loseSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/lose.wav");
   bgMusic = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/bgm.mp3");
-}
-
-function loadAnimations() {
-  boltAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, boltImage);
-  cloudAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, cloudImage);
-  sunAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, sunImage);
-  moonAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, moonImage);
-  smileyAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, smileyImage);
-  heartAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, heartImage);
 }
 
 function setup() {
@@ -93,6 +93,11 @@ function setup() {
   resetGame();
 }
 
+function draw() {
+  background(20, 40, 60);
+  drawSprites();
+}
+
 function resetGame() {
   messageDisplay.html("Lives: ");
   lives = 5;
@@ -108,11 +113,6 @@ function resetGame() {
   resetAllCards();
   resetButton.hide();
   musicButton.show();
-}
-
-function draw() {
-  background(20, 40, 60);
-  drawSprites();
 }
 
 function toggleMusic() {
@@ -143,6 +143,20 @@ function createSprites() {
     smileyCard2 = createSprite(0, 0, cardWidth, cardHeight);
     heartCard1 = createSprite(0, 0, cardWidth, cardHeight);
     heartCard2 = createSprite(0, 0, cardWidth, cardHeight);
+}
+
+function placeCards() {
+  for(var i = 0; i < cardSpriteArray.length; i++) {
+    cardSpriteArray[i].position.x = cardXOffset;
+    cardSpriteArray[i].position.y = cardYOffset;
+    if((i + 1) % 6 === 0) {
+      cardXOffset = 70;
+      cardYOffset += cardHeight + 10;
+    }
+    else {
+      cardXOffset += cardWidth + 10;
+    }
+  }
 }
 
 function addAnimations() {
@@ -230,20 +244,6 @@ function checkMatch() {
         cardsActive = true;
         //console.log("cards active: " + cardsActive);
       }, 2000);
-    }
-  }
-}
-
-function placeCards() {
-  for(var i = 0; i < cardSpriteArray.length; i++) {
-    cardSpriteArray[i].position.x = cardXOffset;
-    cardSpriteArray[i].position.y = cardYOffset;
-    if((i + 1) % 6 === 0) {
-      cardXOffset = 70;
-      cardYOffset += cardHeight + 10;
-    }
-    else {
-      cardXOffset += cardWidth + 10;
     }
   }
 }
