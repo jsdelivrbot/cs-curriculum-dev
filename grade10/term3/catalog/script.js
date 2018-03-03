@@ -3,7 +3,7 @@ var database = [
     name:"Martin Luther King Jr.",
     born:"January 15, 1929",
     died:"April 4, 1968",
-    picture:"https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term3/catalog/img/martin_luther_king_jr.png",
+    picture:"https://upload.wikimedia.org/wikipedia/commons/a/a5/Martin-Luther-King-1964-leaning-on-a-lectern.jpg",
     bio:"<b>Martin Luther King Jr.</b> was an American Baptist minister and activist who became the most visible spokesperson and leader in the civil rights movement from 1954 through 1968. He is best known for his role in the advancement of civil rights using the tactics of nonviolence and civil disobedience based on his Christian beliefs and inspired by the nonviolent activism of Mahatma Gandhi."
   },
   {

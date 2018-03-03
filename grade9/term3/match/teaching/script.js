@@ -1,5 +1,94 @@
 // card images
 var imageArray;
+var backImage, sunImage, moonImage;
+var transitionImage1, transitionImage2, transitionImage3;
+
+// card animations
+var sunAnimation, moonAnimation;
+
+// card sprites
+var cardSpriteArray;
+var sunCard1, sunCard2;
+var moonCard1, moonCard2;
+
+// other card properties
+var cardWidth, cardHeight;
+
+// game variables
+var cardsActive;
+var lives, matches;
+var firstCard, secondCard;
+
+/*
+ * function loadImages()
+ * This function is called in the preload() function. It loads all images from
+ * your GitHub repository using the built-in p5.play function "loadImage()",
+ * with the absolute URL to the image file itself as string input.
+ * Example:
+   function loadImages() {
+     sunImage = loadImage("absolute/url/to/the/image/sun.png");
+   }
+ */
+
+/*
+ * function loadAnimations()
+ * This function is called in the preload() function. It loads all animations
+ * using the built-in p5.play function "loadAnimation()". Therefore, this
+ * function is called after loadImages(). The loadAnimation() function takes
+ * image input in the order you'd like the animation to be played, from the
+ * first frame to the last.
+ * Example:
+   function loadAnimations() {
+     sunAnimation = loadAnimation(backImage,
+                                  transitionImage1,
+                                  transitionImage2,
+                                  transitionImage3,
+                                  sunImage);
+   }
+ */
+
+/*
+ * function preload()
+ * This function is called automatically by p5.play. It loads all assets for
+ * your game (e.g., images, sounds) before p5 calls setup(), to ensure that the
+ * game does not begin running until the assets are loaded and ready.
+ * Therefore, this function is essentially a "pre-setup" function. It should
+ * only call loadImages() and loadAnimations(), in that order.
+ */
+
+/*
+ * function setup()
+ */
+
+/*
+ * function draw()
+ */
+
+/*
+ * function resizeImages()
+ */
+
+/*
+ * function createSprites()
+ */
+
+/*
+ * function placeCards()
+ */
+
+/*
+ * function activateCard(card)
+ */
+
+/*
+ * function checkMatch()
+ */
+
+
+
+/*
+// card images
+var imageArray;
 var backImage, boltImage, cloudImage, sunImage, moonImage, smileyImage, heartImage;
 var transitionImage1, transitionImage2, transitionImage3;
 
@@ -269,3 +358,4 @@ function resetAllCards() {
     cardSpriteArray[i].animation.goToFrame(0);
   }
 }
+*/
