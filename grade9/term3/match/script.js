@@ -38,16 +38,16 @@ function preload() {
 }
 
 function loadImages() {
-  backImage = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/question.png");
-  boltImage = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/bolt.png");
-  cloudImage = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/cloud.png");
-  sunImage = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/sun.png");
-  moonImage = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/moon.png");
-  smileyImage = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/smiley.png");
-  heartImage = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/heart.png");
-  transitionImage1 = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/anim1.png");
-  transitionImage2 = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/anim2.png");
-  transitionImage3 = loadImage("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/img/anim3.png");
+  backImage = loadImage("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/back.png");
+  boltImage = loadImage("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/bolt.png");
+  cloudImage = loadImage("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/cloud.png");
+  sunImage = loadImage("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/sun.png");
+  moonImage = loadImage("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/moon.png");
+  smileyImage = loadImage("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/smiley.png");
+  heartImage = loadImage("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/heart.png");
+  transitionImage1 = loadImage("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/transition1.png");
+  transitionImage2 = loadImage("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/transition2.png");
+  transitionImage3 = loadImage("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/transition3.png");
 }
 
 function loadAnimations() {
