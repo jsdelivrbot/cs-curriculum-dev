@@ -85,7 +85,7 @@ function setup() {
   imageArray = [backImage, boltImage, cloudImage, sunImage, moonImage,
                 smileyImage, heartImage, transitionImage1, transitionImage2,
                 transitionImage3];
-  resizeImages(imageArray);
+  resizeImages();
   createSprites();
   cardSpriteArray = [boltCard1, boltCard2, cloudCard1, cloudCard2,
                sunCard1, sunCard2, moonCard1, moonCard2,
@@ -133,9 +133,9 @@ function toggleMusic() {
   }
 }
 
-function resizeImages(images) {
-  for(var i = 0; i < images.length; i++) {
-    images[i].resize(cardWidth, cardHeight);
+function resizeImages() {
+  for(var i = 0; i < imageArray.length; i++) {
+    imageArray[i].resize(cardWidth, cardHeight);
   }
 }
 
