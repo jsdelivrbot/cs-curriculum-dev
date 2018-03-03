@@ -61,12 +61,12 @@ function loadAnimations() {
 
 function loadSounds() {
   soundFormats("mp3", "wav");
-  flipSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/flip.wav");
-  matchSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/match.wav");
-  nopeSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/nope.wav");
-  winSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/win.wav");
-  loseSound = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/lose.wav");
-  bgMusic = loadSound("https://codenextcoaches.github.io/cs-curriculum-dev/grade9/term3/match/assets/sound/bgm.mp3");
+  flipSound = loadSound("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/sound/flip.wav");
+  matchSound = loadSound("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/sound/match.wav");
+  nopeSound = loadSound("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/sound/nope.wav");
+  winSound = loadSound("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/sound/win.wav");
+  loseSound = loadSound("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/sound/lose.wav");
+  bgMusic = loadSound("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/sound/bgm.mp3");
 }
 
 function setup() {
