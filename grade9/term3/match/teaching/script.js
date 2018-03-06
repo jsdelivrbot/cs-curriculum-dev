@@ -1,23 +1,26 @@
-// card images
+// images
 var imageArray;
 var backImage, sunImage, moonImage;
 var transitionImage1, transitionImage2, transitionImage3;
 
-// card animations
+// animations
 var sunAnimation, moonAnimation;
 
-// card sprites
-var cardSpriteArray;
-var sunCard1, sunCard2;
-var moonCard1, moonCard2;
+// sprites
+var spriteArray;
+var sunSprite1, sunSprite2;
+var moonSprite1, moonSprite2;
 
-// other card properties
+// card properties
 var cardWidth, cardHeight;
 
 // game variables
 var cardsActive;
 var lives, matches;
 var firstCard, secondCard;
+
+// UI variables
+var gameScreen;
 
 /*
  * function loadImages()
@@ -26,9 +29,18 @@ var firstCard, secondCard;
  * with the absolute URL to the image file itself as string input.
  * Example:
    function loadImages() {
-     sunImage = loadImage("absolute/url/to/the/image/sun.png");
+     myImage = loadImage("absolute/url/to/the/image.png");
    }
  */
+
+ function loadImages() {
+   backImage = loadImage("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/back.png");
+   sunImage = loadImage("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/sun.png");
+   moonImage = loadImage("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/moon.png");
+   transitionImage1 = loadImage("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/transition1.png");
+   transitionImage2 = loadImage("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/transition2.png");
+   transitionImage3 = loadImage("https://raw.githubusercontent.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/transition3.png");
+ }
 
 /*
  * function loadAnimations()
@@ -39,13 +51,14 @@ var firstCard, secondCard;
  * first frame to the last.
  * Example:
    function loadAnimations() {
-     sunAnimation = loadAnimation(backImage,
-                                  transitionImage1,
-                                  transitionImage2,
-                                  transitionImage3,
-                                  sunImage);
+     myAnimation = loadAnimation(img1, img2, img3, img4);
    }
  */
+ function loadAnimations() {
+   sunAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, sunImage);
+   moonAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, moonImage);
+ }
+
 
 /*
  * function preload()
@@ -55,10 +68,24 @@ var firstCard, secondCard;
  * Therefore, this function is essentially a "pre-setup" function. It should
  * only call loadImages() and loadAnimations(), in that order.
  */
+ function preload() {
+   loadImages();
+   loadAnimations();
+ }
 
 /*
  * function setup()
+ * This function is called automatically by p5.js when the game begins, but
+ * after preload(). Therefore, assets are assumed to have been loaded and ready
+ * before this function is called.
  */
+ function setup() {
+   gameScreen = createCanvas(790, 370);
+   gameScreen.parent("#game-screen");
+   cardWidth = 120;
+   cardHeight = 168;
+   imageArray = [backImage, sunImage, moonImage, transitionImage1, transitionImage2, transitionImage3];
+ }
 
 /*
  * function draw()
@@ -66,11 +93,33 @@ var firstCard, secondCard;
 
 /*
  * function resizeImages()
+ * Resizes all images in imageArray such that each image has a width of cardWidth
+ * and a height of cardHeight.
  */
+ function resizeImages() {
+   for(var i = 0; i < imageArray.length; i++) {
+     imageArray[i].resize(cardWidth, cardHeight);
+   }
+  }
 
 /*
  * function createSprites()
+ * Initializes each card sprite variable (e.g., sunSprite1) as a sprite object
+ * through the createSprite(x, y, width, height) p5.play method. For all cards,
+ * x and y parameters should be passed values 0 and 0 (cards are actually placed
+ * in a separate function), while width and height correspond to cardWidth and
+ * cardHeight.
+ * Example:
+ * function createSprites() {
+     mySprite = createSprite(0, 0, cardWidth, cardHeight);
+  }
  */
+ function createSprites() {
+   sunSprite1 = createSprite(0, 0, cardWidth, cardHeight);
+   sunSprite2 = createSprite(0, 0, cardWidth, cardHeight);
+   moonSprite1 = createSprite(0, 0, cardWidth, cardHeight);
+   moonSprite2 = createSprite(0, 0, cardWidth, cardHeight);
+ }
 
 /*
  * function placeCards()

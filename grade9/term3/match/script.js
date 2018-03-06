@@ -1,22 +1,22 @@
-// card images
+// images
 var imageArray;
 var backImage, boltImage, cloudImage, sunImage, moonImage, smileyImage, heartImage;
 var transitionImage1, transitionImage2, transitionImage3;
 
-// card animations
+// animations
 var boltAnimation, cloudAnimation, sunAnimation, moonAnimation, smileyAnimation,
 heartAnimation;
 
-// card sprites
+// sprites
 var cardSpriteArray;
-var boltCard1, boltCard2;
-var cloudCard1, cloudCard2;
-var sunCard1, sunCard2;
-var moonCard1, moonCard2;
-var smileyCard1, smileyCard2;
-var heartCard1, heartCard2;
+var boltSprite1, boltSprite2;
+var cloudSprite1, cloudSprite2;
+var sunSprite1, sunSprite2;
+var moonSprite1, moonSprite2;
+var smileySprite1, smileySprite2;
+var heartSprite1, heartSprite2;
 
-// card attributes
+// card properties
 var cardWidth, cardHeight;
 var cardXOffset, cardYOffset;
 
@@ -29,7 +29,9 @@ var lives, matches;
 var cardsActive;
 
 // UI variables
-var messageDisplay, livesDisplay, resetButton, musicButton;
+var gameScreen;
+var messageDisplay, livesDisplay;
+var resetButton, musicButton;
 
 function preload() {
   loadImages();
@@ -72,7 +74,8 @@ function loadSounds() {
 function setup() {
   bgMusic.setVolume(0.1);
   bgMusic.loop();
-  createCanvas(790, 370);
+  gameScreen = createCanvas(790, 370);
+  gameScreen.parent("#game-screen");
   messageDisplay = select("#message-display");
   livesDisplay = select("#lives-display");
   resetButton = select("#reset");
@@ -87,9 +90,9 @@ function setup() {
                 transitionImage3];
   resizeImages();
   createSprites();
-  cardSpriteArray = [boltCard1, boltCard2, cloudCard1, cloudCard2,
-               sunCard1, sunCard2, moonCard1, moonCard2,
-               smileyCard1, smileyCard2, heartCard1, heartCard2];
+  cardSpriteArray = [boltSprite1, boltSprite2, cloudSprite1, cloudSprite2,
+               sunSprite1, sunSprite2, moonSprite1, moonSprite2,
+               smileySprite1, smileySprite2, heartSprite1, heartSprite2];
   addAnimations();
   shuffle(cardSpriteArray, true);
   placeCards();
@@ -140,18 +143,18 @@ function resizeImages() {
 }
 
 function createSprites() {
-    boltCard1 = createSprite(0, 0, cardWidth, cardHeight);
-    boltCard2 = createSprite(0, 0, cardWidth, cardHeight);
-    cloudCard1 = createSprite(0, 0, cardWidth, cardHeight);
-    cloudCard2 = createSprite(0, 0, cardWidth, cardHeight);
-    sunCard1 = createSprite(0, 0, cardWidth, cardHeight);
-    sunCard2 = createSprite(0, 0, cardWidth, cardHeight);
-    moonCard1 = createSprite(0, 0, cardWidth, cardHeight);
-    moonCard2 = createSprite(0, 0, cardWidth, cardHeight);
-    smileyCard1 = createSprite(0, 0, cardWidth, cardHeight);
-    smileyCard2 = createSprite(0, 0, cardWidth, cardHeight);
-    heartCard1 = createSprite(0, 0, cardWidth, cardHeight);
-    heartCard2 = createSprite(0, 0, cardWidth, cardHeight);
+    boltSprite1 = createSprite(0, 0, cardWidth, cardHeight);
+    boltSprite2 = createSprite(0, 0, cardWidth, cardHeight);
+    cloudSprite1 = createSprite(0, 0, cardWidth, cardHeight);
+    cloudSprite2 = createSprite(0, 0, cardWidth, cardHeight);
+    sunSprite1 = createSprite(0, 0, cardWidth, cardHeight);
+    sunSprite2 = createSprite(0, 0, cardWidth, cardHeight);
+    moonSprite1 = createSprite(0, 0, cardWidth, cardHeight);
+    moonSprite2 = createSprite(0, 0, cardWidth, cardHeight);
+    smileySprite1 = createSprite(0, 0, cardWidth, cardHeight);
+    smileySprite2 = createSprite(0, 0, cardWidth, cardHeight);
+    heartSprite1 = createSprite(0, 0, cardWidth, cardHeight);
+    heartSprite2 = createSprite(0, 0, cardWidth, cardHeight);
 }
 
 function placeCards() {
@@ -203,12 +206,12 @@ function activateCard(card) {
 }
 
 function checkMatch() {
-  var boltMatch = (cardOne === boltCard1 && cardTwo === boltCard2) || (cardOne === boltCard2 && cardTwo === boltCard1);
-  var cloudMatch = (cardOne === cloudCard1 && cardTwo === cloudCard2) || (cardOne === cloudCard2 && cardTwo === cloudCard1);
-  var sunMatch = (cardOne === sunCard1 && cardTwo === sunCard2) || (cardOne === sunCard2 && cardTwo === sunCard1);
-  var moonMatch = (cardOne === moonCard1 && cardTwo === moonCard2) || (cardOne === moonCard2 && cardTwo === moonCard1);
-  var smileyMatch = (cardOne === smileyCard1 && cardTwo === smileyCard2) || (cardOne === smileyCard2 && cardTwo === smileyCard1);
-  var heartMatch = (cardOne === heartCard1 && cardTwo === heartCard2) || (cardOne === heartCard2 && cardTwo === heartCard1);
+  var boltMatch = (cardOne === boltSprite1 && cardTwo === boltSprite2) || (cardOne === boltSprite2 && cardTwo === boltSprite1);
+  var cloudMatch = (cardOne === cloudSprite1 && cardTwo === cloudSprite2) || (cardOne === cloudSprite2 && cardTwo === cloudSprite1);
+  var sunMatch = (cardOne === sunSprite1 && cardTwo === sunSprite2) || (cardOne === sunSprite2 && cardTwo === sunSprite1);
+  var moonMatch = (cardOne === moonSprite1 && cardTwo === moonSprite2) || (cardOne === moonSprite2 && cardTwo === moonSprite1);
+  var smileyMatch = (cardOne === smileySprite1 && cardTwo === smileySprite2) || (cardOne === smileySprite2 && cardTwo === smileySprite1);
+  var heartMatch = (cardOne === heartSprite1 && cardTwo === heartSprite2) || (cardOne === heartSprite2 && cardTwo === heartSprite1);
   if(boltMatch || cloudMatch || sunMatch || moonMatch || smileyMatch || heartMatch) {
     matches++;
     //console.log("Match!");
