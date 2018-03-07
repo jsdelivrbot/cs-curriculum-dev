@@ -11,8 +11,9 @@ var spriteArray;
 var sunSprite1, sunSprite2;
 var moonSprite1, moonSprite2;
 
-// card properties
-var cardWidth, cardHeight;
+// sprite properties
+var spriteWidth, spriteHeight;
+var spriteXOffset, spriteYOffset;
 
 // game variables
 var cardsActive;
@@ -24,9 +25,9 @@ var gameScreen;
 
 /*
  * function loadImages()
- * This function is called in the preload() function. It loads all images from
- * your GitHub repository using the built-in p5.play function "loadImage()",
- * with the absolute URL to the image file itself as string input.
+ * Called in the preload() function. Loads all images from your GitHub
+ * repository using the built-in p5.play function "loadImage()", with the
+ * absolute URL to the image file itself as string input.
  * Example:
    function loadImages() {
      myImage = loadImage("absolute/url/to/the/image.png");
@@ -44,11 +45,10 @@ var gameScreen;
 
 /*
  * function loadAnimations()
- * This function is called in the preload() function. It loads all animations
- * using the built-in p5.play function "loadAnimation()". Therefore, this
- * function is called after loadImages(). The loadAnimation() function takes
- * image input in the order you'd like the animation to be played, from the
- * first frame to the last.
+ * Called in the preload() function. Loads all animations using the built-in
+ * p5.play function "loadAnimation()". Therefore, this function is called after
+ * loadImages(). The loadAnimation() function takes image input in the order
+ * you'd like the animation to be played, from the first frame to the last.
  * Example:
    function loadAnimations() {
      myAnimation = loadAnimation(img1, img2, img3, img4);
@@ -62,11 +62,11 @@ var gameScreen;
 
 /*
  * function preload()
- * This function is called automatically by p5.play. It loads all assets for
- * your game (e.g., images, sounds) before p5 calls setup(), to ensure that the
- * game does not begin running until the assets are loaded and ready.
- * Therefore, this function is essentially a "pre-setup" function. It should
- * only call loadImages() and loadAnimations(), in that order.
+ * Called automatically by p5.play. Loads all assets for your game (e.g.,
+ * images, sounds) before p5 calls setup(), to ensure that the game does not
+ * begin running until the assets are loaded and ready. Therefore, this function
+ * is essentially a "pre-setup" function. It should only call loadImages() and
+ * loadAnimations(), in that order.
  */
  function preload() {
    loadImages();
@@ -75,16 +75,18 @@ var gameScreen;
 
 /*
  * function setup()
- * This function is called automatically by p5.js when the game begins, but
- * after preload(). Therefore, assets are assumed to have been loaded and ready
- * before this function is called.
+ * Called automatically by p5.js when the game begins, but after preload().
+ * Therefore, assets are assumed to have been loaded and ready before this
+ * function is called.
  */
  function setup() {
    gameScreen = createCanvas(790, 370);
    gameScreen.parent("#game-screen");
-   cardWidth = 120;
-   cardHeight = 168;
+   spriteWidth = 120;
+   spriteHeight = 168;
    imageArray = [backImage, sunImage, moonImage, transitionImage1, transitionImage2, transitionImage3];
+   resizeImages();
+   createSprites();
  }
 
 /*
@@ -93,40 +95,74 @@ var gameScreen;
 
 /*
  * function resizeImages()
- * Resizes all images in imageArray such that each image has a width of cardWidth
- * and a height of cardHeight.
+ * Resizes all images in imageArray such that each image has a width of spriteWidth
+ * and a height of spriteHeight.
  */
  function resizeImages() {
    for(var i = 0; i < imageArray.length; i++) {
-     imageArray[i].resize(cardWidth, cardHeight);
+     imageArray[i].resize(spriteWidth, spriteHeight);
    }
-  }
+ }
 
 /*
  * function createSprites()
  * Initializes each card sprite variable (e.g., sunSprite1) as a sprite object
  * through the createSprite(x, y, width, height) p5.play method. For all cards,
  * x and y parameters should be passed values 0 and 0 (cards are actually placed
- * in a separate function), while width and height correspond to cardWidth and
- * cardHeight.
+ * in a separate function), while width and height correspond to spriteWidth and
+ * spriteHeight.
  * Example:
  * function createSprites() {
-     mySprite = createSprite(0, 0, cardWidth, cardHeight);
+     mySprite = createSprite(0, 0, spriteWidth, spriteHeight);
   }
  */
  function createSprites() {
-   sunSprite1 = createSprite(0, 0, cardWidth, cardHeight);
-   sunSprite2 = createSprite(0, 0, cardWidth, cardHeight);
-   moonSprite1 = createSprite(0, 0, cardWidth, cardHeight);
-   moonSprite2 = createSprite(0, 0, cardWidth, cardHeight);
+   sunSprite1 = createSprite(0, 0, spriteWidth, spriteHeight);
+   sunSprite2 = createSprite(0, 0, spriteWidth, spriteHeight);
+   moonSprite1 = createSprite(0, 0, spriteWidth, spriteHeight);
+   moonSprite2 = createSprite(0, 0, spriteWidth, spriteHeight);
+ }
+
+ /*
+  * function addAnimations()
+  * Adds an animation to each sprite in spriteArray (that is, each card).
+  * The animations have already been loaded using loadAnimations(), so this
+  * function is responsible for actually adding them to the sprites.
+  * Additionally, this function initializes each animation's frameDelay, loop,
+  * and playing properties. Finally, this function calls activateCard() with
+  * each sprite, which is responsible for triggering animations to play when
+  * sprites are clicked.
+  */
+  function addAnimations() {
+    var spriteAnimations = [sunAnimation, sunAnimation, moonAnimation, moonAnimation];
+    for(var i = 0; i < spriteArray.length; i++) {
+      spriteArray[i].addAnimation(spriteAnimations[i]);
+      spriteArray[i].animation.frameDelay = 10;
+      spriteArray[i].animation.looping = false;
+      spriteArray[i].animation.playing = false;
+      // activateSprite(spriteArray[i]);
+    }
+  }
+
+/*
+ * function placeSprites()
+ */
+ function placeSprites() {
+   for(var i = 0; i < spriteArray.length; i++) {
+     spriteArray[i].position.x = spriteXOffset;
+     spriteArray[i].position.y = spriteYOffset;
+     if((i + 1) % 6 === 0) {
+       spriteXOffset = 70;
+       spriteYOffset += spriteHeight + 10;
+     }
+     else {
+       spriteXOffset += spriteWidth + 10;
+     }
+   }
  }
 
 /*
- * function placeCards()
- */
-
-/*
- * function activateCard(card)
+ * function activateSprite(sprite)
  */
 
 /*
@@ -155,7 +191,7 @@ var smileyCard1, smileyCard2;
 var heartCard1, heartCard2;
 
 // card attributes
-var cardWidth, cardHeight;
+var spriteWidth, spriteHeight;
 var cardXOffset, cardYOffset;
 
 // sounds
@@ -217,8 +253,8 @@ function setup() {
   musicButton = select("#music");
   resetButton.mousePressed(resetGame);
   musicButton.mousePressed(toggleMusic);
-  cardWidth = 120;
-  cardHeight = 168;
+  spriteWidth = 120;
+  spriteHeight = 168;
   init();
   imageArray = [backImage, boltImage, cloudImage, sunImage, moonImage,
                 smileyImage, heartImage, transitionImage1, transitionImage2,
@@ -273,23 +309,23 @@ function toggleMusic() {
 
 function resizeImages(images) {
   for(var i = 0; i < images.length; i++) {
-    images[i].resize(cardWidth, cardHeight);
+    images[i].resize(spriteWidth, spriteHeight);
   }
 }
 
 function createSprites() {
-    boltCard1 = createSprite(0, 0, cardWidth, cardHeight);
-    boltCard2 = createSprite(0, 0, cardWidth, cardHeight);
-    cloudCard1 = createSprite(0, 0, cardWidth, cardHeight);
-    cloudCard2 = createSprite(0, 0, cardWidth, cardHeight);
-    sunCard1 = createSprite(0, 0, cardWidth, cardHeight);
-    sunCard2 = createSprite(0, 0, cardWidth, cardHeight);
-    moonCard1 = createSprite(0, 0, cardWidth, cardHeight);
-    moonCard2 = createSprite(0, 0, cardWidth, cardHeight);
-    smileyCard1 = createSprite(0, 0, cardWidth, cardHeight);
-    smileyCard2 = createSprite(0, 0, cardWidth, cardHeight);
-    heartCard1 = createSprite(0, 0, cardWidth, cardHeight);
-    heartCard2 = createSprite(0, 0, cardWidth, cardHeight);
+    boltCard1 = createSprite(0, 0, spriteWidth, spriteHeight);
+    boltCard2 = createSprite(0, 0, spriteWidth, spriteHeight);
+    cloudCard1 = createSprite(0, 0, spriteWidth, spriteHeight);
+    cloudCard2 = createSprite(0, 0, spriteWidth, spriteHeight);
+    sunCard1 = createSprite(0, 0, spriteWidth, spriteHeight);
+    sunCard2 = createSprite(0, 0, spriteWidth, spriteHeight);
+    moonCard1 = createSprite(0, 0, spriteWidth, spriteHeight);
+    moonCard2 = createSprite(0, 0, spriteWidth, spriteHeight);
+    smileyCard1 = createSprite(0, 0, spriteWidth, spriteHeight);
+    smileyCard2 = createSprite(0, 0, spriteWidth, spriteHeight);
+    heartCard1 = createSprite(0, 0, spriteWidth, spriteHeight);
+    heartCard2 = createSprite(0, 0, spriteWidth, spriteHeight);
 }
 
 function placeCards() {
@@ -298,10 +334,10 @@ function placeCards() {
     cardSpriteArray[i].position.y = cardYOffset;
     if((i + 1) % 6 === 0) {
       cardXOffset = 70;
-      cardYOffset += cardHeight + 10;
+      cardYOffset += spriteHeight + 10;
     }
     else {
-      cardXOffset += cardWidth + 10;
+      cardXOffset += spriteWidth + 10;
     }
   }
 }

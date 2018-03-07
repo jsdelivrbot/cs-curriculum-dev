@@ -8,7 +8,7 @@ var boltAnimation, cloudAnimation, sunAnimation, moonAnimation, smileyAnimation,
 heartAnimation;
 
 // sprites
-var cardSpriteArray;
+var spriteArray;
 var boltSprite1, boltSprite2;
 var cloudSprite1, cloudSprite2;
 var sunSprite1, sunSprite2;
@@ -16,17 +16,17 @@ var moonSprite1, moonSprite2;
 var smileySprite1, smileySprite2;
 var heartSprite1, heartSprite2;
 
-// card properties
-var cardWidth, cardHeight;
-var cardXOffset, cardYOffset;
+// sprite properties
+var spriteWidth, spriteHeight;
+var spriteXOffset, spriteYOffset;
 
 // sounds
 var flipSound, matchSound, nopeSound, winSound, loseSound, bgMusic;
 
 // game variables
-var firstCard, secondCard;
+var firstsprite, secondsprite;
 var lives, matches;
-var cardsActive;
+var spritesActive;
 
 // UI variables
 var gameScreen;
@@ -82,21 +82,21 @@ function setup() {
   musicButton = select("#music");
   resetButton.mousePressed(resetGame);
   musicButton.mousePressed(toggleMusic);
-  cardWidth = 120;
-  cardHeight = 168;
+  spriteWidth = 120;
+  spriteHeight = 168;
   init();
   imageArray = [backImage, boltImage, cloudImage, sunImage, moonImage,
                 smileyImage, heartImage, transitionImage1, transitionImage2,
                 transitionImage3];
   resizeImages();
   createSprites();
-  cardSpriteArray = [boltSprite1, boltSprite2, cloudSprite1, cloudSprite2,
+  spriteArray = [boltSprite1, boltSprite2, cloudSprite1, cloudSprite2,
                sunSprite1, sunSprite2, moonSprite1, moonSprite2,
                smileySprite1, smileySprite2, heartSprite1, heartSprite2];
   addAnimations();
-  shuffle(cardSpriteArray, true);
-  placeCards();
-  cardsActive = true;
+  shuffle(spriteArray, true);
+  placeSprites();
+  spritesActive = true;
 }
 
 function draw() {
@@ -111,19 +111,19 @@ function init() {
   lives = 5;
   livesDisplay.html(lives);
   matches = 0;
-  cardOne = undefined;
-  cardTwo = undefined;
-  cardXOffset = 70;
-  cardYOffset = 95;
+  spriteOne = undefined;
+  spriteTwo = undefined;
+  spriteXOffset = 70;
+  spriteYOffset = 95;
 }
 
 function resetGame() {
   init();
-  resetAllCards(); // wait 1 second while cards are resetting
+  resetAllSprites(); // wait 1 second while sprites are resetting
   setTimeout(function() {
-    shuffle(cardSpriteArray, true);
-    placeCards();
-    cardsActive = true;
+    shuffle(spriteArray, true);
+    placeSprites();
+    spritesActive = true;
   }, 1000);
 }
 
@@ -138,67 +138,67 @@ function toggleMusic() {
 
 function resizeImages() {
   for(var i = 0; i < imageArray.length; i++) {
-    imageArray[i].resize(cardWidth, cardHeight);
+    imageArray[i].resize(spriteWidth, spriteHeight);
   }
 }
 
 function createSprites() {
-    boltSprite1 = createSprite(0, 0, cardWidth, cardHeight);
-    boltSprite2 = createSprite(0, 0, cardWidth, cardHeight);
-    cloudSprite1 = createSprite(0, 0, cardWidth, cardHeight);
-    cloudSprite2 = createSprite(0, 0, cardWidth, cardHeight);
-    sunSprite1 = createSprite(0, 0, cardWidth, cardHeight);
-    sunSprite2 = createSprite(0, 0, cardWidth, cardHeight);
-    moonSprite1 = createSprite(0, 0, cardWidth, cardHeight);
-    moonSprite2 = createSprite(0, 0, cardWidth, cardHeight);
-    smileySprite1 = createSprite(0, 0, cardWidth, cardHeight);
-    smileySprite2 = createSprite(0, 0, cardWidth, cardHeight);
-    heartSprite1 = createSprite(0, 0, cardWidth, cardHeight);
-    heartSprite2 = createSprite(0, 0, cardWidth, cardHeight);
+    boltSprite1 = createSprite(0, 0, spriteWidth, spriteHeight);
+    boltSprite2 = createSprite(0, 0, spriteWidth, spriteHeight);
+    cloudSprite1 = createSprite(0, 0, spriteWidth, spriteHeight);
+    cloudSprite2 = createSprite(0, 0, spriteWidth, spriteHeight);
+    sunSprite1 = createSprite(0, 0, spriteWidth, spriteHeight);
+    sunSprite2 = createSprite(0, 0, spriteWidth, spriteHeight);
+    moonSprite1 = createSprite(0, 0, spriteWidth, spriteHeight);
+    moonSprite2 = createSprite(0, 0, spriteWidth, spriteHeight);
+    smileySprite1 = createSprite(0, 0, spriteWidth, spriteHeight);
+    smileySprite2 = createSprite(0, 0, spriteWidth, spriteHeight);
+    heartSprite1 = createSprite(0, 0, spriteWidth, spriteHeight);
+    heartSprite2 = createSprite(0, 0, spriteWidth, spriteHeight);
 }
 
-function placeCards() {
-  for(var i = 0; i < cardSpriteArray.length; i++) {
-    cardSpriteArray[i].position.x = cardXOffset;
-    cardSpriteArray[i].position.y = cardYOffset;
+function placeSprites() {
+  for(var i = 0; i < spriteArray.length; i++) {
+    spriteArray[i].position.x = spriteXOffset;
+    spriteArray[i].position.y = spriteYOffset;
     if((i + 1) % 6 === 0) {
-      cardXOffset = 70;
-      cardYOffset += cardHeight + 10;
+      spriteXOffset = 70;
+      spriteYOffset += spriteHeight + 10;
     }
     else {
-      cardXOffset += cardWidth + 10;
+      spriteXOffset += spriteWidth + 10;
     }
   }
 }
 
 function addAnimations() {
-  var cardAnimations = [boltAnimation, boltAnimation, cloudAnimation, cloudAnimation,
+  var animations = [boltAnimation, boltAnimation, cloudAnimation, cloudAnimation,
                         sunAnimation, sunAnimation, moonAnimation, moonAnimation,
                         smileyAnimation, smileyAnimation, heartAnimation, heartAnimation];
-  for(var i = 0; i < cardSpriteArray.length; i++) {
-    cardSpriteArray[i].addAnimation("flip", cardAnimations[i]);
-    cardSpriteArray[i].animation.frameDelay = 10;
-    cardSpriteArray[i].animation.looping = false;
-    cardSpriteArray[i].animation.playing = false;
-    activateCard(cardSpriteArray[i]);
+  for(var i = 0; i < spriteArray.length; i++) {
+    spriteArray[i].addAnimation("flip", animations[i]);
+    spriteArray[i].animation.frameDelay = 10;
+    spriteArray[i].animation.looping = false;
+    spriteArray[i].animation.playing = false;
+    activateSprite(spriteArray[i]);
   }
 }
 
-function activateCard(card) {
-  card.onMousePressed = function() {
-    if(cardsActive && card.animation.getFrame() !== card.animation.getLastFrame()) {
-      if(cardOne === undefined) {
+function activateSprite(s) {
+  s.onMousePressed = function() {
+    if(spritesActive && s.animation.getFrame() !== s.animation.getLastFrame()) {
+      if(spriteOne === undefined) {
         flipSound.play();
-        card.animation.playing = true;
-        card.animation.goToFrame(card.animation.getLastFrame());
-        cardOne = card;
-        cardTwo = undefined;
+        s.animation.playing = true;
+        s.animation.goToFrame(s.animation.getLastFrame());
+        spriteOne = s;
+        spriteTwo = undefined;
       }
-      else if(card !== cardOne) {
+      else if(s !== spriteOne) {
         flipSound.play();
-        card.animation.playing = true;
-        card.animation.goToFrame(card.animation.getLastFrame());
-        cardTwo = card;
+        s.animation.playing = true;
+        s.animation.goToFrame(s.animation.getLastFrame());
+        spriteTwo = s;
         checkMatch();
       }
     }
@@ -206,43 +206,43 @@ function activateCard(card) {
 }
 
 function checkMatch() {
-  var boltMatch = (cardOne === boltSprite1 && cardTwo === boltSprite2) || (cardOne === boltSprite2 && cardTwo === boltSprite1);
-  var cloudMatch = (cardOne === cloudSprite1 && cardTwo === cloudSprite2) || (cardOne === cloudSprite2 && cardTwo === cloudSprite1);
-  var sunMatch = (cardOne === sunSprite1 && cardTwo === sunSprite2) || (cardOne === sunSprite2 && cardTwo === sunSprite1);
-  var moonMatch = (cardOne === moonSprite1 && cardTwo === moonSprite2) || (cardOne === moonSprite2 && cardTwo === moonSprite1);
-  var smileyMatch = (cardOne === smileySprite1 && cardTwo === smileySprite2) || (cardOne === smileySprite2 && cardTwo === smileySprite1);
-  var heartMatch = (cardOne === heartSprite1 && cardTwo === heartSprite2) || (cardOne === heartSprite2 && cardTwo === heartSprite1);
+  var boltMatch = (spriteOne === boltSprite1 && spriteTwo === boltSprite2) || (spriteOne === boltSprite2 && spriteTwo === boltSprite1);
+  var cloudMatch = (spriteOne === cloudSprite1 && spriteTwo === cloudSprite2) || (spriteOne === cloudSprite2 && spriteTwo === cloudSprite1);
+  var sunMatch = (spriteOne === sunSprite1 && spriteTwo === sunSprite2) || (spriteOne === sunSprite2 && spriteTwo === sunSprite1);
+  var moonMatch = (spriteOne === moonSprite1 && spriteTwo === moonSprite2) || (spriteOne === moonSprite2 && spriteTwo === moonSprite1);
+  var smileyMatch = (spriteOne === smileySprite1 && spriteTwo === smileySprite2) || (spriteOne === smileySprite2 && spriteTwo === smileySprite1);
+  var heartMatch = (spriteOne === heartSprite1 && spriteTwo === heartSprite2) || (spriteOne === heartSprite2 && spriteTwo === heartSprite1);
   if(boltMatch || cloudMatch || sunMatch || moonMatch || smileyMatch || heartMatch) {
     matches++;
     //console.log("Match!");
-    if(matches === cardSpriteArray.length / 2) {
+    if(matches === spriteArray.length / 2) {
       winSound.play();
       messageDisplay.html("YOU WIN!!! YOU ARE A BEAST!!!");
       livesDisplay.html("");
       //console.log("You win!");
-      cardsActive = false;
+      spritesActive = false;
       resetButton.show();
       musicButton.hide();
     }
     else {
       matchSound.play();
-      cardOne = undefined;
-      cardTwo = undefined;
+      spriteOne = undefined;
+      spriteTwo = undefined;
     }
   }
   else {
     lives--;
     livesDisplay.html(lives);
     //console.log("No Match!");
-    cardsActive = false;
-    //console.log("cards active: " + cardsActive);
+    spritesActive = false;
+    //console.log("sprites active: " + spritesActive);
     if(lives === 0) {
       setTimeout(function() {
         //console.log("You lose!");
         loseSound.play();
         messageDisplay.html("YOU LOSE!!! DANG!!!");
         livesDisplay.html("");
-        flipAllCards();
+        flipAllSprites();
         resetButton.show();
         musicButton.hide();
       }, 2000);
@@ -250,25 +250,25 @@ function checkMatch() {
     else {
       setTimeout(function() {
         nopeSound.play();
-        cardOne.animation.goToFrame(0);
-        cardTwo.animation.goToFrame(0);
-        cardOne = undefined;
-        cardTwo = undefined;
-        cardsActive = true;
-        //console.log("cards active: " + cardsActive);
+        spriteOne.animation.goToFrame(0);
+        spriteTwo.animation.goToFrame(0);
+        spriteOne = undefined;
+        spriteTwo = undefined;
+        spritesActive = true;
+        //console.log("sprites active: " + spritesActive);
       }, 2000);
     }
   }
 }
 
-function flipAllCards() {
-  for(var i = 0; i < cardSpriteArray.length; i++) {
-    cardSpriteArray[i].animation.goToFrame(cardSpriteArray[i].animation.getLastFrame());
+function flipAllSprites() {
+  for(var i = 0; i < spriteArray.length; i++) {
+    spriteArray[i].animation.goToFrame(spriteArray[i].animation.getLastFrame());
   }
 }
 
-function resetAllCards() {
-  for(var i = 0; i < cardSpriteArray.length; i++) {
-    cardSpriteArray[i].animation.goToFrame(0);
+function resetAllSprites() {
+  for(var i = 0; i < spriteArray.length; i++) {
+    spriteArray[i].animation.goToFrame(0);
   }
 }
