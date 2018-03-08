@@ -21,7 +21,7 @@ header, main {
   display: none;
 }
 
-#quiz-questions {
+#quiz-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -76,7 +76,7 @@ input[type="radio"]:checked + label > .choice-image {
 
 /* Desktop styles */
 @media only screen and (min-width: 768px) {
-  #quiz-questions {
+  #quiz-wrapper {
     flex-direction: row;
   }
 }
