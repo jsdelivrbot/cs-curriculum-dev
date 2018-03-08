@@ -6,9 +6,9 @@ var pageTitleText = pageTitle.innerHTML;
 var tryAgain = document.getElementById("try-again");
 var quizWrapper = document.getElementById("quiz-wrapper");
 var result = document.getElementById("result");
-var submitButton = document.getElementById("form-submit");
-submitButton.addEventListener("click", processResults);
+var formSubmit = document.getElementById("form-submit");
 tryAgain.addEventListener("click", resetQuiz);
+formSubmit.addEventListener("click", processResults);
 
 function processResults() {
   topping = document.querySelector('input[name="toppings"]:checked');
@@ -20,7 +20,7 @@ function processResults() {
   else {
     var personality = getPersonality();
     quizWrapper.style.display = "none";
-    submitButton.style.display = "none";
+    formSubmit.style.display = "none";
     result.style.display = "block";
     tryAgain.style.display = "block";
     if(personality === 0){
@@ -83,7 +83,7 @@ function resetQuiz() {
   quizWrapper.style.display = "flex";
   result.style.display = "none";
   tryAgain.style.display = "none";
-  submitButton.style.display = "block";
+  formSubmit.style.display = "block";
   topping.checked = false;
   weapon.checked = false;
   color.checked = false;

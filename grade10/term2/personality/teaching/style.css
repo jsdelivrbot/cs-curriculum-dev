@@ -40,7 +40,7 @@ header, main {
   font-size: 2em;
 }
 
-.question input {
+.question label {
   flex-basis: 50%;
 }
 
