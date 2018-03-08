@@ -4,7 +4,7 @@ var color = null;
 var pageTitle = document.getElementById("page-title");
 var pageTitleText = pageTitle.innerHTML;
 var tryAgain = document.getElementById("try-again");
-var quizQuestions = document.getElementById("quiz-questions");
+var quizWrapper = document.getElementById("quiz-wrapper");
 var result = document.getElementById("result");
 var submitButton = document.getElementById("form-submit");
 submitButton.addEventListener("click", processResults);
@@ -19,7 +19,7 @@ function processResults() {
   }
   else {
     var personality = getPersonality();
-    quizQuestions.style.display = "none";
+    quizWrapper.style.display = "none";
     submitButton.style.display = "none";
     result.style.display = "block";
     tryAgain.style.display = "block";
@@ -80,7 +80,7 @@ function getPersonality() {
 
 function resetQuiz() {
   pageTitle.innerHTML = pageTitleText;
-  quizQuestions.style.display = "flex";
+  quizWrapper.style.display = "flex";
   result.style.display = "none";
   tryAgain.style.display = "none";
   submitButton.style.display = "block";

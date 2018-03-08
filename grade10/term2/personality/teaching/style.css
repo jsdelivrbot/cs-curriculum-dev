@@ -5,7 +5,7 @@ html {
   box-sizing: inherit;
 }
 
-/* Write your styles below */
+/* Place your styles below */
 
 header, main {
   text-align: center;
@@ -21,7 +21,7 @@ header, main {
   display: none;
 }
 
-#quiz-questions {
+#quiz-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,7 +40,7 @@ header, main {
   font-size: 2em;
 }
 
-.question label {
+.question input {
   flex-basis: 50%;
 }
 
@@ -55,14 +55,6 @@ header, main {
   opacity: 1.0;
 }
 
-input[type="radio"] {
-  display: none;
-}
-
-input[type="radio"]:checked + label > .choice-image {
-  opacity: 1.0;
-  box-shadow: 0 0 5px 5px #ff00ff;
-}
 
 #result {
   display: none;
@@ -76,7 +68,7 @@ input[type="radio"]:checked + label > .choice-image {
 
 /* Desktop styles */
 @media only screen and (min-width: 768px) {
-  #quiz-questions {
+  #quiz-wrapper {
     flex-direction: row;
   }
 }
