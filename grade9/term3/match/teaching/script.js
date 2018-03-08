@@ -27,10 +27,12 @@ var gameScreen;
  * function loadImages()
  * Called in the preload() function. Loads all images from your GitHub
  * repository using the built-in p5.play function "loadImage()", with the
- * absolute URL to the image file itself as string input.
+ * absolute URL to the image file itself as string input. You can obtain
+ * an absolute "raw" URL to GitHub resources using https://rawgit.com/ (be
+ * sure to use the "development" URL).
  * Example:
    function loadImages() {
-     myImage = loadImage("absolute/url/to/the/image.png");
+     myImage = loadImage("https://rawgit.com/path/to/image.png");
    }
  */
 
