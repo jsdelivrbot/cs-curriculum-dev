@@ -55,6 +55,14 @@ header, main {
   opacity: 1.0;
 }
 
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"]:checked + label > .choice-image {
+  opacity: 1.0;
+  box-shadow: 0 0 5px 5px #ff00ff;
+}
 
 #result {
   display: none;
