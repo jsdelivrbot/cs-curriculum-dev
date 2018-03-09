@@ -67,11 +67,11 @@ function getPersonality() {
       score += 3;
   }
   switch (score) {
-    case 4 || 5:
+    case 6 || 7:
       return 0; //Leonardo
-    case 2 || 3:
+    case 4 || 5:
       return 1; //Donatello
-    case 1 || 2:
+    case 2 || 3:
       return 2; //Raphael
     default:
       return 3; //Michelangelo
