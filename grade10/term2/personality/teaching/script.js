@@ -56,28 +56,26 @@ function getPersonality() {
   else if(weapon.id === "nunchucks") {
     score += 2;
   }
-  switch (color.id) {
-    case "blue":
-      score += 2;
-      break;
-    case "purple":
-      score += 1;
-      break;
-    case "orange":
-      score += 3;
+  if(color.id === "blue") {
+    score += 2;
   }
-  switch (score) {
-    case 6:
-    case 7:
-      return 0; //Leonardo
-    case 4:
-    case 5:
-      return 1; //Donatello
-    case 2:
-    case 3:
-      return 2; //Raphael
-    default:
-      return 3; //Michelangelo
+  else if(color.id === "purple") {
+    score += 1;
+  }
+  else if(color.id === "orange") {
+    score += 3;
+  }
+  if(score === 6 || score === 7) {
+    return 0;
+  }
+  else if(score === 4 || score === 5) {
+    return 1;
+  }
+  else if(score === 2 || score === 3) {
+    return 2;
+  }
+  else {
+    return 3;
   }
 }
 
