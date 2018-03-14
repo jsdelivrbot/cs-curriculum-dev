@@ -13,7 +13,7 @@ var moonSprite1, moonSprite2;
 
 // sprite properties
 var spriteWidth, spriteHeight;
-var spriteXOffset, spriteYOffset;
+var spriteX, spriteY;
 
 // game variables
 var cardsActive;
@@ -151,14 +151,14 @@ var gameScreen;
  */
  function placeSprites() {
    for(var i = 0; i < spriteArray.length; i++) {
-     spriteArray[i].position.x = spriteXOffset;
-     spriteArray[i].position.y = spriteYOffset;
+     spriteArray[i].position.x = spriteX;
+     spriteArray[i].position.y = spriteY;
      if((i + 1) % 6 === 0) {
-       spriteXOffset = 70;
-       spriteYOffset += spriteHeight + 10;
+       spriteX = 70;
+       spriteY += spriteHeight + 10;
      }
      else {
-       spriteXOffset += spriteWidth + 10;
+       spriteX += spriteWidth + 10;
      }
    }
  }

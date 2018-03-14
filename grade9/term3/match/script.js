@@ -18,7 +18,7 @@ var heartSprite1, heartSprite2;
 
 // sprite properties
 var spriteWidth, spriteHeight;
-var spriteXOffset, spriteYOffset;
+var spriteX, spriteY;
 
 // sounds
 var flipSound, matchSound, nopeSound, winSound, loseSound, bgMusic;
@@ -113,8 +113,8 @@ function init() {
   matches = 0;
   spriteOne = undefined;
   spriteTwo = undefined;
-  spriteXOffset = 70;
-  spriteYOffset = 95;
+  spriteX = 70;
+  spriteY = 95;
 }
 
 function resetGame() {
@@ -159,14 +159,14 @@ function createSprites() {
 
 function placeSprites() {
   for(var i = 0; i < spriteArray.length; i++) {
-    spriteArray[i].position.x = spriteXOffset;
-    spriteArray[i].position.y = spriteYOffset;
+    spriteArray[i].position.x = spriteX;
+    spriteArray[i].position.y = spriteY;
     if((i + 1) % 6 === 0) {
-      spriteXOffset = 70;
-      spriteYOffset += spriteHeight + 10;
+      spriteX = 70;
+      spriteY += spriteHeight + 10;
     }
     else {
-      spriteXOffset += spriteWidth + 10;
+      spriteX += spriteWidth + 10;
     }
   }
 }
