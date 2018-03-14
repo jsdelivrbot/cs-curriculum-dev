@@ -12,7 +12,7 @@ loadData();
 function loadData() {
   searchBar.style.display = "none";
   searchButton.style.display = "none";
-  fetch("https://codenextcoaches.github.io/cs-curriculum-dev/grade10/term3/catalog/database.json")
+  fetch("database.json")
   .then(function(response) {
     response.json()
     .then(function(jsonObj) {
