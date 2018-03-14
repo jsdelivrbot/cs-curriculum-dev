@@ -41,7 +41,7 @@
   loadData();
 
   function loadData() {
-    fetch("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade10/term3/musicplayer/database.json")
+    fetch("database.json")
     .then(function(response) {
       response.json()
       .then(function(jsonObj) {

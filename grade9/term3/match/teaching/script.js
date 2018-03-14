@@ -37,12 +37,12 @@ var gameScreen;
  */
 
  function loadImages() {
-   backImage = loadImage("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/back.png");
-   sunImage = loadImage("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/sun.png");
-   moonImage = loadImage("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/moon.png");
-   transitionImage1 = loadImage("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/transition1.png");
-   transitionImage2 = loadImage("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/transition2.png");
-   transitionImage3 = loadImage("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/transition3.png");
+   backImage = loadImage("assets/img/back.png");
+   sunImage = loadImage("assets/img/sun.png");
+   moonImage = loadImage("assets/img/moon.png");
+   transitionImage1 = loadImage("assets/img/transition1.png");
+   transitionImage2 = loadImage("assets/img/transition2.png");
+   transitionImage3 = loadImage("assets/img/transition3.png");
  }
 
 /*

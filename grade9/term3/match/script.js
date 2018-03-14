@@ -40,16 +40,16 @@ function preload() {
 }
 
 function loadImages() {
-  backImage = loadImage("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/back.png");
-  boltImage = loadImage("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/bolt.png");
-  cloudImage = loadImage("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/cloud.png");
-  sunImage = loadImage("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/sun.png");
-  moonImage = loadImage("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/moon.png");
-  smileyImage = loadImage("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/smiley.png");
-  heartImage = loadImage("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/heart.png");
-  transitionImage1 = loadImage("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/transition1.png");
-  transitionImage2 = loadImage("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/transition2.png");
-  transitionImage3 = loadImage("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/img/transition3.png");
+  backImage = loadImage("assets/img/back.png");
+  boltImage = loadImage("assets/img/bolt.png");
+  cloudImage = loadImage("assets/img/cloud.png");
+  sunImage = loadImage("assets/img/sun.png");
+  moonImage = loadImage("assets/img/moon.png");
+  smileyImage = loadImage("assets/img/smiley.png");
+  heartImage = loadImage("assets/img/heart.png");
+  transitionImage1 = loadImage("assets/img/transition1.png");
+  transitionImage2 = loadImage("assets/img/transition2.png");
+  transitionImage3 = loadImage("assets/img/transition3.png");
 }
 
 function loadAnimations() {
@@ -63,12 +63,12 @@ function loadAnimations() {
 
 function loadSounds() {
   soundFormats("mp3", "wav");
-  flipSound = loadSound("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/sound/flip.wav");
-  matchSound = loadSound("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/sound/match.wav");
-  nopeSound = loadSound("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/sound/nope.wav");
-  winSound = loadSound("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/sound/win.wav");
-  loseSound = loadSound("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/sound/lose.wav");
-  bgMusic = loadSound("https://rawgit.com/CodeNextCoaches/cs-curriculum-dev/master/grade9/term3/match/assets/sound/bgm.mp3");
+  flipSound = loadSound("assets/sound/flip.wav");
+  matchSound = loadSound("assets/sound/match.wav");
+  nopeSound = loadSound("assets/sound/nope.wav");
+  winSound = loadSound("assets/sound/win.wav");
+  loseSound = loadSound("assets/sound/lose.wav");
+  bgMusic = loadSound("assets/sound/bgm.mp3");
 }
 
 function setup() {
