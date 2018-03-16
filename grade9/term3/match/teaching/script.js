@@ -1,17 +1,15 @@
-// images
+// image variables
 var imageArray;
 var backImage, sunImage, moonImage;
 var transitionImage1, transitionImage2, transitionImage3;
 
-// animations
+// animation variables
 var sunAnimation, moonAnimation;
 
-// sprites
+// sprites variables
 var spriteArray;
 var sunSprite1, sunSprite2;
 var moonSprite1, moonSprite2;
-
-// sprite properties
 var spriteWidth, spriteHeight;
 var spriteX, spriteY;
 
@@ -25,17 +23,15 @@ var gameScreen;
 
 /*
  * function loadImages()
- * Called in the preload() function. Loads all images from your GitHub
- * repository using the built-in p5.play function "loadImage()", with the
- * absolute URL to the image file itself as string input. You can obtain
- * an absolute "raw" URL to GitHub resources using https://rawgit.com/ (be
- * sure to use the "development" URL).
+ * Called in the preload() function. Loads all images needed for your game
+ * with the loadImage() function. When testing on your machine, be sure to
+ * setup a local test server or the images will not load! Your coach will show
+ * you how to do this.
  * Example:
    function loadImages() {
-     myImage = loadImage("https://rawgit.com/path/to/image.png");
+     myImage = loadImage("assets/img/image.png");
    }
  */
-
  function loadImages() {
    backImage = loadImage("assets/img/back.png");
    sunImage = loadImage("assets/img/sun.png");
@@ -106,11 +102,14 @@ var gameScreen;
    drawSprites();
  }
 
-/*
- * function resizeImages()
- * Resizes all images in imageArray such that each image has a width of spriteWidth
- * and a height of spriteHeight.
- */
+ /*
+  * function resizeImages()
+  * Resizes all images in imageArray such that each image has a width of
+  * spriteWidth and a height of spriteHeight. To resize an image use the
+  * resize(width, height) method on the image itself.
+  * Example of resizing one image:
+    image.resize(40, 50);
+  */
  function resizeImages() {
    for(var i = 0; i < imageArray.length; i++) {
      imageArray[i].resize(spriteWidth, spriteHeight);
@@ -119,15 +118,15 @@ var gameScreen;
 
 /*
  * function createSprites()
- * Initializes each card sprite variable (e.g., sunSprite1) as a sprite object
- * through the createSprite(x, y, width, height) p5.play method. For all cards,
- * x and y parameters should be passed values 0 and 0 (cards are actually placed
+ * Initializes each sprite variable (e.g., sunSprite1) as a sprite object
+ * through the createSprite(x, y, width, height) p5.play method. For all sprites,
+ * x and y parameters should be passed values 0 and 0 (sprites are actually placed
  * in a separate function), while width and height correspond to spriteWidth and
  * spriteHeight.
  * Example:
- * function createSprites() {
+   function createSprites() {
      mySprite = createSprite(0, 0, spriteWidth, spriteHeight);
-  }
+   }
  */
  function createSprites() {
    sunSprite1 = createSprite(0, 0, spriteWidth, spriteHeight);
@@ -138,13 +137,12 @@ var gameScreen;
 
  /*
   * function addAnimations()
-  * Adds an animation to each sprite in spriteArray (that is, each card).
+  * Adds an animation to each sprite in spriteArray (that is, each sprite).
   * The animations have already been loaded using loadAnimations(), so this
   * function is responsible for actually adding them to the sprites.
   * Additionally, this function initializes each animation's frameDelay, loop,
-  * and playing properties. Finally, this function calls activateCard() with
-  * each sprite, which is responsible for triggering animations to play when
-  * sprites are clicked.
+  * and playing properties. Finally, this function calls activateSprite(s) with
+  * each sprite as input.
   */
   function addAnimations() {
     var animations = [sunAnimation, sunAnimation, moonAnimation, moonAnimation];
@@ -153,7 +151,7 @@ var gameScreen;
       spriteArray[i].animation.frameDelay = 10;
       spriteArray[i].animation.looping = false;
       spriteArray[i].animation.playing = false;
-      // activateSprite(spriteArray[i]);
+      activateSprite(spriteArray[i]);
     }
   }
 
@@ -178,10 +176,42 @@ var gameScreen;
  }
 
 /*
- * function activateSprite(sprite)
- *
+ * function activateSprite(s)
+ * Activates a sprite by initializing its onMousePressed property to a function.
+ * This will essentially cause the sprite to "come alive" and behave like a
+ * real playing card when it is clicked.
+ * To initialize the onMousePressed property as a function, use a function
+ * expression.
+ * The onMousePressed function itself plays sprite animations and assigns
+ * spriteOne and spriteTwo to sprites in the order tht they are clicked. When
+ * two sprites have been clicked, the function calls checkMatch().
  */
+ function activateSprite(s) {
+   s.onMousePressed = function()  {
+     if(spritesActive && s.animation.getFrame() !== s.animation.getLastFrame()) {
+       if(spriteOne === undefined) {
+         spriteOne = s;
+         s.animation.goToFrame(s.animation.getLastFrame());
+       }
+       else if(s !== spriteOne) {
+         spriteTwo = s;
+         s.animation.goToFrame(s.animation.getLastFrame());
+         checkMatch();
+       }
+     }
+   }
+ }
+
 
 /*
  * function checkMatch()
+ * Checks if spriteOne and spriteTwo match. If they do, the player is notified
+ * in some way and those sprites remain "flipped". If they do not, the player is
+ * notified in some way and, after a short delay, the sprites are returned to
+ * face-down position. If the player has matched all sprites, they are notified
+ * that they have won. IF the player has matched incorrectly too many times
+ * (as indicated by the "lives" variable), they are notified that they have
+ * lost and all sprites are simultaneously flipped face-up, revealing their
+ * locations to the player. Win or lose, the player is given the option to
+ * reset and try again with a fresh shuffle.
  */

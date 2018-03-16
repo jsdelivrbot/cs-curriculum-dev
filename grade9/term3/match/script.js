@@ -16,7 +16,7 @@ var moonSprite1, moonSprite2;
 var smileySprite1, smileySprite2;
 var heartSprite1, heartSprite2;
 
-// sprite properties
+// sprite variables
 var spriteWidth, spriteHeight;
 var spriteX, spriteY;
 
@@ -184,21 +184,19 @@ function addAnimations() {
   }
 }
 
+
 function activateSprite(s) {
   s.onMousePressed = function() {
     if(spritesActive && s.animation.getFrame() !== s.animation.getLastFrame()) {
       if(spriteOne === undefined) {
-        flipSound.play();
-        s.animation.playing = true;
-        s.animation.goToFrame(s.animation.getLastFrame());
         spriteOne = s;
-        spriteTwo = undefined;
+        flipSound.play();
+        s.animation.goToFrame(s.animation.getLastFrame());
       }
       else if(s !== spriteOne) {
-        flipSound.play();
-        s.animation.playing = true;
-        s.animation.goToFrame(s.animation.getLastFrame());
         spriteTwo = s;
+        flipSound.play();
+        s.animation.goToFrame(s.animation.getLastFrame());
         checkMatch();
       }
     }
