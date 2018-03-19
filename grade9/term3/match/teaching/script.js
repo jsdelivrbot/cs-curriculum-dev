@@ -6,7 +6,7 @@ var transitionImage1, transitionImage2, transitionImage3;
 // animation variables
 var sunAnimation, moonAnimation;
 
-// sprites variables
+// sprite variables
 var spriteArray;
 var sunSprite1, sunSprite2;
 var moonSprite1, moonSprite2;
@@ -16,7 +16,7 @@ var spriteX, spriteY;
 // game variables
 var spritesActive;
 var lives, matches;
-var spriteOne, spriteTwo;
+var firstChoice, secondChoice;
 
 // UI variables
 var gameScreen;
@@ -57,7 +57,6 @@ var gameScreen;
    moonAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, moonImage);
  }
 
-
 /*
  * function preload()
  * Called automatically by p5.play. Loads all assets for your game (e.g.,
@@ -92,6 +91,8 @@ var gameScreen;
    shuffle(spriteArray, true);
    placeSprites();
    spritesActive = true;
+   matches = 0;
+   lives = 2;
  }
 
 /*
@@ -183,18 +184,18 @@ var gameScreen;
  * To initialize the onMousePressed property as a function, use a function
  * expression.
  * The onMousePressed function itself plays sprite animations and assigns
- * spriteOne and spriteTwo to sprites in the order tht they are clicked. When
+ * firstChoice and secondChoice to sprites in the order tht they are clicked. When
  * two sprites have been clicked, the function calls checkMatch().
  */
  function activateSprite(s) {
    s.onMousePressed = function()  {
      if(spritesActive && s.animation.getFrame() !== s.animation.getLastFrame()) {
-       if(spriteOne === undefined) {
-         spriteOne = s;
+       if(firstChoice === undefined) {
+         firstChoice = s;
          s.animation.goToFrame(s.animation.getLastFrame());
        }
-       else if(s !== spriteOne) {
-         spriteTwo = s;
+       else if(s !== firstChoice) {
+         secondChoice = s;
          s.animation.goToFrame(s.animation.getLastFrame());
          checkMatch();
        }
@@ -205,13 +206,59 @@ var gameScreen;
 
 /*
  * function checkMatch()
- * Checks if spriteOne and spriteTwo match. If they do, the player is notified
+ * Checks if firstChoice and secondChoice match. If they do, the player is notified
  * in some way and those sprites remain "flipped". If they do not, the player is
  * notified in some way and, after a short delay, the sprites are returned to
  * face-down position. If the player has matched all sprites, they are notified
  * that they have won. IF the player has matched incorrectly too many times
  * (as indicated by the "lives" variable), they are notified that they have
  * lost and all sprites are simultaneously flipped face-up, revealing their
- * locations to the player. Win or lose, the player is given the option to
- * reset and try again with a fresh shuffle.
+ * locations to the player.
  */
+ function checkMatch() {
+   var sunMatch = (firstChoice === sunSprite1 && secondChoice === sunSprite2) || (firstChoice === sunSprite2 && secondChoice === sunSprite1);
+   var moonMatch = (firstChoice === moonSprite1 && secondChoice === moonSprite2) || (firstChoice === moonSprite2 && secondChoice === moonSprite1);
+   if(sunMatch || moonMatch) {
+     matches++;
+     alert("Match!");
+     if(matches === spriteArray.length / 2) {
+       alert("You win!");
+       spritesActive = false;
+     }
+     else {
+       firstChoice = undefined;
+       secondChoice = undefined;
+     }
+   }
+   else {
+     lives--;
+     alert("No match! Lives Remaining: " + lives);
+     spritesActive = false;
+     if(lives === 0) {
+       setTimeout(function() {
+         flipAllSprites();
+         alert("You lose!");
+       }, 2000);
+     }
+     else {
+       setTimeout(function() {
+         firstChoice.animation.goToFrame(0);
+         secondChoice.animation.goToFrame(0);
+         firstChoice = undefined;
+         secondChoice = undefined;
+         spritesActive = true;
+       }, 2000);
+     }
+   }
+ }
+
+/*
+ * function flipAllSprites()
+ * Flips all sprites in spriteArray to their last animation frame (i.e.,
+ * "face-up").
+ */
+ function flipAllSprites() {
+   for(var i = 0; i < spriteArray.length; i++) {
+     spriteArray[i].animation.goToFrame(spriteArray[i].animation.getLastFrame());
+   }
+ }

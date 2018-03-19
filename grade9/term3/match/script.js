@@ -111,8 +111,8 @@ function init() {
   lives = 5;
   livesDisplay.html(lives);
   matches = 0;
-  spriteOne = undefined;
-  spriteTwo = undefined;
+  firstChoice = undefined;
+  secondChoice = undefined;
   spriteX = 70;
   spriteY = 95;
 }
@@ -188,13 +188,13 @@ function addAnimations() {
 function activateSprite(s) {
   s.onMousePressed = function() {
     if(spritesActive && s.animation.getFrame() !== s.animation.getLastFrame()) {
-      if(spriteOne === undefined) {
-        spriteOne = s;
+      if(firstChoice === undefined) {
+        firstChoice = s;
         flipSound.play();
         s.animation.goToFrame(s.animation.getLastFrame());
       }
-      else if(s !== spriteOne) {
-        spriteTwo = s;
+      else if(s !== firstChoice) {
+        secondChoice = s;
         flipSound.play();
         s.animation.goToFrame(s.animation.getLastFrame());
         checkMatch();
@@ -204,39 +204,34 @@ function activateSprite(s) {
 }
 
 function checkMatch() {
-  var boltMatch = (spriteOne === boltSprite1 && spriteTwo === boltSprite2) || (spriteOne === boltSprite2 && spriteTwo === boltSprite1);
-  var cloudMatch = (spriteOne === cloudSprite1 && spriteTwo === cloudSprite2) || (spriteOne === cloudSprite2 && spriteTwo === cloudSprite1);
-  var sunMatch = (spriteOne === sunSprite1 && spriteTwo === sunSprite2) || (spriteOne === sunSprite2 && spriteTwo === sunSprite1);
-  var moonMatch = (spriteOne === moonSprite1 && spriteTwo === moonSprite2) || (spriteOne === moonSprite2 && spriteTwo === moonSprite1);
-  var smileyMatch = (spriteOne === smileySprite1 && spriteTwo === smileySprite2) || (spriteOne === smileySprite2 && spriteTwo === smileySprite1);
-  var heartMatch = (spriteOne === heartSprite1 && spriteTwo === heartSprite2) || (spriteOne === heartSprite2 && spriteTwo === heartSprite1);
+  var boltMatch = (firstChoice === boltSprite1 && secondChoice === boltSprite2) || (firstChoice === boltSprite2 && secondChoice === boltSprite1);
+  var cloudMatch = (firstChoice === cloudSprite1 && secondChoice === cloudSprite2) || (firstChoice === cloudSprite2 && secondChoice === cloudSprite1);
+  var sunMatch = (firstChoice === sunSprite1 && secondChoice === sunSprite2) || (firstChoice === sunSprite2 && secondChoice === sunSprite1);
+  var moonMatch = (firstChoice === moonSprite1 && secondChoice === moonSprite2) || (firstChoice === moonSprite2 && secondChoice === moonSprite1);
+  var smileyMatch = (firstChoice === smileySprite1 && secondChoice === smileySprite2) || (firstChoice === smileySprite2 && secondChoice === smileySprite1);
+  var heartMatch = (firstChoice === heartSprite1 && secondChoice === heartSprite2) || (firstChoice === heartSprite2 && secondChoice === heartSprite1);
   if(boltMatch || cloudMatch || sunMatch || moonMatch || smileyMatch || heartMatch) {
     matches++;
-    //console.log("Match!");
     if(matches === spriteArray.length / 2) {
       winSound.play();
       messageDisplay.html("YOU WIN!!! YOU ARE A BEAST!!!");
       livesDisplay.html("");
-      //console.log("You win!");
       spritesActive = false;
       resetButton.show();
       musicButton.hide();
     }
     else {
       matchSound.play();
-      spriteOne = undefined;
-      spriteTwo = undefined;
+      firstChoice = undefined;
+      secondChoice = undefined;
     }
   }
   else {
     lives--;
     livesDisplay.html(lives);
-    //console.log("No Match!");
     spritesActive = false;
-    //console.log("sprites active: " + spritesActive);
     if(lives === 0) {
       setTimeout(function() {
-        //console.log("You lose!");
         loseSound.play();
         messageDisplay.html("YOU LOSE!!! DANG!!!");
         livesDisplay.html("");
@@ -248,12 +243,11 @@ function checkMatch() {
     else {
       setTimeout(function() {
         nopeSound.play();
-        spriteOne.animation.goToFrame(0);
-        spriteTwo.animation.goToFrame(0);
-        spriteOne = undefined;
-        spriteTwo = undefined;
+        firstChoice.animation.goToFrame(0);
+        secondChoice.animation.goToFrame(0);
+        firstChoice = undefined;
+        secondChoice = undefined;
         spritesActive = true;
-        //console.log("sprites active: " + spritesActive);
       }, 2000);
     }
   }
