@@ -220,7 +220,6 @@ var gameScreen;
    var moonMatch = (firstChoice === moonSprite1 && secondChoice === moonSprite2) || (firstChoice === moonSprite2 && secondChoice === moonSprite1);
    if(sunMatch || moonMatch) {
      matches++;
-     alert("Match!");
      if(matches === spriteArray.length / 2) {
        alert("You win!");
        spritesActive = false;
@@ -232,7 +231,6 @@ var gameScreen;
    }
    else {
      lives--;
-     alert("No match! Lives Remaining: " + lives);
      spritesActive = false;
      if(lives === 0) {
        setTimeout(function() {
