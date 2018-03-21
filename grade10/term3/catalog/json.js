@@ -1,10 +1,11 @@
-var database = [];
-var display = document.getElementById("display");
+var records = [];
 var searchBar = document.getElementById("search-bar");
 var searchButton = document.getElementById("search-button");
-var searchHelp = document.getElementById("search-help");
+var suggestions = document.getElementById("suggestions");
+var display = document.getElementById("display");
 
-searchBar.addEventListener("keyup", checkKey);
+searchBar.addEventListener("input", createSuggestions);
+searchBar.addEventListener("keypress", checkEnter);
 searchButton.addEventListener("click", processInput);
 
 loadData();
@@ -25,19 +26,16 @@ function loadData() {
   });
 }
 
-function checkKey(event) {
-  var keyCode = event.which || event.keyCode;
-  if(keyCode == "13") {
+function checkEnter(event) {
+  var key = event.which || event.keyCode;
+  if(key == 13) {
     processInput();
-  }
-  else {
-    getHelpText();
   }
 }
 
-function getHelpText() {
+function createSuggestions() {
   var parsedInput = searchBar.value.toLowerCase().trim();
-  searchHelp.innerHTML = "";
+  suggestions.innerHTML = "";
   for(var i = 0; i < database.length; i++) {
     var parsedName = database[i].name.toLowerCase().trim();
     if(parsedName.startsWith(parsedInput) && parsedInput.length > 0) {
@@ -50,23 +48,23 @@ function getHelpText() {
       button.className = "suggestion";
       var tempEntry = database[i];
       button.addEventListener("click", function() {
-        showEntry(tempEntry);
-        searchHelp.innerHTML = "";
-        searchHelp.style.display = "none";
+        showRecord(tempEntry);
+        suggestions.innerHTML = "";
+        suggestions.style.display = "none";
         searchBar.value = "";
       });
-      searchHelp.appendChild(button);
+      suggestions.appendChild(button);
     }
   }
-  if(searchHelp.hasChildNodes()) {
-    searchHelp.style.display = "block";
+  if(suggestions.hasChildNodes()) {
+    suggestions.style.display = "block";
   }
   else {
-    searchHelp.style.display = "none";
+    suggestions.style.display = "none";
   }
 }
 
-function getDatabaseEntry(parsedInput) {
+function getRecord(parsedInput) {
   for(var i = 0; i < database.length; i++) {
     var parsedName = database[i].name.toLowerCase().trim();
     if(parsedName == parsedInput) {
@@ -88,14 +86,15 @@ function getSuggestions(parsedInput) {
 }
 
 function processInput() {
+  console.log("processing input");
   var parsedInput = searchBar.value.toLowerCase().trim();
-  searchHelp.innerHTML = "";
-  searchHelp.style.display = "none";
+  suggestions.innerHTML = "";
+  suggestions.style.display = "none";
   display.innerHTML = "";
   searchBar.value = "";
-  var databaseEntry = getDatabaseEntry(parsedInput);
+  var databaseEntry = getRecord(parsedInput);
   if(databaseEntry != null) {
-    showEntry(databaseEntry);
+    showRecord(databaseEntry);
   }
   else {
     showSuggestions(getSuggestions(parsedInput));
@@ -114,7 +113,7 @@ function showSuggestions(suggestions) {
       button.className = "suggestion";
       var tempEntry = suggestions[i];
       button.addEventListener("click", function() {
-        showEntry(tempEntry);
+        showRecord(tempEntry);
       });
       display.appendChild(button);
     }
@@ -125,7 +124,7 @@ function showSuggestions(suggestions) {
   }
 }
 
-function showEntry(databaseEntry) {
+function showRecord(databaseEntry) {
   display.innerHTML = "";
   var entryName = document.createElement("h2");
   entryName.innerHTML = databaseEntry.name;

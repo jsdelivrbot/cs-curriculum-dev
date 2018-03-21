@@ -140,3 +140,9 @@ var gameScreen;
  * locations to the player. Win or lose, the player is given the option to
  * reset and try again with a fresh shuffle.
  */
+
+ /*
+  * function flipAllSprites()
+  * Flips all sprites in spriteArray to their last animation frame (i.e.,
+  * "face-up").
+  */

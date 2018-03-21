@@ -10,6 +10,8 @@ body {
   text-align: center;
 }
 
+/* place your styles below */
+
 #search-tools {
   display: flex;
   margin: 0 auto;
@@ -17,7 +19,6 @@ body {
 }
 
 #display {
-  /* border: 1px solid black; */
   clear: both;
   margin: 0 auto;
   max-width: 500px;
@@ -35,7 +36,7 @@ body {
   text-align: center;
 }
 
-#search-help {
+#suggestions {
   display: none;
   border: 1px solid grey;
   margin: 0 auto;

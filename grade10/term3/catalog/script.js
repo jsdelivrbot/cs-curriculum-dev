@@ -1,5 +1,6 @@
 var database = [
   {
+    id:0,
     name:"Martin Luther King Jr.",
     born:"January 15, 1929",
     died:"April 4, 1968",
@@ -7,6 +8,7 @@ var database = [
     bio:"<b>Martin Luther King Jr.</b> was an American Baptist minister and activist who became the most visible spokesperson and leader in the civil rights movement from 1954 through 1968. He is best known for his role in the advancement of civil rights using the tactics of nonviolence and civil disobedience based on his Christian beliefs and inspired by the nonviolent activism of Mahatma Gandhi."
   },
   {
+    id:1,
     name:"Dolores Huerta",
     born:"April 10, 1930",
     died:null,
@@ -14,6 +16,7 @@ var database = [
     bio:"<b>Dolores Clara Fernández Huerta</b> is an American labor leader and civil rights activist who was the co-founder of the National Farmworkers Association, which later became the United Farm Workers (UFW). Huerta helped organize the Delano grape strike in 1965 in California and was the lead negotiator in the workers’ contract that was created after the strike."
   },
   {
+    id:2,
     name:"Fred Ho",
     born:"August 10, 1957",
     died:"April 12, 2014",
@@ -21,6 +24,7 @@ var database = [
     bio:"<b>Fred Ho</b> (Chinese: 侯维翰; pinyin: Hóu Wéihàn; born Fred Wei-han Houn) was an American jazz baritone saxophonist, composer, bandleader, playwright, writer and Marxist social activist. In 1988, he changed his surname to \"Ho\"."
   },
   {
+    id:3,
     name:"Joan Baez",
     born:"January 9, 1941",
     died:null,
@@ -29,27 +33,25 @@ var database = [
   }
 ];
 
-var display = document.getElementById("display");
 var searchBar = document.getElementById("search-bar");
 var searchButton = document.getElementById("search-button");
-var searchHelp = document.getElementById("search-help");
+var suggestions = document.getElementById("suggestions");
+var display = document.getElementById("display");
 
-searchBar.addEventListener("keyup", checkKey);
+searchBar.addEventListener("input", createSuggestions);
+searchBar.addEventListener("keypress", checkEnter);
 searchButton.addEventListener("click", processInput);
 
-function checkKey(event) {
-  var keyCode = event.which || event.keyCode;
-  if(keyCode == "13") {
+function checkEnter(event) {
+  var key = event.which || event.keyCode;
+  if(key == 13) {
     processInput();
-  }
-  else {
-    getHelpText();
   }
 }
 
-function getHelpText() {
+function createSuggestions() {
   var parsedInput = searchBar.value.toLowerCase().trim();
-  searchHelp.innerHTML = "";
+  suggestions.innerHTML = "";
   for(var i = 0; i < database.length; i++) {
     var parsedName = database[i].name.toLowerCase().trim();
     if(parsedName.startsWith(parsedInput) && parsedInput.length > 0) {
@@ -62,23 +64,23 @@ function getHelpText() {
       button.className = "suggestion";
       var tempEntry = database[i];
       button.addEventListener("click", function() {
-        showEntry(tempEntry);
-        searchHelp.innerHTML = "";
-        searchHelp.style.display = "none";
+        showRecord(tempEntry);
+        suggestions.innerHTML = "";
+        suggestions.style.display = "none";
         searchBar.value = "";
       });
-      searchHelp.appendChild(button);
+      suggestions.appendChild(button);
     }
   }
-  if(searchHelp.hasChildNodes()) {
-    searchHelp.style.display = "block";
+  if(suggestions.hasChildNodes()) {
+    suggestions.style.display = "block";
   }
   else {
-    searchHelp.style.display = "none";
+    suggestions.style.display = "none";
   }
 }
 
-function getDatabaseEntry(parsedInput) {
+function getRecord(parsedInput) {
   for(var i = 0; i < database.length; i++) {
     var parsedName = database[i].name.toLowerCase().trim();
     if(parsedName == parsedInput) {
@@ -100,14 +102,15 @@ function getSuggestions(parsedInput) {
 }
 
 function processInput() {
+  console.log("processing input");
   var parsedInput = searchBar.value.toLowerCase().trim();
-  searchHelp.innerHTML = "";
-  searchHelp.style.display = "none";
+  suggestions.innerHTML = "";
+  suggestions.style.display = "none";
   display.innerHTML = "";
   searchBar.value = "";
-  var databaseEntry = getDatabaseEntry(parsedInput);
+  var databaseEntry = getRecord(parsedInput);
   if(databaseEntry != null) {
-    showEntry(databaseEntry);
+    showRecord(databaseEntry);
   }
   else {
     showSuggestions(getSuggestions(parsedInput));
@@ -126,7 +129,7 @@ function showSuggestions(suggestions) {
       button.className = "suggestion";
       var tempEntry = suggestions[i];
       button.addEventListener("click", function() {
-        showEntry(tempEntry);
+        showRecord(tempEntry);
       });
       display.appendChild(button);
     }
@@ -137,7 +140,7 @@ function showSuggestions(suggestions) {
   }
 }
 
-function showEntry(databaseEntry) {
+function showRecord(databaseEntry) {
   display.innerHTML = "";
   var entryName = document.createElement("h2");
   entryName.innerHTML = databaseEntry.name;
