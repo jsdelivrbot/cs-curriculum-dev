@@ -1,4 +1,4 @@
-var records = [];
+var database = [];
 var searchBar = document.getElementById("search-bar");
 var searchButton = document.getElementById("search-button");
 var suggestions = document.getElementById("suggestions");
