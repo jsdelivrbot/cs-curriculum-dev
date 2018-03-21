@@ -46,9 +46,9 @@ function createSuggestions() {
       button.innerHTML = result;
       button.style.display = "block";
       button.className = "suggestion";
-      var tempEntry = database[i];
+      var tempRecord = database[i];
       button.addEventListener("click", function() {
-        showRecord(tempEntry);
+        showRecord(tempRecord);
         suggestions.innerHTML = "";
         suggestions.style.display = "none";
         searchBar.value = "";
@@ -92,9 +92,9 @@ function processInput() {
   suggestions.style.display = "none";
   display.innerHTML = "";
   searchBar.value = "";
-  var databaseEntry = getRecord(parsedInput);
-  if(databaseEntry != null) {
-    showRecord(databaseEntry);
+  var databaseRecord = getRecord(parsedInput);
+  if(databaseRecord != null) {
+    showRecord(databaseRecord);
   }
   else {
     showSuggestions(getSuggestions(parsedInput));
@@ -111,9 +111,9 @@ function showSuggestions(suggestions) {
       button.innerHTML = suggestions[i].name;
       button.style.display = "block";
       button.className = "suggestion";
-      var tempEntry = suggestions[i];
+      var tempRecord = suggestions[i];
       button.addEventListener("click", function() {
-        showRecord(tempEntry);
+        showRecord(tempRecord);
       });
       display.appendChild(button);
     }
@@ -124,26 +124,26 @@ function showSuggestions(suggestions) {
   }
 }
 
-function showRecord(databaseEntry) {
+function showRecord(databaseRecord) {
   display.innerHTML = "";
-  var entryName = document.createElement("h2");
-  entryName.innerHTML = databaseEntry.name;
-  var entryPicture = document.createElement("img");
-  entryPicture.src = databaseEntry.picture;
-  var entryBorn = document.createElement("p");
-  entryBorn.innerHTML = "<b>Born:</b> " + databaseEntry.born;
-  var entryDied = document.createElement("p");
-  if(databaseEntry.died != null) {
-    entryDied.innerHTML = "<b>Died:</b> " + databaseEntry.died;
+  var recordName = document.createElement("h2");
+  recordName.innerHTML = databaseRecord.name;
+  var recordPicture = document.createElement("img");
+  recordPicture.src = databaseRecord.picture;
+  var recordBorn = document.createElement("p");
+  recordBorn.innerHTML = "<b>Born:</b> " + databaseRecord.born;
+  var recordDied = document.createElement("p");
+  if(databaseRecord.died != null) {
+    recordDied.innerHTML = "<b>Died:</b> " + databaseRecord.died;
   }
   else {
-    entryDied.innerHTML = "<b>Died:</b> N/A";
+    recordDied.innerHTML = "<b>Died:</b> N/A";
   }
-  var entryBio = document.createElement("p");
-  entryBio.innerHTML = databaseEntry.bio;
-  display.appendChild(entryName);
-  display.appendChild(entryPicture);
-  display.appendChild(entryBorn);
-  display.appendChild(entryDied);
-  display.appendChild(entryBio);
+  var recordBio = document.createElement("p");
+  recordBio.innerHTML = databaseRecord.bio;
+  display.appendChild(recordName);
+  display.appendChild(recordPicture);
+  display.appendChild(recordBorn);
+  display.appendChild(recordDied);
+  display.appendChild(recordBio);
 }
