@@ -1,10 +1,10 @@
 var database = [];
 var searchBar = document.getElementById("search-bar");
 var searchButton = document.getElementById("search-button");
-var suggestions = document.getElementById("suggestions");
+var autoSuggestions = document.getElementById("auto-suggestions");
 var display = document.getElementById("display");
 
-searchBar.addEventListener("input", createSuggestions);
+searchBar.addEventListener("input", getAutoSuggestions);
 searchBar.addEventListener("keypress", checkKey);
 searchButton.addEventListener("click", processInput);
 
@@ -27,7 +27,7 @@ function loadData() {
 }
 
 function checkKey(e) {
-  var key = e.which || e.keyCode || 0;
+  var key = e.which || e.keyCode;
   if(key == 13) {
     processInput();
   }
@@ -35,16 +35,16 @@ function checkKey(e) {
 
 function processInput() {
   var cleanedInput = searchBar.value.toLowerCase().trim();
-  suggestions.innerHTML = "";
-  suggestions.style.display = "none";
+  autoSuggestions.innerHTML = "";
+  autoSuggestions.style.display = "none";
   display.innerHTML = "";
   searchBar.value = "";
   var databaseRecord = getRecord(cleanedInput);
   if(databaseRecord != null) {
-    showRecord(databaseRecord);
+    displayRecord(databaseRecord);
   }
   else {
-    showSuggestions(getSuggestions(cleanedInput));
+    displaySuggestions(getSuggestions(cleanedInput));
   }
 }
 
@@ -58,7 +58,7 @@ function getRecord(cleanedInput) {
   return null;
 }
 
-function showRecord(databaseRecord) {
+function displayRecord(databaseRecord) {
   display.innerHTML = "";
   var recordName = document.createElement("h2");
   recordName.innerHTML = databaseRecord.name;
@@ -82,9 +82,9 @@ function showRecord(databaseRecord) {
   display.appendChild(recordBio);
 }
 
-function createSuggestions() {
+function getAutoSuggestions() {
   var cleanedInput = searchBar.value.toLowerCase().trim();
-  suggestions.innerHTML = "";
+  autoSuggestions.innerHTML = "";
   for(var i = 0; i < database.length; i++) {
     var cleanedRecordName = database[i].name.toLowerCase().trim();
     if(cleanedRecordName.startsWith(cleanedInput) && cleanedInput.length > 0) {
@@ -95,24 +95,26 @@ function createSuggestions() {
       button.innerHTML = result;
       button.style.display = "block";
       button.className = "suggestion";
-      var tempRecord = database[i];
-      button.addEventListener("click", function() {
-        showRecord(tempRecord);
-        suggestions.innerHTML = "";
-        suggestions.style.display = "none";
-        searchBar.value = "";
-      });
-      suggestions.appendChild(button);
+      activateSuggestionButton(button, database[i]);
+      autoSuggestions.appendChild(button);
     }
   }
-  if(suggestions.hasChildNodes()) {
-    suggestions.style.display = "block";
+  if(autoSuggestions.hasChildNodes()) {
+    autoSuggestions.style.display = "block";
   }
   else {
-    suggestions.style.display = "none";
+    autoSuggestions.style.display = "none";
   }
 }
 
+function activateSuggestionButton(button, record) {
+  button.addEventListener("click", function() {
+    displayRecord(record);
+    autoSuggestions.innerHTML = "";
+    autoSuggestions.style.display = "none";
+    searchBar.value = "";
+  });
+}
 
 function getSuggestions(cleanedInput) {
   var suggestions = [];
@@ -125,7 +127,7 @@ function getSuggestions(cleanedInput) {
   return suggestions;
 }
 
-function showSuggestions(suggestions) {
+function displaySuggestions(suggestions) {
   var paragraph = document.createElement("p");
   if(suggestions.length > 0) {
     paragraph.innerHTML = "Did you mean:";
@@ -135,10 +137,7 @@ function showSuggestions(suggestions) {
       button.innerHTML = suggestions[i].name;
       button.style.display = "block";
       button.className = "suggestion";
-      var tempRecord = suggestions[i];
-      button.addEventListener("click", function() {
-        showRecord(tempRecord);
-      });
+      activateSuggestionButton(button, suggestions[i]);
       display.appendChild(button);
     }
   }

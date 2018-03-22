@@ -36,7 +36,7 @@ body {
   text-align: center;
 }
 
-#suggestions {
+#auto-suggestions {
   display: none;
   border: 1px solid grey;
   margin: 0 auto;
