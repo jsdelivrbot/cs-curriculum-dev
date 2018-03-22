@@ -5,7 +5,7 @@ var suggestions = document.getElementById("suggestions");
 var display = document.getElementById("display");
 
 searchBar.addEventListener("input", createSuggestions);
-searchBar.addEventListener("keypress", checkEnter);
+searchBar.addEventListener("keypress", checkKey);
 searchButton.addEventListener("click", processInput);
 
 loadData();
@@ -26,19 +26,68 @@ function loadData() {
   });
 }
 
-function checkEnter(event) {
-  var key = event.which || event.keyCode;
+function checkKey(e) {
+  var key = e.which || e.keyCode || 0;
   if(key == 13) {
     processInput();
   }
 }
 
+function processInput() {
+  var cleanedInput = searchBar.value.toLowerCase().trim();
+  suggestions.innerHTML = "";
+  suggestions.style.display = "none";
+  display.innerHTML = "";
+  searchBar.value = "";
+  var databaseRecord = getRecord(cleanedInput);
+  if(databaseRecord != null) {
+    showRecord(databaseRecord);
+  }
+  else {
+    showSuggestions(getSuggestions(cleanedInput));
+  }
+}
+
+function getRecord(cleanedInput) {
+  for(var i = 0; i < database.length; i++) {
+    var cleanedRecordName = database[i].name.toLowerCase().trim();
+    if(cleanedRecordName === cleanedInput) {
+      return database[i];
+    }
+  }
+  return null;
+}
+
+function showRecord(databaseRecord) {
+  display.innerHTML = "";
+  var recordName = document.createElement("h2");
+  recordName.innerHTML = databaseRecord.name;
+  var recordPicture = document.createElement("img");
+  recordPicture.src = databaseRecord.picture;
+  var recordBorn = document.createElement("p");
+  recordBorn.innerHTML = "<b>Born:</b> " + databaseRecord.born;
+  var recordDied = document.createElement("p");
+  if(databaseRecord.died != null) {
+    recordDied.innerHTML = "<b>Died:</b> " + databaseRecord.died;
+  }
+  else {
+    recordDied.innerHTML = "<b>Died:</b> N/A";
+  }
+  var recordBio = document.createElement("p");
+  recordBio.innerHTML = databaseRecord.bio;
+  display.appendChild(recordName);
+  display.appendChild(recordPicture);
+  display.appendChild(recordBorn);
+  display.appendChild(recordDied);
+  display.appendChild(recordBio);
+}
+
 function createSuggestions() {
-  var parsedInput = searchBar.value.toLowerCase().trim();
+  var cleanedInput = searchBar.value.toLowerCase().trim();
   suggestions.innerHTML = "";
   for(var i = 0; i < database.length; i++) {
-    var parsedName = database[i].name.toLowerCase().trim();
-    if(parsedName.startsWith(parsedInput) && parsedInput.length > 0) {
+    var cleanedRecordName = database[i].name.toLowerCase().trim();
+    if(cleanedRecordName.startsWith(cleanedInput) && cleanedInput.length > 0) {
       var matching = database[i].name.substring(0, searchBar.value.length);
       var remaining = database[i].name.substring(searchBar.value.length);
       var result = matching + "<b>" + remaining + "</b><br>";
@@ -64,41 +113,16 @@ function createSuggestions() {
   }
 }
 
-function getRecord(parsedInput) {
-  for(var i = 0; i < database.length; i++) {
-    var parsedName = database[i].name.toLowerCase().trim();
-    if(parsedName == parsedInput) {
-      return database[i];
-    }
-  }
-  return null;
-}
 
-function getSuggestions(parsedInput) {
+function getSuggestions(cleanedInput) {
   var suggestions = [];
   for(var i = 0; i < database.length; i++) {
-    var parsedName = database[i].name.toLowerCase().trim();
-    if(parsedName.startsWith(parsedInput) && parsedInput.length > 0) {
+    var cleanedRecordName = database[i].name.toLowerCase().trim();
+    if(cleanedRecordName.startsWith(cleanedInput) && cleanedInput.length > 0) {
       suggestions.push(database[i]);
     }
   }
   return suggestions;
-}
-
-function processInput() {
-  console.log("processing input");
-  var parsedInput = searchBar.value.toLowerCase().trim();
-  suggestions.innerHTML = "";
-  suggestions.style.display = "none";
-  display.innerHTML = "";
-  searchBar.value = "";
-  var databaseRecord = getRecord(parsedInput);
-  if(databaseRecord != null) {
-    showRecord(databaseRecord);
-  }
-  else {
-    showSuggestions(getSuggestions(parsedInput));
-  }
 }
 
 function showSuggestions(suggestions) {
@@ -122,28 +146,4 @@ function showSuggestions(suggestions) {
     paragraph.innerHTML = "No results!";
     display.appendChild(paragraph);
   }
-}
-
-function showRecord(databaseRecord) {
-  display.innerHTML = "";
-  var recordName = document.createElement("h2");
-  recordName.innerHTML = databaseRecord.name;
-  var recordPicture = document.createElement("img");
-  recordPicture.src = databaseRecord.picture;
-  var recordBorn = document.createElement("p");
-  recordBorn.innerHTML = "<b>Born:</b> " + databaseRecord.born;
-  var recordDied = document.createElement("p");
-  if(databaseRecord.died != null) {
-    recordDied.innerHTML = "<b>Died:</b> " + databaseRecord.died;
-  }
-  else {
-    recordDied.innerHTML = "<b>Died:</b> N/A";
-  }
-  var recordBio = document.createElement("p");
-  recordBio.innerHTML = databaseRecord.bio;
-  display.appendChild(recordName);
-  display.appendChild(recordPicture);
-  display.appendChild(recordBorn);
-  display.appendChild(recordDied);
-  display.appendChild(recordBio);
 }
