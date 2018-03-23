@@ -90,7 +90,7 @@ function getAutoSuggestions() {
     if(cleanedRecordName.startsWith(cleanedInput) && cleanedInput.length > 0) {
       var matching = database[i].name.substring(0, searchBar.value.length);
       var remaining = database[i].name.substring(searchBar.value.length);
-      var result = matching + "<b>" + remaining + "</b><br>";
+      var result = matching + "<b>" + remaining + "</b>";
       var button = document.createElement("button");
       button.innerHTML = result;
       button.style.display = "block";

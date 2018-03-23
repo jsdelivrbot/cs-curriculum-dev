@@ -56,7 +56,6 @@ function processInput() {
   var cleanedInput = searchBar.value.toLowerCase().trim();
   autoSuggestions.innerHTML = "";
   autoSuggestions.style.display = "none";
-  display.innerHTML = "";
   searchBar.value = "";
   var databaseRecord = getRecord(cleanedInput);
   if(databaseRecord != null) {
@@ -109,7 +108,7 @@ function getAutoSuggestions() {
     if(cleanedRecordName.startsWith(cleanedInput) && cleanedInput.length > 0) {
       var matching = database[i].name.substring(0, searchBar.value.length);
       var remaining = database[i].name.substring(searchBar.value.length);
-      var result = matching + "<b>" + remaining + "</b><br>";
+      var result = matching + "<b>" + remaining + "</b>";
       var button = document.createElement("button");
       button.innerHTML = result;
       button.style.display = "block";
@@ -147,6 +146,7 @@ function getSuggestions(cleanedInput) {
 }
 
 function displaySuggestions(suggestions) {
+  display.innerHTML = "";
   var paragraph = document.createElement("p");
   if(suggestions.length > 0) {
     paragraph.innerHTML = "Did you mean:";
