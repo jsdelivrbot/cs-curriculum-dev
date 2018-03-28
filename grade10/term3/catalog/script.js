@@ -25,7 +25,7 @@ var database = [
     born:"January 9, 1941",
     died:null,
     picture:"img/joan_baez.png",
-    bio:"<b>Joan Chandos Baez</b> is an American folk singer, songwriter, musician, and activist whose contemporary folk music often includes songs of protest or social justice, Baez has performed publicly for over 59 years, releasing over 30 albums. Fluent in Spanish and English, she has also recorded songs in at least six other languages. She is regarded as a folk singer, although her music has diversified since the counterculture days of the 1960s and now encompasses everything from folk rock and pop to country and gospel music. Although a songwriter herself, Baez generally interprets other composers' work, having recorded songs by Bob Dylan, the Allman Brothers Band, the Beatles, Jackson Browne, Leonard Cohen, Woody Guthrie, Violeta Parra, The Rolling Stones, Pete Seeger, Paul Simon, Stevie Wonder and many others. In recent years, she has found success interpreting songs of modern songwriters such as Ryan Adams, Josh Ritter, Steve Earle and Natalie Merchant. Her recordings include many topical songs and material dealing with social issues."
+    bio:"<b>Joan Chandos Baez</b> is an American folk singer, songwriter, musician, and activist whose contemporary folk music often includes songs of protest or social justice, Baez has performed publicly for over 59 years, releasing over 30 albums. Fluent in Spanish and English, she has also recorded songs in at least six other languages."
   },
   {
     name:"Fred Ho (politician)",

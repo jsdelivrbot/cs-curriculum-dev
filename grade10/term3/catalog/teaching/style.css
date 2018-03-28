@@ -34,3 +34,23 @@ body {
 #display h2 {
   text-align: center;
 }
+
+#auto-suggestions {
+  display: none;
+  border: 1px solid grey;
+  margin: 0 auto;
+  max-width: 25%;
+}
+
+.suggestion {
+  background-color: transparent;
+  border: none;
+}
+
+.suggestion:focus {
+  outline: none;
+}
+
+.suggestion:hover {
+  color: #ff0000;
+}

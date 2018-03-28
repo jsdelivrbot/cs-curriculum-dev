@@ -1,4 +1,4 @@
-var database = [];
+var database;
 var searchBar = document.getElementById("search-bar");
 var searchButton = document.getElementById("search-button");
 var autoSuggestions = document.getElementById("auto-suggestions");
@@ -17,7 +17,7 @@ function loadData() {
   .then(function(response) {
     response.json()
     .then(function(jsonObj) {
-      database = jsonObj.data;
+      database = jsonObj;
       console.log("Database Loaded Successfully");
     }).then(function() {
       searchBar.style.display = "block";
@@ -37,7 +37,6 @@ function processInput() {
   var cleanedInput = searchBar.value.toLowerCase().trim();
   autoSuggestions.innerHTML = "";
   autoSuggestions.style.display = "none";
-  display.innerHTML = "";
   searchBar.value = "";
   var databaseRecord = getRecord(cleanedInput);
   if(databaseRecord != null) {
@@ -128,6 +127,7 @@ function getSuggestions(cleanedInput) {
 }
 
 function displaySuggestions(suggestions) {
+  display.innerHTML = "";
   var paragraph = document.createElement("p");
   if(suggestions.length > 0) {
     paragraph.innerHTML = "Did you mean:";
