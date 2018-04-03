@@ -16,7 +16,7 @@ var spriteX, spriteY;
 // game variables
 var spritesActive;
 var lives, matches;
-var spriteOne, spriteTwo;
+var firstChoice, secondChoice;
 
 // UI variables
 var gameScreen;
