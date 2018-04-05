@@ -80,6 +80,27 @@ var resetButton, musicButton;
  * function draw()
  */
 
+/*
+ * function init()
+ * Initializes various elements of the game. Called in both setup() and
+ * resetGame(). Helps reduce some of the bloat and redundancy in both of those
+ * functions (DRY principle = "don't repeat yourself")
+ */
+
+
+/*
+ * function resetGame()
+ * Resets the game by calling init(), resetAllSprites(), then after a 1000
+ * millisecond delay, calls shuffle(spriteArray, true), placeSprites(), and
+ * sets spritesActive to true.
+ */
+
+
+/*
+ * function toggleMusic()
+ * Toggles the background music on and off.
+ */
+
 
 /*
  * function resizeImages()
@@ -150,8 +171,13 @@ var resetButton, musicButton;
  * reset and try again with a fresh shuffle.
  */
 
+/*
+ * function flipAllSprites()
+ * Flips all sprites in spriteArray to their last animation frame (i.e.,
+ * "face-up").
+ */
+
  /*
-  * function flipAllSprites()
-  * Flips all sprites in spriteArray to their last animation frame (i.e.,
-  * "face-up").
+  * function resetAllSprites()
+  * Does exactly the opposite of the above function!
   */
