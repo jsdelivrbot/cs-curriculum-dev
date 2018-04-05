@@ -57,14 +57,24 @@ var resetButton, musicButton;
  */
 
 
+/*
+ * function loadSounds()
+ * Works very similarly to loadImages(), only for music and sound effects.
+ * Example:
+   function loadSounds() {
+     soundFormats("mp3", "wav");
+     mySound = loadSound("assets/sound/sound.wav");
+     myOtherSound = loadSound("assets/sound/otherSound.mp3");
+   }
+ */
+
 
 /*
  * function preload()
  * Called automatically by p5.play. Loads all assets for your game (e.g.,
  * images, sounds) before p5 calls setup(), to ensure that the game does not
  * begin running until the assets are loaded and ready. Therefore, this function
- * is essentially a "pre-setup" function. It should only call loadImages() and
- * loadAnimations(), in that order.
+ * is essentially a "pre-setup" function. 
  */
 
 
