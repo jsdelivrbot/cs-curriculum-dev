@@ -160,7 +160,7 @@ var gameScreen;
  * function placeSprites()
  * Places all sprites in spriteArray on the game screen, according to any
  * pattern you like. For starters, try arranging the sprites in a simple
- * grid-like pattern (e.g., 2x2 if you only have four sprites).
+ * grid-like pattern (e.g., 2x6).
  */
  function placeSprites() {
    for(var i = 0; i < spriteArray.length; i++) {

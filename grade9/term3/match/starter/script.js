@@ -1,25 +1,35 @@
 // image variables
 var imageArray;
-var backImage, sunImage, moonImage;
+var backImage, boltImage, cloudImage, sunImage, moonImage, smileyImage, heartImage;
 var transitionImage1, transitionImage2, transitionImage3;
 
 // animation variables
-var sunAnimation, moonAnimation;
+var boltAnimation, cloudAnimation, sunAnimation, moonAnimation, smileyAnimation,
+heartAnimation;
 
-// sprites variables
+// sprite variables
 var spriteArray;
+var boltSprite1, boltSprite2;
+var cloudSprite1, cloudSprite2;
 var sunSprite1, sunSprite2;
 var moonSprite1, moonSprite2;
+var smileySprite1, smileySprite2;
+var heartSprite1, heartSprite2;
 var spriteWidth, spriteHeight;
 var spriteX, spriteY;
 
+// sound variables
+var flipSound, matchSound, nopeSound, winSound, loseSound, bgMusic;
+
 // game variables
-var spritesActive;
+var firstsprite, secondsprite;
 var lives, matches;
-var firstChoice, secondChoice;
+var spritesActive;
 
 // UI variables
 var gameScreen;
+var messageDisplay, livesDisplay;
+var resetButton, musicButton;
 
 /*
  * function loadImages()
@@ -97,12 +107,11 @@ var gameScreen;
 
 /*
  * function addAnimations()
- * Adds an animation to each sprite in spriteArray (that is, each sprite).
- * The animations have already been loaded using loadAnimations(), so this
- * function is responsible for actually adding them to the sprites.
- * Additionally, this function initializes each animation's frameDelay, loop,
- * and playing properties. Finally, this function calls activateSprite(s) with
- * each sprite as input.
+ * Adds an animation to each sprite in spriteArray. The animations have already
+ * been loaded using loadAnimations(), so this function is responsible for
+ * actually adding them to the sprites. Additionally, this function initializes
+ * each animation's frameDelay, loop, and playing properties. Finally, this
+ * function calls activateSprite(s) with each sprite as input.
  */
 
 
