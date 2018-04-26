@@ -1,6 +1,7 @@
 // UI Variables
 var gameScreen;
 var musicButton;
+var score;
 
 // Platform Variables
 var platforms; // p5.play sprite group
@@ -19,6 +20,12 @@ var monsters; // p5.play sprite group
 var monsterWalkAnimation;
 var monsterDefeatImage;
 
+// Other Game Object Variables
+var collectables;
+var collectableImage;
+var goal;
+var goalImage;
+
 // Physics Variables
 const GRAVITY = 0.5;
 const DEFAULT_VELOCITY = 5;
@@ -32,7 +39,7 @@ var millis, deltaMillis;
 var gameRunning;
 
 // Sound, music, etc.
-var hitSound, yahSound, ayeSound, jumpSound, winSound, loseSound, powerupSound, pauseSound;
+var hitSound, yahSound, ayeSound, jumpSound, winSound, yattaSound, loseSound, collectableSound, pauseSound;
 var bgMusic;
 
 function preload() {
@@ -54,6 +61,10 @@ function preload() {
   monsterWalkAnimation = loadAnimation("assets/img/monster/frame-1.png", "assets/img/monster/frame-10.png");
   monsterDefeatImage = loadImage("assets/img/monster/defeat-frame-3.png");
 
+  // load other game object images
+  collectableImage = loadImage("assets/img/kunoichi/Kunai.png");
+  goalImage = loadImage("assets/img/objects/Goal.png");
+
   // load sounds and music
   soundFormats("mp3", "wav");
   hitSound = loadSound("assets/sound/hit.wav");
@@ -61,8 +72,9 @@ function preload() {
   ayeSound = loadSound("assets/sound/aye.wav");
   jumpSound = loadSound("assets/sound/jump.wav");
   winSound = loadSound("assets/sound/win.wav");
+  yattaSound = loadSound("assets/sound/yatta.wav");
   loseSound = loadSound("assets/sound/lose.wav");
-  powerupSound = loadSound("assets/sound/powerup.wav");
+  collectableSound = loadSound("assets/sound/collectable.wav");
   pauseSound = loadSound("assets/sound/pause.wav");
   bgMusic = loadSound("assets/sound/bgm.mp3");
 }
@@ -84,10 +96,8 @@ function draw() {
   if(gameRunning) {
     applyGravity();
     handleCollisions();
-    updatePlayer();
-    updateMonsters();
-    updateView();
-    updateEvents();
+    updatePlayerPosition();
+    updateDisplay();
     drawSprites();
   }
 }
@@ -97,10 +107,10 @@ function resetGame() {
   allSprites.clear();
   buildLevel();
   createPlayer();
-  camera.off();
   currentJumpForce = DEFAULT_JUMP_FORCE;
   currentJumpTime = maxJumpTime;
   playerGrounded = false;
+  score = 0;
   gameRunning = true;
   loop();
 }
@@ -109,23 +119,29 @@ function buildLevel() {
   // create groups
   platforms = new Group();
   monsters = new Group();
+  collectables = new Group();
 
-  // draw platforms and monsters
-  createPlatform(50, height - 30, 5);
+  // create platforms, monsters, and any other game objects
+  // best method is to draw sprites from left to right on the screen
+  createPlatform(50, 690, 5);
+  createCollectable(300, 340);
   createMonster(500, 600, -2);
+  createCollectable(700, 440);
 
-  createPlatform(850, height - 75, 3);
+  createPlatform(850, 645, 3);
   createMonster(1085, 530, 0);
+  createCollectable(1085, 320);
+  createCollectable(1300, 420);
 
-  createPlatform(1450, height - 125, 4);
+  createPlatform(1450, 595, 4);
+  createCollectable(1600, 320);
+  createMonster(1730, 470, 0);
+  createCollectable(1730, 220);
   createMonster(1860, 470, 0);
 
-  createPlatform(2050, height - 250, 2);
-  createMonster(1730, 470, 0);
-
-  // add monsters
-
-
+  createPlatform(2050, 470, 2);
+  goal = createSprite(2115, 360);
+  goal.addImage(goalImage);
 }
 
 function createPlayer() {
@@ -168,13 +184,26 @@ function createMonster(x, y, velocity) {
   monster.velocity.x = velocity;
 }
 
+function createCollectable(x, y) {
+  var collectable = createSprite(x, y, 0, 0);
+  collectable.addToGroup(collectables);
+  collectable.scale = 0.5;
+  collectable.addImage(collectableImage);
+}
+
 function applyGravity() {
   player.velocity.y += GRAVITY;
   if(player.previousPosition.y !== player.position.y) {
     playerGrounded = false;
   }
+  if(player.position.y >= height) {
+    executeLoss();
+  }
   for(var i = 0; i < monsters.length; i++) {
     monsters[i].velocity.y += GRAVITY;
+    if(monsters[i].position.y >= height) {
+        monsters[i].remove();
+    }
   }
 }
 
@@ -183,6 +212,8 @@ function handleCollisions() {
   monsters.collide(platforms, platformCollision);
   player.collide(monsters, monsterCollision);
   monsters.bounce(monsters, monsterBounce);
+  player.overlap(collectables, getCollectable);
+  player.overlap(goal, executeWin);
 }
 
 function platformCollision(sprite, platform) {
@@ -212,16 +243,26 @@ function monsterCollision(player, monster) {
     currentJumpForce = DEFAULT_JUMP_FORCE;
     player.velocity.y = currentJumpForce;
     millis = new Date();
+    score++;
+  }
+  else {
+    executeLoss();
   }
 }
 
 function monsterBounce(monster1, monster2) {
   if(monster1.touching.right || monster1.touching.left) {
-    console.log("Bouncey!");
+    console.log("Bouncy!");
   }
 }
 
-function updatePlayer() {
+function getCollectable(player, collectable) {
+  collectableSound.play();
+  collectable.remove();
+  score++;
+}
+
+function updatePlayerPosition() {
   //console.log(player.position);
   checkIdle();
   checkFalling();
@@ -296,7 +337,7 @@ function keyTyped() {
       gameRunning = true;
       loop();
       if(bgMusic.isPaused()) {
-        bgMusic.play();
+        bgMusic.loop();
       }
     }
   }
@@ -308,31 +349,48 @@ function keyReleased() {
   }
 }
 
-function updateMonsters() {
-
-}
-
-function updateView() {
+function updateDisplay() {
+  // clear the screen
   background(0, 0, 0);
+
+  // briefly turn off camera to get absolute position of display on canvas
   camera.off()
+
+  // set the background image
   image(backgroundImage, 0, 0);
+
+  // redraw the goal image
+
+  // update score HUD
+  textSize(32);
+  fill(255);
+  text("Score: " + score, 30, 50);
+
+  // turn camera back on
   camera.on();
+
+  // set camera's x position to player's x position
   camera.position.x = player.position.x;
+
+  // animate collectables by rotating them clockwise
+  for(var i = 0; i < collectables.length; i++) {
+    collectables[i].rotation += 5;
+  }
 }
 
-function updateEvents() {
-  if(player.position.y >= height) {
-    loseSound.play();
-    gameRunning = false;
-    noLoop();
-    setTimeout(resetGame, 1000);
-  }
-  if(player.position.x >= 2115 && player.position.y >= 344) {
-    winSound.play();
-    powerupSound.play();
-    alert("You win!");
-    resetGame();
-  }
+function executeWin() {
+  winSound.play();
+  yattaSound.play();
+  gameRunning = false;
+  noLoop();
+  setTimeout(resetGame, 1000);
+}
+
+function executeLoss() {
+  loseSound.play();
+  gameRunning = false;
+  noLoop();
+  setTimeout(resetGame, 1000);
 }
 
 function toggleMusic() {
