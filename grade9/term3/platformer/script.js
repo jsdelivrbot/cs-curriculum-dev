@@ -5,9 +5,7 @@ var score;
 
 // Platform Variables
 var platforms; // p5.play sprite group
-var platformImageFirst;
-var platformImageMiddle;
-var platformImageLast;
+var platformImageFirst, platformImageMiddle, platformImageLast;
 
 // Player Variables
 var player; //p5.play sprite
@@ -31,10 +29,10 @@ const GRAVITY = 0.5;
 const DEFAULT_VELOCITY = 5;
 const DEFAULT_JUMP_FORCE = -5;
 var currentJumpForce;
-const maxJumpTime = 2000; //milliseconds
-var currentJumpTime;
 
 // Timing and Control Variables
+const MAX_JUMP_TIME = 2000; //milliseconds
+var currentJumpTime;
 var millis, deltaMillis;
 var gameRunning;
 
@@ -106,7 +104,7 @@ function setup() {
 function draw() {
   if(gameRunning) {
     applyGravity();
-    handleCollisions();
+    checkCollisions();
     updatePlayer();
     updateDisplay();
     drawSprites();
@@ -119,7 +117,7 @@ function resetGame() {
   buildLevel();
   createPlayer();
   currentJumpForce = DEFAULT_JUMP_FORCE;
-  currentJumpTime = maxJumpTime;
+  currentJumpTime = MAX_JUMP_TIME;
   playerGrounded = false;
   score = 0;
   gameRunning = true;
@@ -220,7 +218,7 @@ function applyGravity() {
   }
 }
 
-function handleCollisions() {
+function checkCollisions() {
   player.collide(platforms, platformCollision);
   monsters.collide(platforms, platformCollision);
   player.collide(monsters, playerMonsterCollision);
@@ -231,7 +229,7 @@ function handleCollisions() {
 function platformCollision(sprite, platform) {
   if(sprite === player && sprite.touching.bottom) {
     sprite.velocity.y = 0;
-    currentJumpTime = maxJumpTime;
+    currentJumpTime = MAX_JUMP_TIME;
     currentJumpForce = DEFAULT_JUMP_FORCE;
     playerGrounded = true;
   }
@@ -251,7 +249,7 @@ function playerMonsterCollision(player, monster) {
     defeatedMonster.addImage(monsterDefeatImage);
     defeatedMonster.life = 40;
     monster.remove();
-    currentJumpTime = maxJumpTime;
+    currentJumpTime = MAX_JUMP_TIME;
     currentJumpForce = DEFAULT_JUMP_FORCE;
     player.velocity.y = currentJumpForce;
     millis = new Date();
@@ -276,8 +274,9 @@ function updatePlayer() {
   checkMovingLeftRight();
 }
 
-// If no button is being pressed and the player is grounded, show idle
-// animation, and change x velocity to 0
+// Check if the player is idle. If neither left nor right are being pressed and the
+// player is grounded, set player's animation to "idle", and change her
+// x velocity to 0.
 function checkIdle() {
   if(!keyIsDown(LEFT_ARROW) && !keyIsDown(RIGHT_ARROW) && playerGrounded) {
     player.changeAnimation("idle");
@@ -319,6 +318,9 @@ function checkMovingLeftRight() {
   }
 }
 
+// Check if the player has pressed the up arrow key. If the player is grounded
+// this should initiate the jump sequence, which can be extended by holding down
+// the up arrow key (see checkJumping() above).
 function keyPressed() {
   if(keyCode === UP_ARROW && playerGrounded) {
     ayeSound.play();

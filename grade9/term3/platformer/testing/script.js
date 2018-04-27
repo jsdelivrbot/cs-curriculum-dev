@@ -5,9 +5,7 @@ var score;
 
 // Platform Variables
 var platforms; // p5.play sprite group
-var platformImageFirst;
-var platformImageMiddle;
-var platformImageLast;
+var platformImageFirst, platformImageMiddle, platformImageLast;
 
 // Player Variables
 var player; //p5.play sprite
@@ -31,10 +29,10 @@ const GRAVITY = 0.5;
 const DEFAULT_VELOCITY = 5;
 const DEFAULT_JUMP_FORCE = -5;
 var currentJumpForce;
-const maxJumpTime = 2000; //milliseconds
-var currentJumpTime;
 
 // Timing and Control Variables
+const MAX_JUMP_TIME = 2000; //milliseconds
+var currentJumpTime;
 var millis, deltaMillis;
 var gameRunning;
 
@@ -116,7 +114,7 @@ function resetGame() {
   buildLevel();
   createPlayer();
   currentJumpForce = DEFAULT_JUMP_FORCE;
-  currentJumpTime = maxJumpTime;
+  currentJumpTime = MAX_JUMP_TIME;
   playerGrounded = false;
   score = 0;
   gameRunning = true;
@@ -193,20 +191,28 @@ function createCollectable(x, y) {
 // function calls executeLoss(). If a monster falls off the screen, it is
 // removed from the game.
 function applyGravity() {
-
+  player.velocity.y += GRAVITY;
+  if(player.previousPosition.y !== player.position.y) {
+    playerGrounded = false;
+  }
 }
 
 // Called in the draw() function. Continuously checks for collisions and overlaps
 // between all relevant game objects. Depending on the collision or overlap that
 // occurs, a specific callback function is run.
 function checkCollisions() {
-
+  player.collide(platforms, platformCollision);
 }
 
 // Callback function that runs when the player or a monster collides with a
 // platform.
 function platformCollision(sprite, platform) {
-
+  if(sprite === player && sprite.touching.bottom) {
+    sprite.velocity.y = 0;
+    currentJumpTime = MAX_JUMP_TIME;
+    currentJumpForce = DEFAULT_JUMP_FORCE;
+    playerGrounded = true;
+  }
 }
 
 // Callback function that runs when the player collides with a monster.
@@ -223,48 +229,84 @@ function getCollectable(player, collectable) {
 // all of the relevant "check" functions below.
 function updatePlayer() {
   //console.log(player.position);
-
+  checkIdle();
+  checkFalling();
+  checkJumping();
+  checkMovingLeftRight();
 }
 
-// Check if the player is idle. If she is grounded and no button is being pressed,
-// set her animation to "idle" and her x velocity to 0.
+// Check if the player is idle. If neither left nor right are being pressed and the
+// player is grounded, set player's animation to "idle", and change her
+// x velocity to 0.
 function checkIdle() {
-
+  if(!keyIsDown(LEFT_ARROW) && !keyIsDown(RIGHT_ARROW) && playerGrounded) {
+    player.changeAnimation("idle");
+    player.velocity.x = 0;
+  }
 }
 
 // Check if the player is falling. If she is not grounded and her y velocity is
 // greater than 0, then set her animation to "falling".
 function checkFalling() {
-
+  if(!playerGrounded && player.velocity.y > 0) {
+    player.changeAnimation("fall");
+  }
 }
 
 // Check if the player is jumping. First, if her y velocity is less than 0, set
 // her animation to "jump". Then, handle if the player is holding down the up arrow
 // key, which should allow her to jump higher for a certain amount of time.
 function checkJumping() {
-
+  if(player.velocity.y < 0) {
+    player.changeAnimation("jump");
+    if(keyIsDown(UP_ARROW) && currentJumpTime > 0) {
+      player.velocity.y = currentJumpForce;
+      deltaMillis = new Date();
+      currentJumpTime -= deltaMillis - millis;
+    }
+  }
 }
 
-// Check if the player is moving left or right. If moving left, mirror the player's
-// sprite to face left. In either case, check if the player is currently grounded.
-// If so, set the player's animation to "run". Change the player's x velocity to
-// DEFAULT_VELOCITY if moving right, or negative DEFAULT_VELOCITY if moving left.
+// Check if the player is moving left or right. If so, move the player character
+// left or right according to DEFAULT_VELOCITY. Also be sure to mirror the
+// player's sprite left or right to avoid "moonwalking". Unless you're making
+// a Michael Jackson game I guess? There was a really good one on Sega Genesis,
+// you should play it. I beat it (pun intended) like five times as a kid, no lie.
 function checkMovingLeftRight() {
-
+  if(keyIsDown(LEFT_ARROW) && !keyIsDown(RIGHT_ARROW)) {
+    player.mirrorX(-1);
+    if(playerGrounded) {
+      player.changeAnimation("run");
+    }
+    player.velocity.x = -DEFAULT_VELOCITY;
+  }
+  else if(keyIsDown(RIGHT_ARROW) && !keyIsDown(LEFT_ARROW)) {
+    player.mirrorX(1);
+    if(playerGrounded) {
+      player.changeAnimation("run");
+    }
+    player.velocity.x = DEFAULT_VELOCITY;
+  }
 }
 
 // Check if the player has pressed the up arrow key. If the player is grounded
 // this should initiate the jump sequence, which can be extended by holding down
 // the up arrow key (see checkJumping() above).
 function keyPressed() {
-
+  if(keyCode === UP_ARROW && playerGrounded) {
+    playerGrounded = false;
+    player.velocity.y = currentJumpForce;
+    millis = new Date();
+  }
 }
 
 // Check if the player has released the up arrow key. If the player's y velocity
 // is < 0 (that is, she is currently moving "up" on the canvas), then this will
 // immediately set currentJumpTime to 0, causing her to begin falling.
 function keyReleased() {
-
+  if(keyCode === UP_ARROW && player.velocity.y < 0) {
+    currentJumpTime = 0;
+  }
 }
 
 // Check if the player has typed the "p" key, which pauses the game. We use
