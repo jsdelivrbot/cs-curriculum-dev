@@ -147,7 +147,7 @@ function buildLevel() {
   createPlatform(1450, 595, 4);
   createCollectable(1600, 320);
   createMonster(1730, 470, 0);
-  createCollectable(1730, 220);
+  createCollectable(1730, 240);
   createMonster(1860, 470, 0);
 
   createPlatform(2050, 470, 2);
@@ -163,6 +163,7 @@ function createPlayer() {
   player.addAnimation("fall", playerFallAnimation).looping = false;
   player.scale = 0.25;
   player.setCollider("rectangle", 0, 0, 250, 490);
+  //player.debug = true;
 }
 
 /*
@@ -191,8 +192,9 @@ function createMonster(x, y, velocity) {
   monster.addAnimation("walk", monsterWalkAnimation).loop = true;
   monster.changeAnimation("walk");
   monster.scale = 0.25;
-  monster.setCollider("rectangle", 0, 0, 380, 240);
+  monster.setCollider("rectangle", 0, 7, 300, 160);
   monster.velocity.x = velocity;
+  //monster.debug = true;
 }
 
 function createCollectable(x, y) {
