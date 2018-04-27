@@ -183,9 +183,9 @@ function applyGravity() {
 
 }
 
-// Called in the draw() function. Continuously checks for collisions between
-// all relevant game objects. Depending on the kind of collision that occurs,
-// a specific callback function is run.
+// Called in the draw() function. Continuously checks for collisions and overlaps
+// between all relevant game objects. Depending on the collision or overlap that
+// occurs, a specific callback function is run.
 function checkCollisions() {
 
 }
@@ -201,7 +201,7 @@ function playerMonsterCollision(player, monster) {
 
 }
 
-// Callback function that runs when the player collides with a collectable.
+// Callback function that runs when the player overlaps with a collectable.
 function getCollectable(player, collectable) {
 
 }
@@ -301,7 +301,7 @@ function executeLoss() {
 
 }
 
-// Toggles the game's music on and off. 
+// Toggles the game's music on and off.
 function toggleMusic() {
 
 }

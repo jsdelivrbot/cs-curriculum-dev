@@ -211,8 +211,8 @@ function handleCollisions() {
   player.collide(platforms, platformCollision);
   monsters.collide(platforms, platformCollision);
   player.collide(monsters, playerMonsterCollision);
-  player.collide(collectables, getCollectable);
-  player.collide(goal, executeWin);
+  player.overlap(collectables, getCollectable);
+  player.overlap(goal, executeWin);
 }
 
 function platformCollision(sprite, platform) {
