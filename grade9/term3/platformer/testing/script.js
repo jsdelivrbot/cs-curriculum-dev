@@ -96,7 +96,7 @@ function draw() {
   if(gameRunning) {
     applyGravity();
     handleCollisions();
-    updatePlayerPosition();
+    updatePlayer();
     updateDisplay();
     drawSprites();
   }
@@ -210,10 +210,9 @@ function applyGravity() {
 function handleCollisions() {
   player.collide(platforms, platformCollision);
   monsters.collide(platforms, platformCollision);
-  player.collide(monsters, monsterCollision);
-  monsters.bounce(monsters, monsterBounce);
-  player.overlap(collectables, getCollectable);
-  player.overlap(goal, executeWin);
+  player.collide(monsters, playerMonsterCollision);
+  player.collide(collectables, getCollectable);
+  player.collide(goal, executeWin);
 }
 
 function platformCollision(sprite, platform) {
@@ -230,7 +229,7 @@ function platformCollision(sprite, platform) {
   }
 }
 
-function monsterCollision(player, monster) {
+function playerMonsterCollision(player, monster) {
   if(player.touching.bottom) {
     yahSound.play();
     hitSound.play();
@@ -250,19 +249,13 @@ function monsterCollision(player, monster) {
   }
 }
 
-function monsterBounce(monster1, monster2) {
-  if(monster1.touching.right || monster1.touching.left) {
-    console.log("Bouncy!");
-  }
-}
-
 function getCollectable(player, collectable) {
   collectableSound.play();
   collectable.remove();
   score++;
 }
 
-function updatePlayerPosition() {
+function updatePlayer() {
   //console.log(player.position);
   checkIdle();
   checkFalling();
@@ -323,6 +316,12 @@ function keyPressed() {
   }
 }
 
+function keyReleased() {
+  if(keyCode === UP_ARROW && player.velocity.y < 0) {
+    currentJumpTime = 0;
+  }
+}
+
 function keyTyped() {
   if(key === "p") {
     pauseSound.play();
@@ -343,12 +342,6 @@ function keyTyped() {
   }
 }
 
-function keyReleased() {
-  if(keyCode === UP_ARROW && player.velocity.y < 0) {
-    currentJumpTime = 0;
-  }
-}
-
 function updateDisplay() {
   // clear the screen
   background(0, 0, 0);
@@ -358,8 +351,6 @@ function updateDisplay() {
 
   // set the background image
   image(backgroundImage, 0, 0);
-
-  // redraw the goal image
 
   // update score HUD
   textSize(32);

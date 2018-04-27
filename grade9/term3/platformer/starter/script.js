@@ -80,12 +80,9 @@ function preload() {
 }
 
 function setup() {
-  bgMusic.setVolume(0.5);
-  bgMusic.loop();
   gameScreen = createCanvas(1280, 720);
   gameScreen.parent("#game-screen");
   musicButton = select("#music");
-  musicButton.mousePressed(toggleMusic);
   backgroundImage.resize(width, height);
   playerStartX = 50;
   playerStartY = 300;
@@ -95,14 +92,14 @@ function setup() {
 function draw() {
   if(gameRunning) {
     applyGravity();
-    handleCollisions();
+    checkCollisions();
     updatePlayer();
     updateDisplay();
     drawSprites();
   }
 }
 
-// Called when game is reset or the player dies
+// Called when player wins or loses
 function resetGame() {
   allSprites.clear();
   buildLevel();
@@ -115,6 +112,7 @@ function resetGame() {
   loop();
 }
 
+// Called when the game begins.
 function buildLevel() {
   // create groups
   platforms = new Group();
@@ -125,25 +123,10 @@ function buildLevel() {
   // best method is to draw sprites from left to right on the screen
   createPlatform(50, 690, 5);
   createCollectable(300, 340);
-  createMonster(500, 600, -2);
-  createCollectable(700, 440);
-
-  createPlatform(850, 645, 3);
-  createMonster(1085, 530, 0);
-  createCollectable(1085, 320);
-  createCollectable(1300, 420);
-
-  createPlatform(1450, 595, 4);
-  createCollectable(1600, 320);
-  createMonster(1730, 470, 0);
-  createCollectable(1730, 220);
-  createMonster(1860, 470, 0);
-
-  createPlatform(2050, 470, 2);
-  goal = createSprite(2115, 360);
-  goal.addImage(goalImage);
+  createMonster(500, 600, 0);
 }
 
+// Creates a player sprite and adds animations and a collider to it
 function createPlayer() {
   player = createSprite(playerStartX, playerStartY, 0, 0);
   player.addAnimation("idle", playerIdleAnimation).looping = true;
@@ -154,10 +137,8 @@ function createPlayer() {
   player.setCollider("rectangle", 0, 0, 250, 490);
 }
 
-/*
-  Draw a platform of specified length (len) at x, y
-  Len must be at least 2.
-*/
+// Creates a platform of specified length (len) at x, y.
+// Value of len must be >= 2
 function createPlatform(x, y, len) {
   var first = createSprite(x, y, 0, 0);
   var last = createSprite(x + ((len - 1) * 128), y, 0, 0);
@@ -174,6 +155,8 @@ function createPlatform(x, y, len) {
   }
 }
 
+// Creates a monster sprite and adds animations and a collider to it.
+// Also sets the monster's initial velocity.
 function createMonster(x, y, velocity) {
   var monster = createSprite(x, y, 0, 0);
   monster.addToGroup(monsters);
@@ -184,6 +167,7 @@ function createMonster(x, y, velocity) {
   monster.velocity.x = velocity;
 }
 
+// Creates a collectable sprite and adds an image to it.
 function createCollectable(x, y) {
   var collectable = createSprite(x, y, 0, 0);
   collectable.addToGroup(collectables);
@@ -191,162 +175,103 @@ function createCollectable(x, y) {
   collectable.addImage(collectableImage);
 }
 
+// Applies gravity to player and monsters. Also checks if either of them
+// have fallen off the screen. If a player has fallen off the screen, this
+// function calls executeLoss(). If a monster falls off the screen, it is
+// removed from the game.
 function applyGravity() {
-  player.velocity.y += GRAVITY;
-  if(player.previousPosition.y !== player.position.y) {
-    playerGrounded = false;
-  }
-  if(player.position.y >= height) {
-    executeLoss();
-  }
-  for(var i = 0; i < monsters.length; i++) {
-    monsters[i].velocity.y += GRAVITY;
-    if(monsters[i].position.y >= height) {
-        monsters[i].remove();
-    }
-  }
+
 }
 
-function handleCollisions() {
-  player.collide(platforms, platformCollision);
-  monsters.collide(platforms, platformCollision);
-  player.collide(monsters, playerMonsterCollision);
-  player.collide(collectables, getCollectable);
-  player.collide(goal, executeWin);
+// Called in the draw() function. Continuously checks for collisions between
+// all relevant game objects. Depending on the kind of collision that occurs,
+// a specific callback function is run.
+function checkCollisions() {
+
 }
 
+// Callback function that runs when the player or a monster collides with a
+// platform.
 function platformCollision(sprite, platform) {
-  if(sprite === player && sprite.touching.bottom) {
-    sprite.velocity.y = 0;
-    currentJumpTime = maxJumpTime;
-    currentJumpForce = DEFAULT_JUMP_FORCE;
-    playerGrounded = true;
-  }
-  for(var i = 0; i < monsters.length; i++) {
-    if(sprite === monsters[i] && sprite.touching.bottom) {
-      sprite.velocity.y = 0;
-    }
-  }
+
 }
 
+// Callback function that runs when the player collides with a monster.
 function playerMonsterCollision(player, monster) {
-  if(player.touching.bottom) {
-    yahSound.play();
-    hitSound.play();
-    var defeatedMonster = createSprite(monster.position.x, monster.position.y, 50, 50);
-    defeatedMonster.scale = 0.25;
-    defeatedMonster.addImage(monsterDefeatImage);
-    defeatedMonster.life = 40;
-    monster.remove();
-    currentJumpTime = maxJumpTime;
-    currentJumpForce = DEFAULT_JUMP_FORCE;
-    player.velocity.y = currentJumpForce;
-    millis = new Date();
-    score++;
-  }
-  else {
-    executeLoss();
-  }
+
 }
 
+// Callback function that runs when the player collides with a collectable.
 function getCollectable(player, collectable) {
-  collectableSound.play();
-  collectable.remove();
-  score++;
+
 }
 
+// Updates the player's position and current animation by calling
+// all of the relevant "check" functions below.
 function updatePlayer() {
   //console.log(player.position);
-  checkIdle();
-  checkFalling();
-  checkJumping();
-  checkMovingLeftRight();
+
 }
 
-// If no button is being pressed and the player is grounded, show idle
-// animation, and change x velocity to 0
+// Check if the player is idle. If she is grounded and no button is being pressed,
+// set her animation to "idle" and her x velocity to 0.
 function checkIdle() {
-  if(!keyIsDown(LEFT_ARROW) && !keyIsDown(RIGHT_ARROW) && playerGrounded) {
-    player.changeAnimation("idle");
-    player.velocity.x = 0;
-  }
+
 }
 
+// Check if the player is falling. If she is not grounded and her y velocity is
+// greater than 0, then set her animation to "falling".
 function checkFalling() {
-  if(!playerGrounded && player.velocity.y > 0) {
-    player.changeAnimation("fall");
-  }
+
 }
 
+// Check if the player is jumping. First, if her y velocity is less than 0, set
+// her animation to "jump". Then, handle if the player is holding down the up arrow
+// key, which should allow her to jump higher for a certain amount of time.
 function checkJumping() {
-  if(player.velocity.y < 0) {
-    player.changeAnimation("jump");
-    if(keyIsDown(UP_ARROW) && currentJumpTime > 0) {
-      player.velocity.y = currentJumpForce;
-      deltaMillis = new Date();
-      currentJumpTime -= deltaMillis - millis;
-    }
-  }
+
 }
 
+// Check if the player is moving left or right. If moving left, mirror the player's
+// sprite to face left. In either case, check if the player is currently grounded.
+// If so, set the player's animation to "run". Change the player's x velocity to
+// DEFAULT_VELOCITY if moving right, or negative DEFAULT_VELOCITY if moving left.
 function checkMovingLeftRight() {
-  if(keyIsDown(LEFT_ARROW) && !keyIsDown(RIGHT_ARROW)) {
-    player.mirrorX(-1);
-    if(playerGrounded) {
-      player.changeAnimation("run");
-    }
-    player.velocity.x = -DEFAULT_VELOCITY;
-  }
-  else if(keyIsDown(RIGHT_ARROW) && !keyIsDown(LEFT_ARROW)) {
-    player.mirrorX(1);
-    if(playerGrounded) {
-      player.changeAnimation("run");
-    }
-    player.velocity.x = DEFAULT_VELOCITY;
-  }
+
 }
 
+// Check if the player has pressed the up arrow key. If the player is grounded
+// this should initiate the jump sequence, which can be extended by holding down
+// the up arrow key (see checkJumping() above).
 function keyPressed() {
-  if(keyCode === UP_ARROW && playerGrounded) {
-    ayeSound.play();
-    jumpSound.play();
-    playerGrounded = false;
-    player.velocity.y = currentJumpForce;
-    millis = new Date();
-  }
+
 }
 
+// Check if the player has released the up arrow key. If the player's y velocity
+// is < 0 (that is, she is currently moving "up" on the canvas), then this will
+// immediately set currentJumpTime to 0, causing her to begin falling.
 function keyReleased() {
-  if(keyCode === UP_ARROW && player.velocity.y < 0) {
-    currentJumpTime = 0;
-  }
+
 }
 
+// Check if the player has typed the "p" key, which pauses the game. We use
+// keyTyped() for this because it is not case sensitive (whereas keyPressed() is).
+// Therefore, the player can press "P" or "p" and the game will be paused either way.
 function keyTyped() {
-  if(key === "p") {
-    pauseSound.play();
-    if(gameRunning) {
-      gameRunning = false;
-      noLoop();
-      if(bgMusic.isPlaying()) {
-        bgMusic.pause();
-      }
-    }
-    else {
-      gameRunning = true;
-      loop();
-      if(bgMusic.isPaused()) {
-        bgMusic.loop();
-      }
-    }
-  }
+
 }
 
+// Called in the draw() loop. Constantly refreshes the canvas, including static
+// images, the score display. Also sets the camera's x position to the player's x
+// position, so that the camera "follows" the player horiztonally.
+// Note that the camera should be turned off before setting the static images and the
+// score display, and turned on afterwards. This allows p5.play to get set their
+// positions relative to the camera once the camera has turned back on.
 function updateDisplay() {
   // clear the screen
   background(0, 0, 0);
 
-  // briefly turn off camera to get absolute position of display on canvas
+  // briefly turn camera off before setting any static images or text
   camera.off()
 
   // set the background image
@@ -360,35 +285,23 @@ function updateDisplay() {
   // turn camera back on
   camera.on();
 
-  // set camera's x position to player's x position
-  camera.position.x = player.position.x;
-
-  // animate collectables by rotating them clockwise
-  for(var i = 0; i < collectables.length; i++) {
-    collectables[i].rotation += 5;
-  }
 }
 
+// Called when the player has won the game (e.g., reached the goal at the end).
+// Anything can happen here, but the most important thing is that we call resetGame()
+// after a short delay.
 function executeWin() {
-  winSound.play();
-  yattaSound.play();
-  gameRunning = false;
-  noLoop();
-  setTimeout(resetGame, 1000);
+
 }
 
+// Called when the player has lost the game (e.g., fallen off a cliff or touched
+// a monster). Anything can happen here, but the most important thing is that we
+// call resetGame() after a short delay.
 function executeLoss() {
-  loseSound.play();
-  gameRunning = false;
-  noLoop();
-  setTimeout(resetGame, 1000);
+
 }
 
+// Toggles the game's music on and off. 
 function toggleMusic() {
-  if(bgMusic.isPlaying()) {
-    bgMusic.pause();
-  }
-  else {
-    bgMusic.loop();
-  }
+
 }
