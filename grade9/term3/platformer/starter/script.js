@@ -34,7 +34,7 @@ var currentJumpForce;
 const MAX_JUMP_TIME = 2000; //milliseconds
 var currentJumpTime;
 var millis, deltaMillis;
-var gameRunning;
+var gamePaused;
 
 // Sound, music, etc.
 var hitSound, yahSound, ayeSound, jumpSound, winSound, yattaSound, loseSound, collectableSound, pauseSound;
@@ -92,6 +92,7 @@ function setup() {
   gameScreen = createCanvas(1280, 720);
   gameScreen.parent("#game-screen");
   musicButton = select("#music");
+  musicButton.mousePressed(toggleMusic);
   backgroundImage.resize(width, height);
   playerStartX = 50;
   playerStartY = 300;
@@ -99,13 +100,11 @@ function setup() {
 }
 
 function draw() {
-  if(gameRunning) {
-    applyGravity();
-    checkCollisions();
-    updatePlayer();
-    updateDisplay();
-    drawSprites();
-  }
+  applyGravity();
+  checkCollisions();
+  updatePlayer();
+  updateDisplay();
+  drawSprites();
 }
 
 // Called when player wins or loses
@@ -117,7 +116,7 @@ function resetGame() {
   currentJumpTime = MAX_JUMP_TIME;
   playerGrounded = false;
   score = 0;
-  gameRunning = true;
+  gamePaused = false;
   loop();
 }
 
@@ -147,7 +146,6 @@ function createPlayer() {
   //player.debug = true;
 }
 
-
 // Creates a platform of specified length (len) at x, y.
 // Value of len must be >= 2
 function createPlatform(x, y, len) {
@@ -157,11 +155,14 @@ function createPlatform(x, y, len) {
   last.addToGroup(platforms);
   first.addImage(platformImageFirst);
   last.addImage(platformImageLast);
+  //first.debug = true;
+  //last.debug = true;
   if(len > 2) {
     for(var i = 1; i < len - 1; i++) {
       var middle = createSprite(x + (128 * i), y, 0, 0);
       middle.addToGroup(platforms);
       middle.addImage(platformImageMiddle);
+      //middle.debug = true;
     }
   }
 }
@@ -176,6 +177,12 @@ function createMonster(x, y, velocity) {
   monster.scale = 0.25;
   monster.setCollider("rectangle", 0, 7, 300, 160);
   monster.velocity.x = velocity;
+  if(monster.velocity.x <= 0) {
+    monster.mirrorX(-1);
+  }
+  else {
+    monster.mirrorX(1);
+  }
   //monster.debug = true;
 }
 
@@ -185,6 +192,7 @@ function createCollectable(x, y) {
   collectable.addToGroup(collectables);
   collectable.scale = 0.5;
   collectable.addImage(collectableImage);
+  //collectable.debug = true;
 }
 
 // Applies gravity to player and monsters. Also checks if either of them
@@ -221,7 +229,7 @@ function getCollectable(player, collectable) {
 // Updates the player's position and current animation by calling
 // all of the relevant "check" functions below.
 function updatePlayer() {
-  //console.log(player.position);
+  //console.log("Player x: " + player.position.x + " Player y: " + player.position.y);
 
 }
 

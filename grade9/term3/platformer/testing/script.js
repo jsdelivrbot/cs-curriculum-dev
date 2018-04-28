@@ -34,7 +34,7 @@ var currentJumpForce;
 const MAX_JUMP_TIME = 2000; //milliseconds
 var currentJumpTime;
 var millis, deltaMillis;
-var gameRunning;
+var gamePaused;
 
 // Sound, music, etc.
 var hitSound, yahSound, ayeSound, jumpSound, winSound, yattaSound, loseSound, collectableSound, pauseSound;
@@ -89,9 +89,12 @@ function preload() {
 }
 
 function setup() {
+  bgMusic.setVolume(0.5);
+  bgMusic.loop();
   gameScreen = createCanvas(1280, 720);
   gameScreen.parent("#game-screen");
   musicButton = select("#music");
+  musicButton.mousePressed(toggleMusic);
   backgroundImage.resize(width, height);
   playerStartX = 50;
   playerStartY = 300;
@@ -99,13 +102,11 @@ function setup() {
 }
 
 function draw() {
-  if(gameRunning) {
-    applyGravity();
-    checkCollisions();
-    updatePlayer();
-    updateDisplay();
-    drawSprites();
-  }
+  applyGravity();
+  checkCollisions();
+  updatePlayer();
+  updateDisplay();
+  drawSprites();
 }
 
 // Called when player wins or loses
@@ -117,7 +118,7 @@ function resetGame() {
   currentJumpTime = MAX_JUMP_TIME;
   playerGrounded = false;
   score = 0;
-  gameRunning = true;
+  gamePaused = false;
   loop();
 }
 
@@ -132,7 +133,23 @@ function buildLevel() {
   // best method is to draw sprites from left to right on the screen
   createPlatform(50, 690, 5);
   createCollectable(300, 340);
-  createMonster(500, 600, 0);
+  createMonster(500, 600, -2);
+  createCollectable(700, 440);
+
+  createPlatform(850, 645, 3);
+  createMonster(1085, 530, 0);
+  createCollectable(1085, 320);
+  createCollectable(1300, 420);
+
+  createPlatform(1450, 595, 4);
+  createCollectable(1600, 320);
+  createMonster(1730, 470, 0);
+  createCollectable(1730, 240);
+  createMonster(1860, 470, 0);
+
+  createPlatform(2050, 470, 2);
+  goal = createSprite(2115, 360);
+  goal.addImage(goalImage);
 }
 
 // Creates a player sprite and adds animations and a collider to it
@@ -156,11 +173,14 @@ function createPlatform(x, y, len) {
   last.addToGroup(platforms);
   first.addImage(platformImageFirst);
   last.addImage(platformImageLast);
+  //first.debug = true;
+  //last.debug = true;
   if(len > 2) {
     for(var i = 1; i < len - 1; i++) {
       var middle = createSprite(x + (128 * i), y, 0, 0);
       middle.addToGroup(platforms);
       middle.addImage(platformImageMiddle);
+      //middle.debug = true;
     }
   }
 }
@@ -175,6 +195,12 @@ function createMonster(x, y, velocity) {
   monster.scale = 0.25;
   monster.setCollider("rectangle", 0, 7, 300, 160);
   monster.velocity.x = velocity;
+  if(monster.velocity.x <= 0) {
+    monster.mirrorX(-1);
+  }
+  else {
+    monster.mirrorX(1);
+  }
   //monster.debug = true;
 }
 
@@ -184,6 +210,7 @@ function createCollectable(x, y) {
   collectable.addToGroup(collectables);
   collectable.scale = 0.5;
   collectable.addImage(collectableImage);
+  //collectable.debug = true;
 }
 
 // Applies gravity to player and monsters. Also checks if either of them
@@ -195,6 +222,15 @@ function applyGravity() {
   if(player.previousPosition.y !== player.position.y) {
     playerGrounded = false;
   }
+  if(player.position.y >= height) {
+    executeLoss();
+  }
+  for(var i = 0; i < monsters.length; i++) {
+    monsters[i].velocity.y += GRAVITY;
+    if(monsters[i].position.y >= height) {
+        monsters[i].remove();
+    }
+  }
 }
 
 // Called in the draw() function. Continuously checks for collisions and overlaps
@@ -202,6 +238,10 @@ function applyGravity() {
 // occurs, a specific callback function is run.
 function checkCollisions() {
   player.collide(platforms, platformCollision);
+  monsters.collide(platforms, platformCollision);
+  player.collide(monsters, playerMonsterCollision);
+  player.overlap(collectables, getCollectable);
+  player.overlap(goal, executeWin);
 }
 
 // Callback function that runs when the player or a monster collides with a
@@ -213,22 +253,46 @@ function platformCollision(sprite, platform) {
     currentJumpForce = DEFAULT_JUMP_FORCE;
     playerGrounded = true;
   }
+  for(var i = 0; i < monsters.length; i++) {
+    if(sprite === monsters[i] && sprite.touching.bottom) {
+      sprite.velocity.y = 0;
+    }
+  }
 }
 
 // Callback function that runs when the player collides with a monster.
 function playerMonsterCollision(player, monster) {
-
+  if(player.touching.bottom) {
+    yahSound.play();
+    hitSound.play();
+    monster.remove();
+    var defeatedMonster = createSprite(monster.position.x, monster.position.y, 0, 0);
+    defeatedMonster.addImage(monsterDefeatImage);
+    defeatedMonster.mirrorX(monster.mirrorX());
+    defeatedMonster.scale = 0.25;
+    defeatedMonster.life = 40;
+    currentJumpTime = MAX_JUMP_TIME;
+    currentJumpForce = DEFAULT_JUMP_FORCE;
+    player.velocity.y = currentJumpForce;
+    millis = new Date();
+    score++;
+  }
+  else {
+    executeLoss();
+  }
 }
 
 // Callback function that runs when the player overlaps with a collectable.
 function getCollectable(player, collectable) {
-
+  collectableSound.play();
+  collectable.remove();
+  score++;
 }
 
 // Updates the player's position and current animation by calling
 // all of the relevant "check" functions below.
 function updatePlayer() {
-  //console.log(player.position);
+  //console.log("Player x: " + player.position.x + " Player y: " + player.position.y);
   checkIdle();
   checkFalling();
   checkJumping();
@@ -294,6 +358,8 @@ function checkMovingLeftRight() {
 // the up arrow key (see checkJumping() above).
 function keyPressed() {
   if(keyCode === UP_ARROW && playerGrounded) {
+    ayeSound.play();
+    jumpSound.play();
     playerGrounded = false;
     player.velocity.y = currentJumpForce;
     millis = new Date();
@@ -313,9 +379,24 @@ function keyReleased() {
 // keyTyped() for this because it is not case sensitive (whereas keyPressed() is).
 // Therefore, the player can press "P" or "p" and the game will be paused either way.
 function keyTyped() {
-
+  if(key === "p") {
+    pauseSound.play();
+    if(gamePaused) {
+      gamePaused = false;
+      loop();
+      if(bgMusic.isPaused()) {
+        bgMusic.loop();
+      }
+    }
+    else {
+      gamePaused = true;
+      noLoop();
+      if(bgMusic.isPlaying()) {
+        bgMusic.pause();
+      }
+    }
+  }
 }
-
 // Called in the draw() loop. Constantly refreshes the canvas, including static
 // images, the score display. Also sets the camera's x position to the player's x
 // position, so that the camera "follows" the player horiztonally.
@@ -340,23 +421,40 @@ function updateDisplay() {
   // turn camera back on
   camera.on();
 
+  // set camera's x position to player's x position
+  camera.position.x = player.position.x;
+
+  // animate collectables by rotating them clockwise
+  for(var i = 0; i < collectables.length; i++) {
+    collectables[i].rotation += 5;
+  }
 }
 
 // Called when the player has won the game (e.g., reached the goal at the end).
 // Anything can happen here, but the most important thing is that we call resetGame()
 // after a short delay.
 function executeWin() {
-
+  winSound.play();
+  yattaSound.play();
+  noLoop();
+  setTimeout(resetGame, 1000);
 }
 
 // Called when the player has lost the game (e.g., fallen off a cliff or touched
 // a monster). Anything can happen here, but the most important thing is that we
 // call resetGame() after a short delay.
 function executeLoss() {
-
+  loseSound.play();
+  noLoop();
+  setTimeout(resetGame, 1000);
 }
 
 // Toggles the game's music on and off.
 function toggleMusic() {
-
+  if(bgMusic.isPlaying()) {
+    bgMusic.pause();
+  }
+  else {
+    bgMusic.loop();
+  }
 }
