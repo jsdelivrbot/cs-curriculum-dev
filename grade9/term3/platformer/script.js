@@ -310,7 +310,7 @@ function checkIdle() {
 }
 
 // Check if the player is falling. If she is not grounded and her y velocity is
-// greater than 0, then set her animation to "falling".
+// greater than 0, then set her animation to "fall".
 function checkFalling() {
   if(!playerGrounded && player.velocity.y > 0) {
     player.changeAnimation("fall");
@@ -319,7 +319,8 @@ function checkFalling() {
 
 // Check if the player is jumping. First, if her y velocity is less than 0, set
 // her animation to "jump". Then, handle if the player is holding down the up arrow
-// key, which should allow her to jump higher for a certain amount of time.
+// key, which should allow her to jump higher so long as currentJumpTime is greater
+// than 0.
 function checkJumping() {
   if(player.velocity.y < 0) {
     player.changeAnimation("jump");
@@ -333,9 +334,7 @@ function checkJumping() {
 
 // Check if the player is moving left or right. If so, move the player character
 // left or right according to DEFAULT_VELOCITY. Also be sure to mirror the
-// player's sprite left or right to avoid "moonwalking". Unless you're making
-// a Michael Jackson game I guess? There was a really good one on Sega Genesis,
-// you should play it. I beat it (pun intended) like five times as a kid, no lie.
+// player's sprite left or right to avoid "moonwalking".
 function checkMovingLeftRight() {
   if(keyIsDown(LEFT_ARROW) && !keyIsDown(RIGHT_ARROW)) {
     player.mirrorX(-1);
