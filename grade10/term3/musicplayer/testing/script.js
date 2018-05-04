@@ -43,8 +43,8 @@ function loadData() {
   .then(function(response) {
     response.json()
     .then(function(jsonObj) {
-      trackData = jsonObj;
-      console.log("Database Loaded Successfully");
+      trackData = jsonObj.tracks;
+      console.log(trackData);
     }).then(setupTracks)
   });
 }

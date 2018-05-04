@@ -1,0 +1,175 @@
+/* Color scheme: https://coolors.co/eef4d4-daefb3-ea9e8d-d64550-1c2826 */
+
+* {
+  box-sizing: border-box;
+}
+
+
+.container {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 500px;
+  background-color: #1C2826; /* dark gunmetal */
+  border: 5px solid #D64550; /* english vermillion */
+  color: #EEF4D4;
+}
+
+#artist-image {
+  background-image: url("img/breezewax.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 250px;
+  margin: auto;
+}
+
+#current-track-display {
+  text-align: center;
+  padding: 10px;
+  margin: 0;
+  background-color: #D64550;
+  color: #EEF4D4; /* eggshell */
+
+}
+
+#player-controls{
+  margin: 5px 10px;
+}
+
+#seeker {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#seeker .track-time {
+  margin: 0 5px;
+}
+
+#seeker #seek-slider {
+  margin: 10px 5px;
+  width: 100%;
+  cursor: pointer;
+}
+
+#play-and-volume {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#volume-slider {
+  cursor: pointer;
+}
+
+#loop-button {
+  margin-left: 20px;
+}
+
+.control-button {
+  background-color: transparent;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  width: 64px;
+  height: 64px;
+}
+
+.control-button:focus {
+  outline: 0;
+}
+
+#play-button {
+  background-image: url("img/play-normal.png");
+}
+
+#play-button:hover {
+  background-image: url("img/play-hover.png");
+}
+
+#play-button:active {
+  background-image: url("img/play-pressed.png");
+}
+
+#pause-button {
+  background-image: url("img/pause-normal.png");
+}
+
+#pause-button:hover {
+  background-image: url("img/pause-hover.png");
+}
+
+#pause-button:active {
+  background-image: url("img/pause-pressed.png");
+}
+
+#loop-button {
+  width: 100px;
+}
+
+#table {
+  display: table;
+  border: 2px solid #1B1B3A;
+  border-collapse: collapse;
+  margin: 10px auto;
+  width: 95%;
+}
+
+#table .row {
+  display: table-row;
+  text-align: center;
+  background-color: #ddd;
+}
+
+#table #head-row {
+  background-color: #EEF4D4;
+}
+
+#table .row .th {
+  display: table-cell;
+  font-size: 1.2em;
+  border: none;
+  color: #1B1B3A;
+}
+
+#table .row .td {
+  display: table-cell;
+  border: 1px solid #EEF4D4;
+}
+
+.track-title {
+  background-color: #456990;
+}
+
+.track-duration {
+  color: #1C2826;
+}
+
+.track-artist {
+  font-style: italic;
+  color: #1C2826;
+}
+
+.track-select {
+  color: #1C2826;
+  background-color: transparent;
+  border: none;
+}
+
+.track-select:focus {
+  outline: none;
+}
+
+.track-select:hover {
+  text-decoration: underline;
+}
+
+.track-select:active {
+  color: #D64550;
+}
+
+#audio-files {
+  display: none;
+}
