@@ -24,6 +24,7 @@ var artArray = [];
 var titleArray = [];
 var nowPlayingAudio;
 var loopState = 0;
+var shuffleState = false;
 
 
 loadData();
@@ -61,6 +62,9 @@ function activateInterfaceButtons() {
   });
   playButton.addEventListener("click", function() {
     togglePlay();
+  });
+  shuffleButton.addEventListener("click", function() {
+    toggleShuffle();
   });
   seekSlider.addEventListener("input", updateTrackTime);
 }
@@ -174,7 +178,16 @@ function toggleRepeat() {
 
 function playNextSong() {
   nowPlayingAudio.pause();
-  if(artArray.indexOf(largeSongArt.src) + 1 === artArray.length) {
+  if(shuffleState) {
+    var randomIndex = artArray.indexOf(largeSongArt.src);
+    while(randomIndex === artArray.indexOf(largeSongArt.src)) {
+      randomIndex = Math.floor((Math.random() * (artArray.length)));
+    }
+    largeSongArt.src = artArray[randomIndex];
+    nowPlayingTitle.innerHTML = titleArray[randomIndex];
+    nowPlayingAudio = audioArray[randomIndex];
+  }
+  else if(artArray.indexOf(largeSongArt.src) + 1 === artArray.length) {
     largeSongArt.src = artArray[0];
     nowPlayingTitle.innerHTML = titleArray[0];
     nowPlayingAudio = audioArray[0];
@@ -191,7 +204,16 @@ function playNextSong() {
 
 function playPreviousSong() {
   nowPlayingAudio.pause();
-  if(artArray.indexOf(largeSongArt.src) - 1 < 0) {
+  if(shuffleState) {
+    var randomIndex = artArray.indexOf(largeSongArt.src);
+    while(randomIndex === artArray.indexOf(largeSongArt.src)) {
+      randomIndex = Math.floor((Math.random() * (artArray.length)));
+    }
+    largeSongArt.src = artArray[randomIndex];
+    nowPlayingTitle.innerHTML = titleArray[randomIndex];
+    nowPlayingAudio = audioArray[randomIndex];
+  }
+  else if(artArray.indexOf(largeSongArt.src) - 1 < 0) {
     largeSongArt.src = artArray[artArray.length - 1];
     nowPlayingTitle.innerHTML = titleArray[titleArray.length - 1];
     nowPlayingAudio = audioArray[audioArray.length - 1];
@@ -214,6 +236,19 @@ function togglePlay() {
   else if(playButton.innerHTML === "pause") {
     playButton.innerHTML = "play_arrow";
     nowPlayingAudio.pause();
+  }
+}
+
+function toggleShuffle() {
+  if(!shuffleState) {
+    shuffleButton.style.fontWeight = "900";
+    shuffleButton.style.color = "red";
+    shuffleState = true;
+  }
+  else {
+    shuffleButton.style.fontWeight = "normal";
+    shuffleButton.style.color = "black";
+    shuffleState = false;
   }
 }
 
