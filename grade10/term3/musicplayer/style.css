@@ -7,7 +7,7 @@ html {
 }
 
 body {
-  margin: 100px auto;
+  margin: 0 auto;
   width: 360px;
   text-align: center;
   min-width: 340px;
@@ -61,15 +61,6 @@ body {
   width: 128px;
   height: 128px;
   border: 1px solid black;
-  transition: box-shadow 0.5s;
-}
-
-.song-art:hover {
-  box-shadow: 0 0 5px 5px #0000ff;
-}
-
-.song-art:active {
-  box-shadow: 0 0 5px 5px #ff0000;
 }
 
 .song-title {
@@ -138,4 +129,30 @@ body {
 
 #play-button {
   font-size: 64px;
+}
+
+/* Desktop styles */
+@media only screen and (min-width: 768px) {
+  body {
+    margin: 100px auto;
+  }
+
+  .material-icons {
+    transition: color 0.5s, text-shadow 0.5s;
+  }
+
+  .material-icons:hover {
+    color: #ff1144;
+    text-shadow: 0 0 20px #ffaaff;
+    cursor: pointer;
+  }
+
+  .song-art {
+    transition: box-shadow 0.5s;
+  }
+
+  .song-art:hover {
+    box-shadow: 0 0 5px 5px #ffaaff;
+  }
+
 }
