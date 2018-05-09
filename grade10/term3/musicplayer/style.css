@@ -1,175 +1,140 @@
-/* Color scheme: https://coolors.co/eef4d4-daefb3-ea9e8d-d64550-1c2826 */
-
-* {
+html {
   box-sizing: border-box;
 }
 
-
-.container {
-  margin: 0 auto;
-  width: 100%;
-  max-width: 500px;
-  background-color: #1C2826; /* dark gunmetal */
-  border: 5px solid #D64550; /* english vermillion */
-  color: #EEF4D4;
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
-#artist-image {
-  background-image: url("img/breezewax.jpg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 250px;
-  margin: auto;
-}
-
-#current-track-display {
+body {
+  margin: 100px auto;
+  width: 360px;
   text-align: center;
-  padding: 10px;
-  margin: 0;
-  background-color: #D64550;
-  color: #EEF4D4; /* eggshell */
-
+  min-width: 340px;
+  font-family: 'Catamaran', sans-serif;
+  border: 1px solid black;
 }
 
-#player-controls{
-  margin: 5px 10px;
+.material-icons {
+  /* transition: color 0.5s, text-shadow 0.5s; */
+}
+
+
+.material-icons:hover {
+  /* color: #ff1144;
+  text-shadow: 0 0 20px #ffaaff; */
+  cursor: pointer;
+}
+
+
+.material-icons.top-panel-icons {
+  font-size: 36px;
+}
+
+#top-panel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto 25px;
+  position: sticky;
+  top: 0;
+  background-color: #7aabf9;
+  color: white;
+}
+
+#content-area {
+  margin: 0 auto 20px;
+}
+
+#playlist {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.song {
+  margin: 5px auto;
+}
+
+.song-art {
+  margin: 0 auto;
+  width: 128px;
+  height: 128px;
+  border: 1px solid black;
+  transition: box-shadow 0.5s;
+}
+
+.song-art:hover {
+  box-shadow: 0 0 5px 5px #0000ff;
+}
+
+.song-art:active {
+  box-shadow: 0 0 5px 5px #ff0000;
+}
+
+.song-title {
+  line-height: 5px;
+  margin: 0 auto 10px;
+  font-style: italic;
+}
+
+#playback {
+  display: none;
+}
+
+#large-song-art {
+  display: block;
+  height: 300px;
+  width: 300px;
+  margin: 0 auto 10px;
+  border: 1px solid black;
+}
+
+#now-playing-title {
+  margin: 0 auto 20px;
+}
+
+#playback-controls {
+  display: block;
 }
 
 #seeker {
+  display: grid;
+  grid-template-areas:
+  "s s s s s"
+  "c . . . m";
+}
+
+#seek-slider {
+  grid-area: s;
+}
+
+#current-time-display {
+  grid-area: c;
+  margin: 0 auto;
+}
+
+#max-time-display {
+  grid-area: m;
+  margin: 0 auto;
+}
+
+#song-buttons {
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin: 10px auto;
 }
 
-#seeker .track-time {
-  margin: 0 5px;
+#repeat-button, #shuffle-button {
+  margin: 0 10%;
+  font-size: 24px;
 }
 
-#seeker #seek-slider {
-  margin: 10px 5px;
-  width: 100%;
-  cursor: pointer;
-}
-
-#play-and-volume {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-#volume-slider {
-  cursor: pointer;
-}
-
-#loop-button {
-  margin-left: 20px;
-}
-
-.control-button {
-  background-color: transparent;
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  border: none;
-  width: 64px;
-  height: 64px;
-}
-
-.control-button:focus {
-  outline: 0;
+#skip-previous-button, #skip-next-button {
+  font-size: 48px;
 }
 
 #play-button {
-  background-image: url("img/play-normal.png");
-}
-
-#play-button:hover {
-  background-image: url("img/play-hover.png");
-}
-
-#play-button:active {
-  background-image: url("img/play-pressed.png");
-}
-
-#pause-button {
-  background-image: url("img/pause-normal.png");
-}
-
-#pause-button:hover {
-  background-image: url("img/pause-hover.png");
-}
-
-#pause-button:active {
-  background-image: url("img/pause-pressed.png");
-}
-
-#loop-button {
-  width: 100px;
-}
-
-#table {
-  display: table;
-  border: 2px solid #1B1B3A;
-  border-collapse: collapse;
-  margin: 10px auto;
-  width: 95%;
-}
-
-#table .row {
-  display: table-row;
-  text-align: center;
-  background-color: #ddd;
-}
-
-#table #head-row {
-  background-color: #EEF4D4;
-}
-
-#table .row .th {
-  display: table-cell;
-  font-size: 1.2em;
-  border: none;
-  color: #1B1B3A;
-}
-
-#table .row .td {
-  display: table-cell;
-  border: 1px solid #EEF4D4;
-}
-
-.track-title {
-  background-color: #456990;
-}
-
-.track-duration {
-  color: #1C2826;
-}
-
-.track-artist {
-  font-style: italic;
-  color: #1C2826;
-}
-
-.track-select {
-  color: #1C2826;
-  background-color: transparent;
-  border: none;
-}
-
-.track-select:focus {
-  outline: none;
-}
-
-.track-select:hover {
-  text-decoration: underline;
-}
-
-.track-select:active {
-  color: #D64550;
-}
-
-#audio-files {
-  display: none;
+  font-size: 64px;
 }

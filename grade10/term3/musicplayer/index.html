@@ -4,35 +4,37 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Player From Scratch!</title>
+    <link href="https://fonts.googleapis.com/css?family=Catamaran" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <div class="container">
-      <div id="artist-image"></div>
-      <p id="current-track-display">
-        Loading...
-      </p>
-      <div id="player-controls">
-        <div id="seeker">
-          <p id="current-time" class="track-time">Loading</p>
-          <input type="range" id="seek-slider" value="0" title="Seek">
-          <p id="max-time" class="track-time">Loading</p>
-        </div>
-        <div id="play-and-volume">
-          <button type="button" class="control-button" id="play-button" title="Play" alt="play button"></button>
-          <input type="range" id="volume-slider" value="100" title="Volume">
-          <button type="button" id="loop-button" title="Loop Toggle">Loop: None</button>
-        </div>
-      </div>
-      <div id="table">
-        <div class="row" id="head-row">
-          <div class="th">Title</div>
-          <div class="th">Duration</div>
-          <div class="th">Artist</div>
+    <div id="top-panel">
+      <div id="back-button" class="material-icons top-panel-icons">menu</div>
+      <h1>Music Library</h1>
+      <div id="search-button" class="material-icons top-panel-icons">search</div>
+    </div>
+    <div id="content-area">
+      <div id="playlist"></div>
+      <div id="playback">
+        <img id="large-song-art">
+        <h2 id="now-playing-title">Loading...</h2>
+        <div id="playback-controls">
+          <div id="seeker">
+            <input type="range" id="seek-slider" value="0" title="Seek">
+            <p id="current-time-display" class="track-time">Loading...</p>
+            <p id="max-time-display" class="track-time">Loading...</p>
+          </div>
+          <div id="song-buttons">
+            <div id="repeat-button" class="material-icons playback-icons">repeat</div>
+            <div id="skip-previous-button" class="material-icons playback-icons">skip_previous</div>
+            <div id="play-button" class="material-icons playback-icons">play_arrow</div>
+            <div id="skip-next-button" class="material-icons playback-icons">skip_next</div>
+            <div id="shuffle-button" class="material-icons playback-icons">shuffle</div>
+          </div>
         </div>
       </div>
     </div>
-    <div id="audio-files"></div>
     <script src="script.js"></script>
   </body>
 </html>

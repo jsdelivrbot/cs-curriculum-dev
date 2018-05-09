@@ -1,40 +1,30 @@
-var trackTable = document.getElementById("table");
+var database;
+var playlist = document.getElementById("playlist");
+var playback = document.getElementById("playback");
+
+// button variables
+var backButton = document.getElementById("back-button");
+var searchButton = document.getElementById("search-button");
+
+var seekSlider = document.getElementById("seek-slider");
+var currentTimeDisplay = document.getElementById("current-time-display");
+var maxTimeDisplay = document.getElementById("max-time-display");
+
+var repeatButton = document.getElementById("repeat-button");
+var skipPreviousButton = document.getElementById("skip-previous-button");
 var playButton = document.getElementById("play-button");
-var volumeSlider = document.getElementById("volume-slider");
-var audioFiles = document.getElementById("audio-files");
-var currentTrackDisplay = document.getElementById("current-track-display");
-var artistImage = document.getElementById("artist-image");
-var currentTrackTimeDisplay = document.getElementById("current-time");
-var maxTrackTimeDisplay = document.getElementById("max-time");
-var trackSeeker = document.getElementById("seek-slider");
-var loopAudio = document.getElementById("loop-button");
-var trackData;
-var currentTrack;
-var currentTrackIndex = 0;
-var trackTime;
+var skipNextButton = document.getElementById("skip-next-button");
+var shuffleButton = document.getElementById("shuffle-button");
+
+var largeSongArt = document.getElementById("large-song-art");
+
+var nowPlayingTitle = document.getElementById("now-playing-title");
+var audioArray = [];
+var artArray = [];
+var titleArray = [];
+var nowPlayingAudio;
 var loopState = 0;
 
-playButton.addEventListener("click", togglePlayPause);
-volumeSlider.addEventListener("input", changeVolume);
-trackSeeker.addEventListener("input", updateTrackTime);
-loopAudio.addEventListener("click", function() {
-  loopState++;
-  if(loopState > 2) {
-    loopState = 0;
-  }
-  if(loopState === 0) {
-    loopAudio.innerHTML = "Loop: None";
-    currentTrack.loop = false;
-  }
-  else if(loopState === 1) {
-    loopAudio.innerHTML = "Loop: Track";
-    currentTrack.loop = true;
-  }
-  else {
-    loopAudio.innerHTML = "Loop: All";
-    currentTrack.loop = false;
-  }
-});
 
 loadData();
 
@@ -43,117 +33,201 @@ function loadData() {
   .then(function(response) {
     response.json()
     .then(function(jsonObj) {
-      trackData = jsonObj;
+      database = jsonObj;
       console.log("Database Loaded Successfully");
-    }).then(setupTracks)
+    }).then(setup)
   });
 }
 
-function setupTracks() {
-  for(var i = 0; i < trackData.length; i++) {
-    createAudioElement(i);
-    createTableElement(i);
-  }
-  currentTrack = audioFiles.childNodes[0];
-  updateCurrentTrackDisplay();
-  changeVolume();
+function setup() {
+  sortDatabase();
+  printSongTitles();
+  activateInterfaceButtons();
+  createLayout();
 }
 
-function createAudioElement(trackIndex) {
-  var audio = document.createElement("audio");
-  audio.src = trackData[trackIndex].mp3Location;
-  audio.type = "audio/mpeg";
-  audio.addEventListener("timeupdate", updateTrackSeeker);
-  audioFiles.appendChild(audio);
+function activateInterfaceButtons() {
+  backButton.addEventListener("click", function() {
+    showPlaylist();
+  });
+  repeatButton.addEventListener("click", function() {
+    toggleRepeat();
+  });
+  skipPreviousButton.addEventListener("click", function() {
+    playPreviousSong();
+  });
+  skipNextButton.addEventListener("click", function() {
+    playNextSong();
+  });
+  playButton.addEventListener("click", function() {
+    togglePlay();
+  });
+  seekSlider.addEventListener("input", updateTrackTime);
 }
 
-function createTableElement(trackIndex) {
-  var row = document.createElement("div");
-  row.className = "row";
-  var titleDiv = document.createElement("div");
-  titleDiv.className = "td";
-  var titleButton = document.createElement("button");
-  titleButton.className = "track-select";
-  titleButton.innerHTML = trackData[trackIndex].title;
-  titleButton.addEventListener("click", setCurrentTrack(trackIndex));
-  var durationDiv = document.createElement("div");
-  durationDiv.className = "td";
-  var durationSpan = document.createElement("span");
-  durationSpan.className = "track-duration";
-  durationSpan.innerHTML = trackData[trackIndex].duration;
-  var artistDiv = document.createElement("div");
-  artistDiv.className = "td";
-  var artistSpan = document.createElement("span");
-  artistSpan.className = "track-artist";
-  artistSpan.innerHTML = trackData[trackIndex].artist;
-
-  titleDiv.appendChild(titleButton);
-  durationDiv.appendChild(durationSpan);
-  artistDiv.appendChild(artistSpan);
-
-  row.appendChild(titleDiv);
-  row.appendChild(durationDiv);
-  row.appendChild(artistDiv);
-
-  trackTable.appendChild(row);
+// How to sort your database by song title
+function sortDatabase() {
+  database.sort(function(songOne, songTwo) {
+    var songOneTitle = songOne.title.toLowerCase();
+    var songTwoTitle = songTwo.title.toLowerCase();
+    if(songOneTitle > songTwoTitle) {
+      return 1;
+    }
+    else if(songOneTitle < songTwoTitle) {
+      return -1;
+    }
+    else {
+      return 0;
+    }
+  });
 }
 
-function setCurrentTrack(trackIndex) {
-  return function() {
-    pauseTrack();
-    currentTrack = audioFiles.childNodes[trackIndex];
-    currentTrackIndex = trackIndex;
-    console.log("current trackID is " + currentTrack.title);
-    currentTrack.load();
-    updateCurrentTrackDisplay();
-    togglePlayPause();
+function createLayout() {
+  for(var i = 0; i < database.length; i++) {
+    createSong(database[i]);
   }
 }
 
-function playTrack() {
-  console.log("Playing");
-  changeVolume();
-  currentTrack.play();
-  currentTrack.loop = loopState === 1;
-  playButton.id = "pause-button";
-  playButton.title = "Pause";
-  var artURL = trackData[currentTrackIndex].artLocation;
-  artistImage.style.backgroundImage = "url(" + artURL + ")";
+// create a single song for display and return it
+function createSong(song) {
+  var songDiv = document.createElement("div");
+  songDiv.className = "song";
+  var songArt = document.createElement("input");
+  songArt.type = "image";
+  songArt.className = "song-art";
+  songArt.src = song.artLocation;
+  artArray.push(songArt.src);
+  var songTitle = document.createElement("figcaption");
+  songTitle.className = "song-title";
+  songTitle.innerHTML = song.title;
+  titleArray.push(songTitle.innerHTML);
+  // create audio below
+  var songAudio = document.createElement("audio");
+  songAudio.src = song.mp3Location;
+  songAudio.type = "audio/mpeg";
+  audioArray.push(songAudio);
+
+  // add event listeners
+  songArt.addEventListener("click", function() {
+    nowPlayingAudio = songAudio;
+    nowPlayingAudio.load();
+    nowPlayingAudio.play();
+    playButton.innerHTML = "pause";
+    showPlayback(songTitle.innerHTML, songArt.src);
+  });
+  songAudio.addEventListener("timeupdate", updateTrackSeeker);
+  songAudio.addEventListener("durationchange", function() {
+    var seconds = songAudio.duration;
+    var minutes = Math.floor(seconds / 60);
+    if(minutes < 1) {
+      minutes = "0";
+    }
+    seconds = Math.floor(seconds % 60);
+    if(seconds < 10) {
+      seconds = "0" + seconds;
+    }
+    maxTimeDisplay.innerHTML = minutes + ":" + seconds;
+  });
+
+  //add all elements to the songDiv, in order
+  songDiv.appendChild(songArt);
+  songDiv.appendChild(songTitle);
+  songDiv.appendChild(songAudio);
+  playlist.appendChild(songDiv);
 }
 
-function pauseTrack() {
-  console.log("Pausing");
-  currentTrack.pause();
-  playButton.id = "play-button";
-  playButton.title = "Play";
+function showPlayback(songTitle, songArtSource) {
+  backButton.innerHTML = "arrow_back";
+  playlist.style.display = "none";
+  playback.style.display = "block";
+  nowPlayingTitle.innerHTML = songTitle;
+  largeSongArt.src = songArtSource;
 }
 
-function togglePlayPause() {
-  if(currentTrack.paused) {
-    playTrack();
+function showPlaylist() {
+  if(backButton.innerHTML === "arrow_back") {
+    backButton.innerHTML = "menu";
+    nowPlayingAudio.pause();
+    playButton.innerHTML = "play_arrow";
+    playback.style.display = "none";
+    playlist.style.display = "grid";
+  }
+}
+
+function toggleRepeat() {
+  if(loopState === 0) {
+    repeatButton.style.fontWeight = "900";
+    repeatButton.style.color = "red";
+    loopState++;
+  }
+  else if(loopState === 1) {
+    loopState++;
+    repeatButton.innerHTML = "repeat_one";
+  }
+  else if(loopState === 2) {
+    loopState = 0;
+    repeatButton.innerHTML = "repeat";
+    repeatButton.style.fontWeight = "normal";
+    repeatButton.style.color = "black";
+  }
+}
+
+function playNextSong() {
+  nowPlayingAudio.pause();
+  if(artArray.indexOf(largeSongArt.src) + 1 === artArray.length) {
+    largeSongArt.src = artArray[0];
+    nowPlayingTitle.innerHTML = titleArray[0];
+    nowPlayingAudio = audioArray[0];
   }
   else {
-    pauseTrack();
+    largeSongArt.src = artArray[artArray.indexOf(largeSongArt.src) + 1];
+    nowPlayingTitle.innerHTML = titleArray[titleArray.indexOf(nowPlayingTitle.innerHTML) + 1];
+    nowPlayingAudio = audioArray[audioArray.indexOf(nowPlayingAudio) + 1];
+  }
+  playButton.innerHTML = "pause";
+  nowPlayingAudio.load();
+  nowPlayingAudio.play();
+}
+
+function playPreviousSong() {
+  nowPlayingAudio.pause();
+  if(artArray.indexOf(largeSongArt.src) - 1 < 0) {
+    largeSongArt.src = artArray[artArray.length - 1];
+    nowPlayingTitle.innerHTML = titleArray[titleArray.length - 1];
+    nowPlayingAudio = audioArray[audioArray.length - 1];
+  }
+  else {
+    largeSongArt.src = artArray[artArray.indexOf(largeSongArt.src) - 1];
+    nowPlayingTitle.innerHTML = titleArray[titleArray.indexOf(nowPlayingTitle.innerHTML) - 1];
+    nowPlayingAudio = audioArray[audioArray.indexOf(nowPlayingAudio) - 1];
+  }
+  playButton.innerHTML = "pause";
+  nowPlayingAudio.load();
+  nowPlayingAudio.play();
+}
+
+function togglePlay() {
+  if(playButton.innerHTML === "play_arrow") {
+    playButton.innerHTML = "pause";
+    nowPlayingAudio.play();
+  }
+  else if(playButton.innerHTML === "pause") {
+    playButton.innerHTML = "play_arrow";
+    nowPlayingAudio.pause();
   }
 }
 
-function changeVolume() {
-  currentTrack.volume = volumeSlider.value / 100;
-  var currentVolume = Math.round(currentTrack.volume * 100) + "%";
-  volumeSlider.title = "Volume: " + currentVolume;
-  console.log("Current volume: " + currentTrack.volume);
-}
-
-function updateCurrentTrackDisplay() {
-  currentTrackDisplay.innerHTML = trackData[currentTrackIndex].title;
-  currentTrackTimeDisplay.innerHTML = "0:00";
-  maxTrackTimeDisplay.innerHTML = trackData[currentTrackIndex].duration;
+//For debugging
+function printSongTitles() {
+  for(var i = 0; i < database.length; i++) {
+    console.log(database[i].title);
+  }
 }
 
 function updateTrackSeeker() {
-  trackSeeker.value = currentTrack.currentTime;
-  trackSeeker.max = currentTrack.duration;
-  var seconds = currentTrack.currentTime;
+  seekSlider.value = nowPlayingAudio.currentTime;
+  seekSlider.max = nowPlayingAudio.duration;
+  var seconds = nowPlayingAudio.currentTime;
   var minutes = Math.floor(seconds / 60);
   if(minutes < 1) {
     minutes = "0";
@@ -162,29 +236,24 @@ function updateTrackSeeker() {
   if(seconds < 10) {
     seconds = "0" + seconds;
   }
-  trackSeeker.title = "Seek: " + minutes + ":" + seconds + " / " + trackData[currentTrackIndex].duration;
-  currentTrackTimeDisplay.innerHTML = minutes + ":" + seconds;
-  if(currentTrack.currentTime >= currentTrack.duration) {
+  seekSlider.title = "Seek: " + minutes + ":" + seconds + " / " + maxTimeDisplay.innerHTML;
+  currentTimeDisplay.innerHTML = minutes + ":" + seconds;
+  if(nowPlayingAudio.currentTime >= nowPlayingAudio.duration) {
     if(loopState === 0) {  // reset position to beginning of track
-      trackSeeker.value = 0;
-      currentTrackTimeDisplay.innerHTML = "0:00";
-      pauseTrack();
+      seekSlider.value = 0;
+      currentTimeDisplay.innerHTML = "0:00";
+      nowPlayingAudio.pause();
     }
-    else if(loopState === 1) { //loop current track
-      trackSeeker.value = 0;
-      playTrack();
+    else if(loopState === 1) { // play next track
+      playNextSong();
     }
-    else { //play next track
-      if(currentTrackIndex < audioFiles.childNodes.length - 1) {
-        setCurrentTrack(currentTrackIndex + 1)();
-      }
-      else {
-        setCurrentTrack(0)();
-      }
+    else if(loopState === 2) { // loop current track
+      seekSlider.value = 0;
+      nowPlayingAudio.play();
     }
   }
 }
 
 function updateTrackTime() {
-  currentTrack.currentTime = trackSeeker.value;
+  nowPlayingAudio.currentTime = seekSlider.value;
 }
