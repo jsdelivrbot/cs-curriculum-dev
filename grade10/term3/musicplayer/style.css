@@ -15,17 +15,9 @@ body {
   border: 1px solid black;
 }
 
-.material-icons {
-  /* transition: color 0.5s, text-shadow 0.5s; */
-}
-
-
 .material-icons:hover {
-  /* color: #ff1144;
-  text-shadow: 0 0 20px #ffaaff; */
   cursor: pointer;
 }
-
 
 .material-icons.top-panel-icons {
   font-size: 36px;
