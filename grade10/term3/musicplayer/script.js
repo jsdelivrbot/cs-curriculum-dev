@@ -278,6 +278,7 @@ function updateTrackSeeker() {
       seekSlider.value = 0;
       currentTimeDisplay.innerHTML = "0:00";
       nowPlayingAudio.pause();
+      playButton.innerHTML = "play_arrow";
     }
     else if(loopState === 1) { // play next track
       playNextSong();

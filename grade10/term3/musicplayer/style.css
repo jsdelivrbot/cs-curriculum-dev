@@ -8,7 +8,6 @@ html {
 
 body {
   margin: 0 auto;
-  width: 360px;
   text-align: center;
   min-width: 340px;
   font-family: 'Catamaran', sans-serif;
@@ -28,7 +27,7 @@ body {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  margin: 0 auto 25px;
+  margin: 0 auto 20px;
   position: sticky;
   top: 0;
   background-color: #7aabf9;
@@ -37,6 +36,8 @@ body {
 
 #content-area {
   margin: 0 auto 20px;
+  height: 500px;
+  overflow-y: auto;
 }
 
 #playlist {
@@ -127,6 +128,7 @@ body {
 @media only screen and (min-width: 768px) {
   body {
     margin: 100px auto;
+    width: 768px;
   }
 
   .material-icons {
@@ -141,10 +143,17 @@ body {
 
   .song-art {
     transition: box-shadow 0.5s;
+    width: 200px;
+    height: 200px;
   }
 
   .song-art:hover {
     box-shadow: 0 0 5px 5px #ffaaff;
+  }
+
+  #large-song-art {
+    height: 300px;
+    width: 300px;
   }
 
 }
