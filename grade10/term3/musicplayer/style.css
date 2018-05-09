@@ -107,6 +107,7 @@ body {
 
 #seek-slider {
   grid-area: s;
+  cursor: pointer;
 }
 
 #current-time-display {
