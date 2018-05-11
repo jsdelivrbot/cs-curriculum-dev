@@ -40,16 +40,16 @@ body {
   overflow-y: auto;
 }
 
-#playlist {
+#playlist-screen {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
 
-.song {
+.song-div {
   margin: 5px auto;
 }
 
-.song-art {
+.song-input {
   margin: 0 auto;
   width: 128px;
   height: 128px;
@@ -57,25 +57,27 @@ body {
 }
 
 .song-title {
-  line-height: 5px;
   margin: 0 auto 10px;
-  font-style: italic;
+  line-height: 7px;
+  font-weight: bold;
 }
 
-#playback {
+.song-artist {
+  margin: 0 auto 10px;
+  line-height: 5px;
+  font-size: 0.75em;
+}
+
+#playback-screen {
   display: none;
 }
 
-#large-song-art {
+#now-playing-img {
   display: block;
   height: 250px;
   width: 250px;
-  margin: 0 auto 10px;
-  border: 1px solid black;
-}
-
-#now-playing-title {
   margin: 0 auto 20px;
+  border: 1px solid black;
 }
 
 #playback-controls {
@@ -139,6 +141,11 @@ body {
     color: #ff1144;
     text-shadow: 0 0 20px #ffaaff;
     cursor: pointer;
+  }
+  
+  #playlist-screen {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   .song-art {

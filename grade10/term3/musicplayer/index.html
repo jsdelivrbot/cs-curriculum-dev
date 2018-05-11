@@ -11,14 +11,15 @@
   <body>
     <div id="top-panel">
       <div id="back-button" class="material-icons top-panel-icons">menu</div>
-      <h1>Music Library</h1>
-      <div id="search-button" class="material-icons top-panel-icons">search</div>
+      <h1 id="app-title">Music Library</h1>
+      <div id="search-icon" class="material-icons top-panel-icons">search</div>
     </div>
     <div id="content-area">
-      <div id="playlist"></div>
-      <div id="playback">
-        <img id="large-song-art">
-        <h2 id="now-playing-title">Loading...</h2>
+      <div id="playlist-screen"></div>
+      <div id="playback-screen">
+        <img id="now-playing-img">
+        <h2 id="now-playing-title" class="song-title">Loading...</h2>
+        <h2 id="now-playing-artist" class="song-artist">Loading...</h2>
         <div id="playback-controls">
           <div id="seeker">
             <input type="range" id="seek-slider" value="0" title="Seek">
