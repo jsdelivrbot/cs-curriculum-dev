@@ -3,7 +3,6 @@ var playlistScreen = document.getElementById("playlist-screen");
 var playbackScreen = document.getElementById("playback-screen");
 
 var backButton = document.getElementById("back-button");
-var appTitle = document.getElementById("app-title");
 
 var seekSlider = document.getElementById("seek-slider");
 var currentTimeDisplay = document.getElementById("current-time-display");
@@ -21,7 +20,7 @@ var nowPlayingArtist = document.getElementById("now-playing-artist");
 var nowPlayingAudio;
 
 var audioArray = [];
-var loopState = 0; 
+var loopState = 0;
 var shuffleState = false;
 
 loadData();
@@ -107,7 +106,7 @@ function createAudioElement(song) {
     }
     maxTimeDisplay.innerHTML = minutes + ":" + seconds;
   });
-  
+
 }
 
 // create a single song for display and return it
