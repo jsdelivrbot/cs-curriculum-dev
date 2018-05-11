@@ -2,37 +2,37 @@
   {
     "artist":"Breezewax",
     "title":"Missing You",
-    "musicLocation":"music/breezewax.mp3",
-    "imgLocation":"img/breezewax.jpg"
+    "musicLocation":"https://raw.githubusercontent.com/CodeNextEngineersG1/g1-music-player-starter/master/music/breezewax.mp3",
+    "imgLocation":"https://raw.githubusercontent.com/CodeNextEngineersG1/g1-music-player-starter/master/img/breezewax.jpg"
   },
   {
     "artist":"Curumin",
     "title":"Vem Menina",
-    "musicLocation":"music/curumin.mp3",
-    "imgLocation":"img/curumin.jpg"
+    "musicLocation":"https://raw.githubusercontent.com/CodeNextEngineersG1/g1-music-player-starter/master/music/curumin.mp3",
+    "imgLocation":"https://raw.githubusercontent.com/CodeNextEngineersG1/g1-music-player-starter/master/img/curumin.jpg"
   },
   {
     "artist":"Fat Jon",
     "title":"Intellect Bombs",
-    "musicLocation":"music/fatjon.mp3",
-    "imgLocation":"img/fatjon.jpg"
+    "musicLocation":"https://raw.githubusercontent.com/CodeNextEngineersG1/g1-music-player-starter/master/music/fatjon.mp3",
+    "imgLocation":"https://raw.githubusercontent.com/CodeNextEngineersG1/g1-music-player-starter/master/img/fatjon.jpg"
   },
   {
     "artist":"Nujabes",
     "title":"Luv[Sic] Pt.3",
-    "musicLocation":"music/nujabes.mp3",
-    "imgLocation":"img/nujabes.jpg"
+    "musicLocation":"https://raw.githubusercontent.com/CodeNextEngineersG1/g1-music-player-starter/master/music/nujabes.mp3",
+    "imgLocation":"https://raw.githubusercontent.com/CodeNextEngineersG1/g1-music-player-starter/master/img/nujabes.jpg"
   },
   {
     "artist":"Thievery Corporation",
     "title":"A Gentle Dissolve",
-    "musicLocation":"music/thievery.mp3",
-    "imgLocation":"img/thievery.jpg"
+    "musicLocation":"https://raw.githubusercontent.com/CodeNextEngineersG1/g1-music-player-starter/master/music/thievery.mp3",
+    "imgLocation":"https://raw.githubusercontent.com/CodeNextEngineersG1/g1-music-player-starter/master/img/thievery.jpg"
   },
   {
     "artist":"Tosca",
     "title":"Suzuki",
-    "musicLocation":"music/tosca.mp3",
-    "imgLocation":"img/tosca.jpg"
+    "musicLocation":"https://raw.githubusercontent.com/CodeNextEngineersG1/g1-music-player-starter/master/music/tosca.mp3",
+    "imgLocation":"https://raw.githubusercontent.com/CodeNextEngineersG1/g1-music-player-starter/master/img/tosca.jpg"
   }
 ]
