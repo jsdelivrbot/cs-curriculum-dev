@@ -105,7 +105,6 @@ function createAudioElement(song) {
     }
     maxTimeDisplay.innerHTML = minutes + ":" + seconds;
   });
-
 }
 
 // create a single song for display and return it
