@@ -2,12 +2,11 @@ var database;
 var playlistScreen = document.getElementById("playlist-screen");
 var playbackScreen = document.getElementById("playback-screen");
 
-var backButton = document.getElementById("back-button");
-
 var seekSlider = document.getElementById("seek-slider");
 var currentTimeDisplay = document.getElementById("current-time-display");
 var maxTimeDisplay = document.getElementById("max-time-display");
 
+var backButton = document.getElementById("back-button");
 var repeatButton = document.getElementById("repeat-button");
 var skipPreviousButton = document.getElementById("skip-previous-button");
 var playButton = document.getElementById("play-button");
