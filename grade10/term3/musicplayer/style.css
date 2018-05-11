@@ -18,11 +18,11 @@ body {
   cursor: pointer;
 }
 
-.material-icons.top-panel-icons {
+.material-icons.header-icons {
   font-size: 36px;
 }
 
-#top-panel {
+header {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -34,7 +34,7 @@ body {
   color: white;
 }
 
-#content-area {
+main {
   margin: 0 auto 20px;
   height: 500px;
   overflow-y: auto;
