@@ -80,6 +80,16 @@ main {
   border: 1px solid black;
 }
 
+#now-playing-title {
+  font-size: 1.5em;
+}
+
+#now-playing-artist {
+  font-size: 1em;
+  line-height: 20px;
+}
+
+
 #playback-controls {
   display: block;
 }
