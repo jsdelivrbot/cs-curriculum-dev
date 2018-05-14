@@ -89,11 +89,6 @@ main {
   line-height: 20px;
 }
 
-
-#playback-controls {
-  display: block;
-}
-
 #seeker {
   display: grid;
   grid-template-areas:
@@ -172,5 +167,4 @@ main {
     height: 300px;
     width: 300px;
   }
-
 }

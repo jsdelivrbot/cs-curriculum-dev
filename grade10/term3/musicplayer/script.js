@@ -6,7 +6,7 @@ var seekSlider = document.getElementById("seek-slider");
 var currentTimeDisplay = document.getElementById("current-time-display");
 var maxTimeDisplay = document.getElementById("max-time-display");
 
-var backButton = document.getElementById("back-button");
+var menuBackButton = document.getElementById("menu-back-button");
 var repeatButton = document.getElementById("repeat-button");
 var skipPreviousButton = document.getElementById("skip-previous-button");
 var playButton = document.getElementById("play-button");
@@ -43,7 +43,7 @@ function setup() {
 }
 
 function activateInterfaceButtons() {
-  backButton.addEventListener("click", function() {
+  menuBackButton.addEventListener("click", function() {
     showPlaylist();
   });
   repeatButton.addEventListener("click", function() {
@@ -126,7 +126,7 @@ function createSongDiv(song) {
     nowPlayingAudio.load();
     nowPlayingAudio.play();
     playButton.innerHTML = "pause";
-    backButton.innerHTML = "arrow_back";
+    menuBackButton.innerHTML = "arrow_back";
     playlistScreen.style.display = "none";
     playbackScreen.style.display = "block";
     updatePlayback(song);
@@ -144,8 +144,8 @@ function updatePlayback(song) {
 }
 
 function showPlaylist() {
-  if(backButton.innerHTML === "arrow_back") {
-    backButton.innerHTML = "menu";
+  if(menuBackButton.innerHTML === "arrow_back") {
+    menuBackButton.innerHTML = "menu";
     if(nowPlayingAudio !== undefined) {
       nowPlayingAudio.pause();
     }
