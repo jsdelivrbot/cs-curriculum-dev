@@ -1,0 +1,170 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0 auto;
+  text-align: center;
+  min-width: 340px;
+  font-family: 'Catamaran', sans-serif;
+  border: 1px solid black;
+}
+
+.material-icons:hover {
+  cursor: pointer;
+}
+
+.material-icons.header-icons {
+  font-size: 36px;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto 20px;
+  position: sticky;
+  top: 0;
+  background-color: #7aabf9;
+  color: white;
+}
+
+main {
+  margin: 0 auto 20px;
+  height: 500px;
+  overflow-y: auto;
+}
+
+#playlist-screen {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.song-div {
+  margin: 5px auto;
+}
+
+.song-input {
+  margin: 0 auto;
+  width: 128px;
+  height: 128px;
+  border: 1px solid black;
+}
+
+.song-title {
+  margin: 0 auto 10px;
+  line-height: 7px;
+  font-weight: bold;
+}
+
+.song-artist {
+  margin: 0 auto 10px;
+  line-height: 5px;
+  font-size: 0.75em;
+}
+
+#playback-screen {
+  display: none;
+}
+
+#now-playing-img {
+  display: block;
+  height: 250px;
+  width: 250px;
+  margin: 0 auto 20px;
+  border: 1px solid black;
+}
+
+#now-playing-title {
+  font-size: 1.5em;
+}
+
+#now-playing-artist {
+  font-size: 1em;
+  line-height: 20px;
+}
+
+#seeker {
+  display: grid;
+  grid-template-areas:
+  "s s s s s"
+  "c . . . m";
+}
+
+#seek-slider {
+  grid-area: s;
+  cursor: pointer;
+}
+
+#current-time-display {
+  grid-area: c;
+  margin: 0 auto;
+}
+
+#max-time-display {
+  grid-area: m;
+  margin: 0 auto;
+}
+
+#song-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto;
+}
+
+#repeat-button, #shuffle-button {
+  margin: 0 10%;
+  font-size: 24px;
+}
+
+#skip-previous-button, #skip-next-button {
+  font-size: 48px;
+}
+
+#play-button {
+  font-size: 64px;
+}
+
+/* Desktop styles */
+@media only screen and (min-width: 768px) {
+  body {
+    margin: 100px auto;
+    width: 768px;
+  }
+
+  .material-icons {
+    transition: color 0.5s, text-shadow 0.5s;
+  }
+
+  .material-icons:hover {
+    color: #ff1144;
+    text-shadow: 0 0 20px #ffaaff;
+    cursor: pointer;
+  }
+
+  #playlist-screen {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .song-art {
+    transition: box-shadow 0.5s;
+    width: 200px;
+    height: 200px;
+  }
+
+  .song-art:hover {
+    box-shadow: 0 0 5px 5px #ffaaff;
+  }
+
+  #now-playing-img {
+    height: 300px;
+    width: 300px;
+  }
+}
