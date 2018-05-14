@@ -15,7 +15,23 @@
     </header>
     <main>
       <div id="playlist-screen"></div>
-      <div id="playback-screen"></div>
+      <div id="playback-screen">
+        <img id="now-playing-img">
+        <figcaption id="now-playing-title" class="song-title">Loading...</figcaption>
+        <figcaption id="now-playing-artist" class="song-artist">Loading...</figcaption>
+        <div id="seeker">
+          <input type="range" id="seek-slider" value="0" title="Seek">
+          <p id="current-time-display" class="track-time">Loading...</p>
+          <p id="max-time-display" class="track-time">Loading...</p>
+        </div>
+        <div id="song-buttons">
+          <div id="repeat-button" class="material-icons playback-icons" title="Repeat One/All">repeat</div>
+          <div id="skip-previous-button" class="material-icons playback-icons" title="Skip Previous">skip_previous</div>
+          <div id="play-button" class="material-icons playback-icons" title="Play/Pause">play_arrow</div>
+          <div id="skip-next-button" class="material-icons playback-icons" title="Skip Next">skip_next</div>
+          <div id="shuffle-button" class="material-icons playback-icons" title="Shuffle">shuffle</div>
+        </div>
+      </div>
     </main>
     <script src="script.js"></script>
   </body>
