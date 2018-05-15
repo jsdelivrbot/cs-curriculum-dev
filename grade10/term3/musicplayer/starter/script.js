@@ -1,3 +1,36 @@
+// the song database
+var database; 
+
+// "menu/back" element
+var menuBackButton;
+
+// “screen” elements
+var playlistScreen;      
+var playbackScreen;
+
+// (playback) "now playing" elements
+var nowPlayingAudio;
+var nowPlayingImg;
+var nowPlayingTitle;
+var nowPlayingArtist;
+
+// (playback) "seek slider" and "time display" elements
+var seekSlider;        
+var currentTimeDisplay;
+var maxTimeDisplay;      
+
+// (playback) "song control" elements
+var repeatButton;
+var skipPreviousButton;
+var playButton;
+var skipNextButton;
+var shuffleButton;
+
+// other important variables
+var audioArray = [];
+var loopState = 0;
+var shuffleState = false;
+
 var database;
 
 loadData();

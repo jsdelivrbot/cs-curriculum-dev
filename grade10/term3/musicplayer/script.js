@@ -1,23 +1,32 @@
-var database;
-var playlistScreen = document.getElementById("playlist-screen");
+// the song database
+var database; 
+
+// "menu/back" element
+var menuBackButton = document.getElementById("menu-back-button");
+
+// “screen” elements
+var playlistScreen = document.getElementById("playlist-screen");      
 var playbackScreen = document.getElementById("playback-screen");
 
-var seekSlider = document.getElementById("seek-slider");
-var currentTimeDisplay = document.getElementById("current-time-display");
-var maxTimeDisplay = document.getElementById("max-time-display");
+// (playback) "now playing" elements
+var nowPlayingAudio;
+var nowPlayingImg = document.getElementById("now-playing-img");
+var nowPlayingTitle = document.getElementById("now-playing-title");
+var nowPlayingArtist = document.getElementById("now-playing-artist");
 
-var menuBackButton = document.getElementById("menu-back-button");
+// (playback) "seek slider" and "time display" elements
+var seekSlider = document.getElementById("seek-slider");        
+var currentTimeDisplay = document.getElementById("current-time-display");
+var maxTimeDisplay = document.getElementById("max-time-display");      
+
+// (playback) "song control" elements
 var repeatButton = document.getElementById("repeat-button");
 var skipPreviousButton = document.getElementById("skip-previous-button");
 var playButton = document.getElementById("play-button");
 var skipNextButton = document.getElementById("skip-next-button");
 var shuffleButton = document.getElementById("shuffle-button");
 
-var nowPlayingImg = document.getElementById("now-playing-img");
-var nowPlayingTitle = document.getElementById("now-playing-title");
-var nowPlayingArtist = document.getElementById("now-playing-artist");
-var nowPlayingAudio;
-
+// other important variables
 var audioArray = [];
 var loopState = 0;
 var shuffleState = false;
@@ -38,29 +47,17 @@ function loadData() {
 function setup() {
   sortDatabase();
   printSongTitles(); // debugging
-  activateInterfaceButtons();
   createPlaylist();
+  activateInterfaceButtons();
 }
 
 function activateInterfaceButtons() {
-  menuBackButton.addEventListener("click", function() {
-    showPlaylist();
-  });
-  repeatButton.addEventListener("click", function() {
-    toggleRepeat();
-  });
-  skipPreviousButton.addEventListener("click", function() {
-    playPreviousSong();
-  });
-  skipNextButton.addEventListener("click", function() {
-    playNextSong();
-  });
-  playButton.addEventListener("click", function() {
-    togglePlay();
-  });
-  shuffleButton.addEventListener("click", function() {
-    toggleShuffle();
-  });
+  menuBackButton.addEventListener("click", showPlaylist);
+  repeatButton.addEventListener("click", toggleRepeat);
+  skipPreviousButton.addEventListener("click", playPreviousSong);
+  skipNextButton.addEventListener("click", playNextSong);
+  playButton.addEventListener("click", togglePlay);
+  shuffleButton.addEventListener("click", toggleShuffle);
   seekSlider.addEventListener("input", updateTrackTime);
 }
 
@@ -107,7 +104,7 @@ function createAudioElement(song) {
   });
 }
 
-// create a single song for display and return it
+// create a single song for display
 function createSongDiv(song) {
   var songDiv = document.createElement("div");
   songDiv.className = "song-div";
@@ -115,13 +112,10 @@ function createSongDiv(song) {
   songInput.type = "image";
   songInput.className = "song-input";
   songInput.src = song.imgLocation;
-  var songTitle = document.createElement("figcaption");
-  songTitle.className = "song-title";
-  songTitle.innerHTML = song.title;
-  var songArtist = document.createElement("figcaption");
-  songArtist.className = "song-artist";
-  songArtist.innerHTML = song.artist;
   songInput.addEventListener("click", function() {
+    if(nowPlayingAudio !== undefined) {
+      nowPlayingAudio.pause();
+    }
     nowPlayingAudio = audioArray[database.indexOf(song)];
     nowPlayingAudio.load();
     nowPlayingAudio.play();
@@ -131,6 +125,12 @@ function createSongDiv(song) {
     playbackScreen.style.display = "block";
     updatePlayback(song);
   });
+  var songTitle = document.createElement("figcaption");
+  songTitle.className = "song-title";
+  songTitle.innerHTML = song.title;
+  var songArtist = document.createElement("figcaption");
+  songArtist.className = "song-artist";
+  songArtist.innerHTML = song.artist;
   songDiv.appendChild(songInput);
   songDiv.appendChild(songTitle);
   songDiv.appendChild(songArtist);
