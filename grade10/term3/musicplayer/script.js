@@ -178,7 +178,7 @@ function playNextSong() {
   if(shuffleState) {
     var randomIndex = audioArray.indexOf(nowPlayingAudio);
     while(randomIndex === audioArray.indexOf(nowPlayingAudio)) {
-      randomIndex = Math.floor((Math.random() * (audioArray.length)));
+      randomIndex = Math.floor(Math.random() * audioArray.length);
     }
     nowPlayingAudio = audioArray[randomIndex];
     updatePlayback(database[randomIndex]);
@@ -201,7 +201,7 @@ function playPreviousSong() {
   if(shuffleState) {
     var randomIndex = audioArray.indexOf(nowPlayingAudio);
     while(randomIndex === audioArray.indexOf(nowPlayingAudio)) {
-      randomIndex = Math.floor((Math.random() * (audioArray.length)));
+      randomIndex = Math.floor(Math.random() * audioArray.length);
     }
     nowPlayingAudio = audioArray[randomIndex];
     updatePlayback(database[randomIndex]);
