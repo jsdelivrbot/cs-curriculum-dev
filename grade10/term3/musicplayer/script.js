@@ -28,7 +28,7 @@ var shuffleButton = document.getElementById("shuffle-button");
 
 // other important variables
 var audioArray = [];
-var loopState = 0;
+var repeatState = 0;
 var shuffleState = false;
 
 loadData();
@@ -156,17 +156,17 @@ function showPlaylist() {
 }
 
 function toggleRepeat() {
-  if(loopState === 0) {
+  if(repeatState === 0) {
     repeatButton.style.fontWeight = "900";
     repeatButton.style.color = "red";
-    loopState++;
+    repeatState++;
   }
-  else if(loopState === 1) {
-    loopState++;
+  else if(repeatState === 1) {
+    repeatState++;
     repeatButton.innerHTML = "repeat_one";
   }
-  else if(loopState === 2) {
-    loopState = 0;
+  else if(repeatState === 2) {
+    repeatState = 0;
     repeatButton.innerHTML = "repeat";
     repeatButton.style.fontWeight = "normal";
     repeatButton.style.color = "black";
@@ -265,16 +265,16 @@ function updateTrackSeeker() {
   seekSlider.title = "Seek: " + minutes + ":" + seconds + " / " + maxTimeDisplay.innerHTML;
   currentTimeDisplay.innerHTML = minutes + ":" + seconds;
   if(nowPlayingAudio.currentTime >= nowPlayingAudio.duration) {
-    if(loopState === 0) {  // reset position to beginning of track
+    if(repeatState === 0) {  // reset position to beginning of track
       seekSlider.value = 0;
       currentTimeDisplay.innerHTML = "0:00";
       nowPlayingAudio.pause();
       playButton.innerHTML = "play_arrow";
     }
-    else if(loopState === 1) { // play next track
+    else if(repeatState === 1) { // play next track
       playNextSong();
     }
-    else if(loopState === 2) { // loop current track
+    else if(repeatState === 2) { // loop current track
       seekSlider.value = 0;
       nowPlayingAudio.load();
       nowPlayingAudio.play();

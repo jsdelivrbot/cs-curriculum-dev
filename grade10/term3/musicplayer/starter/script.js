@@ -28,7 +28,7 @@ var shuffleButton;
 
 // other important variables
 var audioArray = [];
-var loopState = 0;
+var repeatState = 0;
 var shuffleState = false;
 
 var database;
