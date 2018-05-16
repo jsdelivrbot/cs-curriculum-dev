@@ -1,11 +1,11 @@
 // the song database
-var database; 
+var database;
 
 // "menu/back" element
 var menuBackButton = document.getElementById("menu-back-button");
 
 // “screen” elements
-var playlistScreen = document.getElementById("playlist-screen");      
+var playlistScreen = document.getElementById("playlist-screen");
 var playbackScreen = document.getElementById("playback-screen");
 
 // (playback) "now playing" elements
@@ -15,9 +15,9 @@ var nowPlayingTitle = document.getElementById("now-playing-title");
 var nowPlayingArtist = document.getElementById("now-playing-artist");
 
 // (playback) "seek slider" and "time display" elements
-var seekSlider = document.getElementById("seek-slider");        
+var seekSlider = document.getElementById("seek-slider");
 var currentTimeDisplay = document.getElementById("current-time-display");
-var maxTimeDisplay = document.getElementById("max-time-display");      
+var maxTimeDisplay = document.getElementById("max-time-display");
 
 // (playback) "song control" elements
 var repeatButton = document.getElementById("repeat-button");
@@ -58,7 +58,7 @@ function activateInterfaceButtons() {
   skipNextButton.addEventListener("click", playNextSong);
   playButton.addEventListener("click", togglePlay);
   shuffleButton.addEventListener("click", toggleShuffle);
-  seekSlider.addEventListener("input", updateTrackTime);
+  seekSlider.addEventListener("input", updateAudioPosition);
 }
 
 // How to sort your database by song title
@@ -89,7 +89,7 @@ function createAudioElement(song) {
   var songAudio = document.createElement("audio");
   songAudio.src = song.musicLocation;
   audioArray.push(songAudio);
-  songAudio.addEventListener("timeupdate", updateTrackSeeker);
+  songAudio.addEventListener("timeupdate", updateSeekSlider);
   songAudio.addEventListener("durationchange", function() {
     var seconds = songAudio.duration;
     var minutes = Math.floor(seconds / 60);
@@ -250,7 +250,7 @@ function printSongTitles() {
   }
 }
 
-function updateTrackSeeker() {
+function updateSeekSlider() {
   seekSlider.value = nowPlayingAudio.currentTime;
   seekSlider.max = nowPlayingAudio.duration;
   var seconds = nowPlayingAudio.currentTime;
@@ -282,6 +282,6 @@ function updateTrackSeeker() {
   }
 }
 
-function updateTrackTime() {
+function updateAudioPosition() {
   nowPlayingAudio.currentTime = seekSlider.value;
 }
