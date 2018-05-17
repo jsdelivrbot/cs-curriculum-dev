@@ -274,7 +274,7 @@ function updateSeekSlider() {
     else if(repeatState === 1) { // play next track
       playNextSong();
     }
-    else if(repeatState === 2) { // loop current track
+    else { // loop current track
       seekSlider.value = 0;
       nowPlayingAudio.load();
       nowPlayingAudio.play();
