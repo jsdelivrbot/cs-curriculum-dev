@@ -9,8 +9,10 @@ var platformImageFirst, platformImageMiddle, platformImageLast;
 
 // Player Variables
 var player; //p5.play sprite
-var playerIdleAnimation, playerRunAnimation, playerJumpAnimation, playerFallAnimation;
+var sword; 
+var playerIdleAnimation, playerRunAnimation, playerJumpAnimation, playerFallAnimation, playerAttackAnimation;
 var playerGrounded; // boolean
+var playerAttacking; // boolean
 var playerStartX, playerStartY;
 
 // Monster Variables
@@ -65,6 +67,7 @@ function preload() {
   playerRunAnimation = loadAnimation("assets/img/kunoichi/Run__000.png", "assets/img/kunoichi/Run__009.png");
   playerJumpAnimation = loadAnimation("assets/img/kunoichi/Jump__004.png");
   playerFallAnimation = loadAnimation("assets/img/kunoichi/Jump__009.png");
+  playerAttackAnimation = loadAnimation("assets/img/kunoichi/Attack__000.png", "assets/img/kunoichi/Attack__009.png");
 
   // load monster animations
   monsterWalkAnimation = loadAnimation("assets/img/monster/frame-1.png", "assets/img/monster/frame-10.png");
@@ -114,9 +117,11 @@ function resetGame() {
   allSprites.clear();
   buildLevel();
   createPlayer();
+  createSword();
   currentJumpForce = DEFAULT_JUMP_FORCE;
   currentJumpTime = MAX_JUMP_TIME;
   playerGrounded = false;
+	playerAttacking = false;
   score = 0;
   gamePaused = false;
   loop();
@@ -159,9 +164,17 @@ function createPlayer() {
   player.addAnimation("run", playerRunAnimation).looping = true;
   player.addAnimation("jump", playerJumpAnimation).looping = false;
   player.addAnimation("fall", playerFallAnimation).looping = false;
+  player.addAnimation("attack", playerAttackAnimation).looping = false;
   player.scale = 0.25;
   player.setCollider("rectangle", 0, 0, 250, 490);
   //player.debug = true;
+}
+
+function createSword() {
+  sword = createSprite(0, 0, 40, 40);
+  sword.setCollider("rectangle", 0, 0, 40, 40);
+  sword.visible = false;
+  //sword.debug = true;
 }
 
 // Creates a platform of specified length (len) at x, y.
@@ -242,6 +255,7 @@ function checkCollisions() {
   player.collide(monsters, playerMonsterCollision);
   player.overlap(collectables, getCollectable);
   player.overlap(goal, executeWin);
+  sword.overlap(monsters, swordMonsterCollision);
 }
 
 // Callback function that runs when the player or a monster collides with a
@@ -282,6 +296,16 @@ function playerMonsterCollision(player, monster) {
   }
 }
 
+function swordMonsterCollision(sword, monster) {
+    monster.remove();
+    var defeatedMonster = createSprite(monster.position.x, monster.position.y, 0, 0);
+    defeatedMonster.addImage(monsterDefeatImage);
+    defeatedMonster.mirrorX(monster.mirrorX());
+    defeatedMonster.scale = 0.25;
+    defeatedMonster.life = 40;
+    score++;
+}
+
 // Callback function that runs when the player overlaps with a collectable.
 function getCollectable(player, collectable) {
   collectableSound.play();
@@ -294,6 +318,7 @@ function getCollectable(player, collectable) {
 function updatePlayer() {
   //console.log("Player x: " + player.position.x + " Player y: " + player.position.y);
   checkIdle();
+	checkAttacking();
   checkFalling();
   checkJumping();
   checkMovingLeftRight();
@@ -304,9 +329,19 @@ function updatePlayer() {
 // x velocity to 0.
 function checkIdle() {
   if(!keyIsDown(LEFT_ARROW) && !keyIsDown(RIGHT_ARROW) && playerGrounded) {
-    player.changeAnimation("idle");
+    if(!playerAttacking) {
+			player.changeAnimation("idle");		
+		}
     player.velocity.x = 0;
   }
+}
+
+function checkAttacking() {
+  if(playerAttacking && player.animation.getFrame() === player.animation.getLastFrame()) {
+		playerAttacking = false;
+    sword.position.x = 0;
+    sword.position.y = 0;
+	}
 }
 
 // Check if the player is falling. If she is not grounded and her y velocity is
@@ -336,14 +371,14 @@ function checkJumping() {
 // left or right according to DEFAULT_VELOCITY. Also be sure to mirror the
 // player's sprite left or right to avoid "moonwalking".
 function checkMovingLeftRight() {
-  if(keyIsDown(LEFT_ARROW) && !keyIsDown(RIGHT_ARROW)) {
+  if(keyIsDown(LEFT_ARROW) && !keyIsDown(RIGHT_ARROW) && !playerAttacking) {
     player.mirrorX(-1);
     if(playerGrounded) {
       player.changeAnimation("run");
     }
     player.velocity.x = -DEFAULT_VELOCITY;
   }
-  else if(keyIsDown(RIGHT_ARROW) && !keyIsDown(LEFT_ARROW)) {
+  else if(keyIsDown(RIGHT_ARROW) && !keyIsDown(LEFT_ARROW) && !playerAttacking) {
     player.mirrorX(1);
     if(playerGrounded) {
       player.changeAnimation("run");
@@ -362,6 +397,14 @@ function keyPressed() {
     playerGrounded = false;
     player.velocity.y = currentJumpForce;
     millis = new Date();
+  }
+  if(keyCode === 32 && playerGrounded && player.velocity.x === 0) {
+		playerAttacking = true;
+    player.changeAnimation("attack");
+    player.animation.changeFrame(0);
+    player.animation.frameDelay = 3;
+    sword.position.x = player.position.x + (50 * player.mirrorX());
+    sword.position.y = player.position.y + 20;
   }
 }
 
