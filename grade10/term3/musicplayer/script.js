@@ -1,35 +1,35 @@
 // the song database
-var database;
+let database;
 
 // "menu/back" element
-var menuBackButton = document.getElementById("menu-back-button");
+let menuBackButton = document.getElementById("menu-back-button");
 
 // “screen” elements
-var playlistScreen = document.getElementById("playlist-screen");
-var playbackScreen = document.getElementById("playback-screen");
+let playlistScreen = document.getElementById("playlist-screen");
+let playbackScreen = document.getElementById("playback-screen");
 
 // (playback) "now playing" elements
-var nowPlayingAudio;
-var nowPlayingImg = document.getElementById("now-playing-img");
-var nowPlayingTitle = document.getElementById("now-playing-title");
-var nowPlayingArtist = document.getElementById("now-playing-artist");
+let nowPlayingAudio;
+let nowPlayingImg = document.getElementById("now-playing-img");
+let nowPlayingTitle = document.getElementById("now-playing-title");
+let nowPlayingArtist = document.getElementById("now-playing-artist");
 
 // (playback) "seek slider" and "time display" elements
-var seekSlider = document.getElementById("seek-slider");
-var currentTimeDisplay = document.getElementById("current-time-display");
-var maxTimeDisplay = document.getElementById("max-time-display");
+let seekSlider = document.getElementById("seek-slider");
+let currentTimeDisplay = document.getElementById("current-time-display");
+let maxTimeDisplay = document.getElementById("max-time-display");
 
 // (playback) "song control" elements
-var repeatButton = document.getElementById("repeat-button");
-var skipPreviousButton = document.getElementById("skip-previous-button");
-var playButton = document.getElementById("play-button");
-var skipNextButton = document.getElementById("skip-next-button");
-var shuffleButton = document.getElementById("shuffle-button");
+let repeatButton = document.getElementById("repeat-button");
+let skipPreviousButton = document.getElementById("skip-previous-button");
+let playButton = document.getElementById("play-button");
+let skipNextButton = document.getElementById("skip-next-button");
+let shuffleButton = document.getElementById("shuffle-button");
 
-// other important variables
-var audioArray = [];
-var repeatState = 0;
-var shuffleState = false;
+// other important letiables
+let audioArray = [];
+let repeatState = 0;
+let shuffleState = false;
 
 loadData();
 
@@ -64,8 +64,8 @@ function activateInterfaceButtons() {
 // How to sort your database by song title
 function sortDatabase() {
   database.sort(function(songOne, songTwo) {
-    var songOneTitle = songOne.title.toLowerCase();
-    var songTwoTitle = songTwo.title.toLowerCase();
+    let songOneTitle = songOne.title.toLowerCase();
+    let songTwoTitle = songTwo.title.toLowerCase();
     if(songOneTitle > songTwoTitle) {
       return 1;
     }
@@ -79,20 +79,20 @@ function sortDatabase() {
 }
 
 function createPlaylist() {
-  for(var i = 0; i < database.length; i++) {
+  for(let i = 0; i < database.length; i++) {
     createAudioElement(database[i]);
     createSongDiv(database[i]);
   }
 }
 
 function createAudioElement(song) {
-  var songAudio = document.createElement("audio");
+  let songAudio = document.createElement("audio");
   songAudio.src = song.musicLocation;
   audioArray.push(songAudio);
   songAudio.addEventListener("timeupdate", updateSeekSlider);
   songAudio.addEventListener("durationchange", function() {
-    var seconds = songAudio.duration;
-    var minutes = Math.floor(seconds / 60);
+    let seconds = songAudio.duration;
+    let minutes = Math.floor(seconds / 60);
     if(minutes < 1) {
       minutes = "0";
     }
@@ -106,9 +106,9 @@ function createAudioElement(song) {
 
 // create a single song for display
 function createSongDiv(song) {
-  var songDiv = document.createElement("div");
+  let songDiv = document.createElement("div");
   songDiv.className = "song-div";
-  var songInput = document.createElement("input");
+  let songInput = document.createElement("input");
   songInput.type = "image";
   songInput.className = "song-input";
   songInput.src = song.imgLocation;
@@ -125,10 +125,10 @@ function createSongDiv(song) {
     playbackScreen.style.display = "block";
     updatePlayback(song);
   });
-  var songTitle = document.createElement("figcaption");
+  let songTitle = document.createElement("figcaption");
   songTitle.className = "song-title";
   songTitle.innerHTML = song.title;
-  var songArtist = document.createElement("figcaption");
+  let songArtist = document.createElement("figcaption");
   songArtist.className = "song-artist";
   songArtist.innerHTML = song.artist;
   songDiv.appendChild(songInput);
@@ -176,7 +176,7 @@ function toggleRepeat() {
 function playNextSong() {
   nowPlayingAudio.pause();
   if(shuffleState) {
-    var randomIndex = audioArray.indexOf(nowPlayingAudio);
+    let randomIndex = audioArray.indexOf(nowPlayingAudio);
     while(randomIndex === audioArray.indexOf(nowPlayingAudio)) {
       randomIndex = Math.floor(Math.random() * audioArray.length);
     }
@@ -199,7 +199,7 @@ function playNextSong() {
 function playPreviousSong() {
   nowPlayingAudio.pause();
   if(shuffleState) {
-    var randomIndex = audioArray.indexOf(nowPlayingAudio);
+    let randomIndex = audioArray.indexOf(nowPlayingAudio);
     while(randomIndex === audioArray.indexOf(nowPlayingAudio)) {
       randomIndex = Math.floor(Math.random() * audioArray.length);
     }
@@ -245,7 +245,7 @@ function toggleShuffle() {
 
 //For debugging
 function printSongTitles() {
-  for(var i = 0; i < database.length; i++) {
+  for(let i = 0; i < database.length; i++) {
     console.log(database[i].title);
   }
 }
@@ -253,8 +253,8 @@ function printSongTitles() {
 function updateSeekSlider() {
   seekSlider.value = nowPlayingAudio.currentTime;
   seekSlider.max = nowPlayingAudio.duration;
-  var seconds = nowPlayingAudio.currentTime;
-  var minutes = Math.floor(seconds / 60);
+  let seconds = nowPlayingAudio.currentTime;
+  let minutes = Math.floor(seconds / 60);
   if(minutes < 1) {
     minutes = "0";
   }
